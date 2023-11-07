@@ -17,13 +17,12 @@ RSpec.describe 'users', type: :system do
   end
 
   describe 'sign in' do
-    let!(:user) { create(:user) }
-    before { user.confirm }
+    before { create(:user).confirm }
+    let!(:attrs) { attributes_for :user }
 
     it 'signs in with valid username' do
       visit new_user_session_path
 
-      attrs = attributes_for :user
       fill_in 'user[login]', with: attrs[:username]
       fill_in 'user[password]', with: attrs[:password]
       click_button 'commit'
@@ -34,7 +33,6 @@ RSpec.describe 'users', type: :system do
     it 'signs in with valid email' do
       visit new_user_session_path
 
-      attrs = attributes_for :user
       fill_in 'user[login]', with: attrs[:email]
       fill_in 'user[password]', with: attrs[:password]
       click_button 'commit'
