@@ -27,7 +27,7 @@ RSpec.describe 'users', type: :system do
       fill_in 'user[password]', with: attrs[:password]
       click_button 'commit'
 
-      expect(page).to have_text 'Signed in successfully.'
+      expect(page).to have_selector 'p.notice', text: 'Signed in successfully.'
     end
 
     it 'signs in with valid email' do
@@ -37,7 +37,7 @@ RSpec.describe 'users', type: :system do
       fill_in 'user[password]', with: attrs[:password]
       click_button 'commit'
 
-      expect(page).to have_text 'Signed in successfully.'
+      expect(page).to have_selector 'p.notice', text: 'Signed in successfully.'
     end
   end
 end
