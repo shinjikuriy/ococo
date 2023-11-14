@@ -36,10 +36,16 @@ RSpec.describe User, type: :model do
           expect(user.errors[:username]).to include('is too short (minimum is 3 characters)')
         end
 
+        it 'is invalid with a too long username' do
+          user = User.new(username: 'call_me_by_this_31_letter_name_')
+          user.valid?
+          expect(user.errors[:username]).to include('is too long (maximum is 30 characters)')
+        end
+
         it 'is invalid with invalid characters' do
           user = User.new(username: 'lukas.')
           user.valid?
-          expect(user.errors[:username]).to include('is invalid')
+          expect(user.errors[:username]).to include('only alphabets, numbers and underscores can be used')
         end
       end
 

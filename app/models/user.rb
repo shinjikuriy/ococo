@@ -7,8 +7,8 @@ class User < ApplicationRecord
 
   attr_writer :login
 
-  validates :username, presence: true, length: { minimum: 3 }, uniqueness: { case_sensitive: false },
-                       format: { with: /\A[a-zA-Z0-9_]+\z/ }
+  validates :username, presence: true, length: { minimum: 3, maximum: 30 }, uniqueness: { case_sensitive: false },
+                       format: { with: /\A[a-zA-Z0-9_]+\z/, message: 'only alphabets, numbers and underscores can be used' }
 
   def login
     @login || username || email
