@@ -39,5 +39,47 @@ RSpec.describe 'users', type: :system do
 
       expect(page).to have_selector 'p.notice', text: 'Signed in successfully.'
     end
+
+    it 'cannot sign in with invalid username' do
+      visit new_user_session_path
+
+      fill_in 'user[login]', with: 'invalid_username'
+      fill_in 'user[password]', with: attrs[:password]
+      click_button 'commit'
+      expect(page).to have_selector 'p.alert', text: 'Invalid Login or password.'
+    end
+
+    it 'cannot sign in with invalid email' do
+      visit new_user_session_path
+
+      fill_in 'user[login]', with: 'invalid_email@example.com'
+      fill_in 'user[password]', with: attrs[:password]
+      click_button 'commit'
+      expect(page).to have_selector 'p.alert', text: 'Invalid Login or password.'
+    end
+
+    it 'cannot sign in with invalid password' do
+      visit new_user_session_path
+
+      fill_in 'user[login]', with: attrs[:username]
+      fill_in 'user[password]', with: 'invalid_password'
+      click_button 'commit'
+      expect(page).to have_selector 'p.alert', text: 'Invalid Login or password.'
+    end
+  end
+
+  describe 'sign out' do
+    before do
+      user = create(:user)
+      user.confirm
+      sign_in user
+    end
+
+    it 'signs out successfully' do
+      visit root_path
+      click_link 'sign out'
+
+      expect(page).to have_selector 'p.notice', text: 'Signed out successfully.'
+    end
   end
 end
