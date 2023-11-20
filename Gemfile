@@ -68,6 +68,10 @@ group :test do
 end
 
 ###############################################################################
+# CSS
+gem 'bootstrap', '~> 5.3', '>= 5.3.2'
+gem 'sassc-rails', '~> 2.1', '>= 2.1.2'
+
 # ページネーター [https://github.com/kaminari/kaminari]
 gem 'kaminari'
 
