@@ -10,9 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_10_31_155840) do
+ActiveRecord::Schema[7.1].define(version: 2023_11_21_180413) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "profiles", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "display_name", limit: 30
+    t.integer "prefecture", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["prefecture"], name: "index_profiles_on_prefecture"
+    t.index ["user_id"], name: "index_profiles_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "username", default: "", null: false

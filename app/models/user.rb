@@ -7,6 +7,8 @@ class User < ApplicationRecord
 
   attr_writer :login
 
+  has_one :profile, dependent: :delete
+
   validates :username, presence: true, length: { minimum: 3, maximum: 30 }, uniqueness: { case_sensitive: false },
                        format: { with: /\A[a-zA-Z0-9_]+\z/, message: 'only alphabets, numbers and underscores can be used' }
 
