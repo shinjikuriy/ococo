@@ -9,6 +9,19 @@ RSpec.describe User, type: :model do
         user = User.new(attrs)
         expect(user).to be_valid
       end
+
+      it 'has one profile after create' do
+        user = User.create(attrs)
+        expect(user.profile.display_name).to eq attrs[:username]
+        expect(user.profile.prefecture).to eq 'unselected'
+      end
+
+      it 'can change profile' do
+        user = User.create(attrs)
+        user.profile.display_name = 'ルーカス'
+        user.save
+        expect(user.profile.display_name).to eq 'ルーカス'
+      end
     end
 
     context 'invalid attributes' do

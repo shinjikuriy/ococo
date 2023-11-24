@@ -14,6 +14,8 @@ class User < ApplicationRecord
   validates :username, presence: true, length: { minimum: 3, maximum: 30 }, uniqueness: { case_sensitive: false },
                        format: { with: /\A[a-zA-Z0-9_]+\z/, message: 'only alphabets, numbers and underscores can be used' }
 
+  before_save :initialize_profile
+
   def login
     @login || username || email
   end
@@ -24,6 +26,14 @@ class User < ApplicationRecord
       where(conditions.to_h).where(["lower(username) = :value OR lower(email) = :value", { :value => login.downcase }]).first
     elsif conditions.has_key?(:username) || conditions.has_key?(:email)
       where(conditions.to_h).first
+    end
+  end
+
+  private
+
+  def initialize_profile
+    if profile.nil?
+      build_profile(display_name: username, prefecture: :unselected)
     end
   end
 end
