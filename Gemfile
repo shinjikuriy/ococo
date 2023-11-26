@@ -72,6 +72,9 @@ end
 gem 'bootstrap', '~> 5.3', '>= 5.3.2'
 gem 'sassc-rails', '~> 2.1', '>= 2.1.2'
 
+# 多言語化
+gem 'rails-i18n'
+
 # ページネーター [https://github.com/kaminari/kaminari]
 gem 'kaminari'
 
@@ -81,6 +84,7 @@ gem 'config'
 
 # 認証管理 [https://github.com/heartcombo/devise]
 gem 'devise'
+gem 'devise-i18n'
 
 group :development, :test do
   # 環境変数管理
