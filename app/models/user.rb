@@ -38,7 +38,7 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :profile
 
   validates :username, presence: true, length: { minimum: 3, maximum: 30 }, uniqueness: { case_sensitive: false },
-                       format: { with: /\A[a-zA-Z0-9_]+\z/, message: 'only alphabets, numbers and underscores can be used' }
+                       format: { with: /\A[a-zA-Z0-9_]+\z/, message: :invalid_username_format }
 
   before_save :initialize_profile
 
