@@ -55,7 +55,7 @@ RSpec.describe User, type: :model do
         it 'is invalid without a username' do
           user = User.new(username: nil)
           user.valid?
-          expect(user.errors[:username]).to include("can't be blank")
+          expect(user.errors[:username]).to include("を入力してください")
         end
 
         it 'is invalid with a duplicated username' do
@@ -66,25 +66,25 @@ RSpec.describe User, type: :model do
             password: 'another_password'
           )
           another_user.valid?
-          expect(another_user.errors[:username]).to include('has already been taken')
+          expect(another_user.errors[:username]).to include('はすでに存在します')
         end
 
         it 'is invalid with a too short username' do
           user = User.new(username: 'lu')
           user.valid?
-          expect(user.errors[:username]).to include('is too short (minimum is 3 characters)')
+          expect(user.errors[:username]).to include('は3文字以上で入力してください')
         end
 
         it 'is invalid with a too long username' do
           user = User.new(username: 'call_me_by_this_31_letter_name_')
           user.valid?
-          expect(user.errors[:username]).to include('is too long (maximum is 30 characters)')
+          expect(user.errors[:username]).to include('は30文字以内で入力してください')
         end
 
         it 'is invalid with invalid characters' do
           user = User.new(username: 'lukas.')
           user.valid?
-          expect(user.errors[:username]).to include('only alphabets, numbers and underscores can be used')
+          expect(user.errors[:username]).to include('アルファベット・数字・アンダースコア(_)のみ使用できます。')
         end
       end
 
@@ -92,7 +92,7 @@ RSpec.describe User, type: :model do
         it 'is invalid without an email' do
           user = User.new(email: nil)
           user.valid?
-          expect(user.errors[:email]).to include("can't be blank")
+          expect(user.errors[:email]).to include("を入力してください")
         end
 
         it 'is invalid with a duplicated email' do
@@ -103,7 +103,7 @@ RSpec.describe User, type: :model do
             password: 'another_password'
           )
           another_user.valid?
-          expect(another_user.errors[:email]).to include('has already been taken')
+          expect(another_user.errors[:email]).to include('はすでに存在します')
         end
       end
 
@@ -111,7 +111,7 @@ RSpec.describe User, type: :model do
         it 'is invalid without a password' do
           user = User.new(password: nil)
           user.valid?
-          expect(user.errors[:password]).to include("can't be blank")
+          expect(user.errors[:password]).to include("を入力してください")
         end
       end
     end

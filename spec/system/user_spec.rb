@@ -12,7 +12,7 @@ RSpec.describe 'users', type: :system do
       fill_in 'user[password_confirmation]', with: attrs[:password]
       click_button 'commit'
 
-      expect(page).to have_text 'A message with a confirmation link has been sent to your email address. Please follow the link to activate your account.'
+      expect(page).to have_text '本人確認用のメールを送信しました。メール内のリンクからアカウントを有効化させてください。'
     end
   end
 
@@ -27,7 +27,7 @@ RSpec.describe 'users', type: :system do
       fill_in 'user[password]', with: attrs[:password]
       click_button 'commit'
 
-      expect(page).to have_selector 'p.notice', text: 'Signed in successfully.'
+      expect(page).to have_selector 'p.notice', text: 'ログインしました。'
     end
 
     it 'signs in with valid email' do
@@ -37,7 +37,7 @@ RSpec.describe 'users', type: :system do
       fill_in 'user[password]', with: attrs[:password]
       click_button 'commit'
 
-      expect(page).to have_selector 'p.notice', text: 'Signed in successfully.'
+      expect(page).to have_selector 'p.notice', text: 'ログインしました。'
     end
 
     it 'cannot sign in with invalid username' do
@@ -46,7 +46,7 @@ RSpec.describe 'users', type: :system do
       fill_in 'user[login]', with: 'invalid_username'
       fill_in 'user[password]', with: attrs[:password]
       click_button 'commit'
-      expect(page).to have_selector 'p.alert', text: 'Invalid Login or password.'
+      expect(page).to have_selector 'p.alert', text: 'ユーザーIDまたはEメールまたはパスワードが違います。'
     end
 
     it 'cannot sign in with invalid email' do
@@ -55,7 +55,7 @@ RSpec.describe 'users', type: :system do
       fill_in 'user[login]', with: 'invalid_email@example.com'
       fill_in 'user[password]', with: attrs[:password]
       click_button 'commit'
-      expect(page).to have_selector 'p.alert', text: 'Invalid Login or password.'
+      expect(page).to have_selector 'p.alert', text: 'ユーザーIDまたはEメールまたはパスワードが違います。'
     end
 
     it 'cannot sign in with invalid password' do
@@ -64,7 +64,7 @@ RSpec.describe 'users', type: :system do
       fill_in 'user[login]', with: attrs[:username]
       fill_in 'user[password]', with: 'invalid_password'
       click_button 'commit'
-      expect(page).to have_selector 'p.alert', text: 'Invalid Login or password.'
+      expect(page).to have_selector 'p.alert', text: 'ユーザーIDまたはEメールまたはパスワードが違います。'
     end
   end
 
@@ -79,7 +79,7 @@ RSpec.describe 'users', type: :system do
       visit root_path
       click_link 'sign out'
 
-      expect(page).to have_selector 'p.notice', text: 'Signed out successfully.'
+      expect(page).to have_selector 'p.notice', text: 'ログアウトしました。'
     end
   end
 end
