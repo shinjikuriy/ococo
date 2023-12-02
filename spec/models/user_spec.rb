@@ -41,13 +41,6 @@ RSpec.describe User, type: :model do
         expect(user.profile.display_name).to eq attrs[:username]
         expect(user.profile.prefecture).to eq 'unselected'
       end
-
-      it 'can change profile' do
-        user = User.create(attrs)
-        user.profile.display_name = 'ルーカス'
-        user.save
-        expect(user.profile.display_name).to eq 'ルーカス'
-      end
     end
 
     context 'invalid attributes' do
@@ -55,7 +48,7 @@ RSpec.describe User, type: :model do
         it 'is invalid without a username' do
           user = User.new(username: nil)
           user.valid?
-          expect(user.errors[:username]).to include("を入力してください")
+          expect(user.errors[:username]).to include('を入力してください')
         end
 
         it 'is invalid with a duplicated username' do

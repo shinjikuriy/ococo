@@ -11,7 +11,8 @@
 #
 FactoryBot.define do
   factory :profile do
-    display_name { "MyString" }
-    prefecture { 1 }
+    display_name { user.username }
+    prefecture { 'unselected' }
+    association :user
   end
 end

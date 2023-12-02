@@ -12,5 +12,17 @@
 require 'rails_helper'
 
 RSpec.describe Profile, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'initialization' do
+    let!(:user) { create(:user) }
+    before { user.confirm }
+    let!(:profile) { user.profile }
+
+    specify 'display_name is as same as username by default' do
+      expect(profile.display_name).to eq 'lukas'
+    end
+
+    specify 'prefecture is unselected by default' do
+      expect(profile.prefecture).to eq 'unselected'
+    end
+  end
 end

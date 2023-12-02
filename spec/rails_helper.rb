@@ -64,4 +64,9 @@ RSpec.configure do |config|
 
   # enable Devise helpers
   config.include Devise::Test::IntegrationHelpers, type: :request
+
+  # テスト実行後にアップロードされたファイルを削除する
+  config.after(:suite) do
+    FileUtils.rm_rf ActiveStorage::Blob.service.root
+  end
 end

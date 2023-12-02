@@ -65,4 +65,7 @@ Rails.application.configure do
   config.action_controller.raise_on_missing_callback_actions = true
 
   config.active_storage.service = :test
+
+  # Active StrageのDBアクセスエラーによるテスト失敗を防ぐため、Active Jobを同期処理させる
+  config.active_job.queue_adapter = :inline
 end
