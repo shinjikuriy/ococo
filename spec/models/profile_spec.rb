@@ -24,5 +24,34 @@ RSpec.describe Profile, type: :model do
     specify 'prefecture is unselected by default' do
       expect(profile.prefecture).to eq 'unselected'
     end
+
+    specify 'default avatar is set by default' do
+      expect(profile.avatar).to be_attached
+      expect(profile.avatar.filename).to eq 'default_avatar.png'
+    end
+  end
+
+  describe 'edit attributes' do
+    let!(:user) { create(:user) }
+    before { user.confirm }
+    let!(:profile) { user.profile }
+
+    it 'can edit display_name' do
+      profile.display_name = 'ルーカス'
+      profile.save
+      expect(profile.display_name).to eq 'ルーカス'
+    end
+
+    it 'can edit prefecture' do
+      profile.prefecture = :aomori
+      profile.save
+      expect(profile.prefecture).to eq 'aomori'
+    end
+
+    it 'can change avatar' do
+      profile.avatar.attach(io: File.open("#{Rails.root}/spec/fixtures/avatar_cat.png"), filename: 'avatar_cat.png', content_type: 'image/png')
+      profile.save
+      expect(profile.avatar.filename).to eq 'avatar_cat.png'
+    end
   end
 end
