@@ -35,5 +35,7 @@ module App
     config.i18n.available_locales = [:ja, :en]
     config.i18n.default_locale = :ja
 
+    # localesの辞書ファイルをすべて読み込む
+    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
   end
 end
