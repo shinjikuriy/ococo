@@ -77,7 +77,7 @@ RSpec.describe User, type: :model do
         it 'is invalid with invalid characters' do
           user = User.new(username: 'lukas.')
           user.valid?
-          expect(user.errors[:username]).to include('アルファベット・数字・アンダースコア(_)のみ使用できます。')
+          expect(user.errors[:username]).to include('にはアルファベット・数字・アンダースコア(_)のみ使用できます。')
         end
       end
 
