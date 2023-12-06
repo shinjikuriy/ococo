@@ -111,6 +111,12 @@ RSpec.describe User, type: :model do
   end
 
   describe '#destroy' do
-    it 'should destroy associated stuff too'
+    let!(:user) { create(:user) }
+    let!(:profile) { user.profile }
+
+    it 'should destroy associated stuff too' do
+      user.destroy
+      expect(profile).to be_destroyed
+    end
   end
 end
