@@ -1,2 +1,10 @@
-<h1>StaticPages#home</h1>
-<p>Find me in app/views/static_pages/home.html.erb</p>
+<div class="container-fluid p-5 home-bg text-center">
+  <ul class="list-inline display-1">
+    <li class="list-inline-item">🥬</li>
+    <li class="list-inline-item">🧂</li>
+    <li class="list-inline-item">🫙</li>
+    <li class="list-inline-item">📝</li>
+  </ul>
+  <p>ococoは、お漬物の作成記録アプリです。</p>
+  <%= link_to '登録して始める', new_user_registration_path, class: 'btn btn-primary text-nowrap' %>
+</div>
