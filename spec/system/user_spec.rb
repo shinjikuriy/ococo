@@ -80,4 +80,17 @@ RSpec.describe 'users', type: :system do
       expect(page).to have_selector 'div.alert-success', text: 'ログアウトしました。'
     end
   end
+
+  describe 'display user page' do
+    let!(:user) { create(:user) }
+    before { user.confirm }
+
+    it "has user's profile page" do
+      visit user_path(user.id)
+      expect(page).to have_current_path user_path(user.id)
+      expect(page).to have_text user.profile.display_name
+      expect(page).to have_text user.profile.prefecture
+      expect(page).to have_selector 'img', alt: user.username
+    end
+  end
 end
