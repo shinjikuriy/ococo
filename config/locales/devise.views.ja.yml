@@ -113,6 +113,8 @@ ja:
       updated_but_not_signed_in: あなたのアカウントは正常に更新されましたが、パスワードが変更されたため、再度ログインしてください。
     sessions:
       already_signed_out: 既にログアウト済みです。
+      destroy:
+        sign_out: ログアウト
       new:
         sign_in: ログイン
       signed_in: ログインしました。

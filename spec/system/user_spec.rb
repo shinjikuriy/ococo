@@ -26,8 +26,7 @@ RSpec.describe 'users', type: :system do
       fill_in 'user[login]', with: attrs[:username]
       fill_in 'user[password]', with: attrs[:password]
       click_button 'commit'
-
-      expect(page).to have_selector 'p.notice', text: 'ログインしました。'
+      expect(page).to have_selector 'div.alert-notice', text: 'ログインしました。'
     end
 
     it 'signs in with valid email' do
@@ -36,8 +35,7 @@ RSpec.describe 'users', type: :system do
       fill_in 'user[login]', with: attrs[:email]
       fill_in 'user[password]', with: attrs[:password]
       click_button 'commit'
-
-      expect(page).to have_selector 'p.notice', text: 'ログインしました。'
+      expect(page).to have_selector 'div.alert-notice', text: 'ログインしました。'
     end
 
     it 'cannot sign in with invalid username' do
@@ -46,7 +44,7 @@ RSpec.describe 'users', type: :system do
       fill_in 'user[login]', with: 'invalid_username'
       fill_in 'user[password]', with: attrs[:password]
       click_button 'commit'
-      expect(page).to have_selector 'p.alert', text: 'ユーザーIDまたはEメールまたはパスワードが違います。'
+      expect(page).to have_selector 'div.alert-alert', text: 'ユーザーIDまたはEメールまたはパスワードが違います。'
     end
 
     it 'cannot sign in with invalid email' do
@@ -55,7 +53,7 @@ RSpec.describe 'users', type: :system do
       fill_in 'user[login]', with: 'invalid_email@example.com'
       fill_in 'user[password]', with: attrs[:password]
       click_button 'commit'
-      expect(page).to have_selector 'p.alert', text: 'ユーザーIDまたはEメールまたはパスワードが違います。'
+      expect(page).to have_selector 'div.alert-alert', text: 'ユーザーIDまたはEメールまたはパスワードが違います。'
     end
 
     it 'cannot sign in with invalid password' do
@@ -64,7 +62,7 @@ RSpec.describe 'users', type: :system do
       fill_in 'user[login]', with: attrs[:username]
       fill_in 'user[password]', with: 'invalid_password'
       click_button 'commit'
-      expect(page).to have_selector 'p.alert', text: 'ユーザーIDまたはEメールまたはパスワードが違います。'
+      expect(page).to have_selector 'div.alert-alert', text: 'ユーザーIDまたはEメールまたはパスワードが違います。'
     end
   end
 
@@ -77,9 +75,9 @@ RSpec.describe 'users', type: :system do
 
     it 'signs out successfully' do
       visit root_path
-      click_link 'sign out'
+      click_link 'sign-out-link'
 
-      expect(page).to have_selector 'p.notice', text: 'ログアウトしました。'
+      expect(page).to have_selector 'div.alert-notice', text: 'ログアウトしました。'
     end
   end
 end
