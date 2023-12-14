@@ -1,5 +1,5 @@
 <% profile = @user.profile %>
 <h1>Users#show</h1>
 <%= image_tag profile.avatar.representation(resize_to_limit: [100, 100]), alt: "#{profile.display_name}のプロフィール画像" %><br>
-display_name<br>
-prefecture<br>
+<%= profile.display_name %><br>
+<%= profile.prefecture %>

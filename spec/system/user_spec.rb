@@ -90,7 +90,7 @@ RSpec.describe 'users', type: :system do
       expect(page).to have_current_path user_path(user.id)
       expect(page).to have_text user.profile.display_name
       expect(page).to have_text user.profile.prefecture
-      expect(page).to have_selector 'img', alt: user.username
+      expect(page).to have_selector "img[@alt='#{user.profile.display_name}のプロフィール画像']"
     end
   end
 end
