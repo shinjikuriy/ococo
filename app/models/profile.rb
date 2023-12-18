@@ -19,7 +19,7 @@ class Profile < ApplicationRecord
                        niigata toyama ishikawa fukui yamanashi nagano gifu shizuoka aichi
                        mie shiga kyoto osaka hyogo nara wakayama
                        tottori shimane okayama hiroshima yamaguchi
-                       tokushima kagawa ehime kouchi
+                       tokushima kagawa ehime kochi
                        fukuoka saga nagasaki kumamoto oita miyazaki kagoshima okinawa
                        outside_japan], prefix: true
 
