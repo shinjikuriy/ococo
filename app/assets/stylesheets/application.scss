@@ -3,21 +3,6 @@
 @import "bootstrap";
 
 /* universal */
-section {
-  overflow: auto;
-}
-
-textarea {
-  resize: vertical;
-}
-
-.center {
-  text-align: center;
-}
-
-.center h1 {
-  margin-bottom: 10px;
-}
 
 
 /* home */
@@ -26,6 +11,19 @@ textarea {
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
+}
+
+/* user page */
+.profile-card {
+  background-color: $gray-500;
+  border-radius: 10px;
+}
+
+.avatar {
+  background-color: $gray-200;
+  max-width: 100px;
+  max-height: auto;
+  border-radius: 100%;
 }
 
 /* miscellaneous */
