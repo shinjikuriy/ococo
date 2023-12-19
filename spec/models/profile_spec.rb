@@ -25,6 +25,10 @@ RSpec.describe Profile, type: :model do
       expect(profile.prefecture).to eq 'unselected'
     end
 
+    specify 'prefecture can be shown in Japanese' do
+      expect(profile.human_attribute_enum(:prefecture)).to eq '未選択'
+    end
+
     specify 'default avatar is set by default' do
       expect(profile.avatar).to be_attached
       expect(profile.avatar.filename).to eq 'default_avatar.png'
@@ -46,6 +50,7 @@ RSpec.describe Profile, type: :model do
       profile.prefecture = :aomori
       profile.save
       expect(profile.prefecture).to eq 'aomori'
+      expect(profile.human_attribute_enum(:prefecture)).to eq '青森'
     end
 
     it 'can change avatar' do
