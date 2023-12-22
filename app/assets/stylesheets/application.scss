@@ -13,7 +13,36 @@
   background-size: cover;
 }
 
-/* user page */
+
+/* users */
+.users-form {
+  @extend .p-3;
+  background-color: $gray-500;
+  border-radius: 10px;
+}
+
+.users-form > h2 {
+  text-align: center;
+}
+
+.users-form > form > div {
+  @extend .mb-3;
+}
+
+.users-form input {
+  width: 100%;
+}
+
+.users-form .actions input {
+  @extend .btn;
+  @extend .btn-primary;
+}
+
+.field_with_errors {
+  display: inline;
+}
+
+/* user profile page */
 .profile-card {
   background-color: $gray-500;
   border-radius: 10px;
@@ -24,10 +53,6 @@
   max-width: 100px;
   max-height: auto;
   border-radius: 100%;
-}
-
-.field_with_errors {
-  display: inline-block;
 }
 
 /* miscellaneous */
