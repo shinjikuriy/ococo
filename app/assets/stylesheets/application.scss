@@ -26,6 +26,10 @@
   border-radius: 100%;
 }
 
+.field_with_errors {
+  display: inline-block;
+}
+
 /* miscellaneous */
 .debug_dump {
   clear: both;
