@@ -38,14 +38,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #   super
   # end
 
-  protected
-
-  def account_update_params
-    update_params = devise_parameter_sanitizer.sanitize(:account_update)
-    update_params.each do |k, v|
-      update_params.delete(k) if v.blank?
-    end
-  end
+  # protected
 
   # If you have extra params to permit, append them to the sanitizer.
   # def configure_sign_up_params
@@ -66,4 +59,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # def after_inactive_sign_up_path_for(resource)
   #   super(resource)
   # end
+
+  private
+
+  def account_update_params
+    update_params = devise_parameter_sanitizer.sanitize(:account_update)
+    update_params.each do |k, v|
+      update_params.delete(k) if v.blank?
+    end
+  end
 end
