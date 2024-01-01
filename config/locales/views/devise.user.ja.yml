@@ -1,5 +1,7 @@
 ja:
   users:
+    show:
+      edit_profile: プロフィールを編集する
     confirmations:
       confirmed: メールアドレスが確認できました。
       new:
