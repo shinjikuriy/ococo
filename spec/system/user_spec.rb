@@ -83,14 +83,26 @@ RSpec.describe 'users', type: :system do
 
   describe 'user page' do
     let!(:user) { create(:user) }
-    before { user.confirm }
+    let!(:profile) { user.profile }
+    before do
+      user.confirm
+      profile.display_name = 'ルーカス'
+      profile.prefecture = 'akita'
+      profile.description = 'ドイツ出身です。よろしくお願いします。'
+      profile.x_username = 'luke_x'
+      profile.ig_username = 'luke_ig'
+      user.save!
+    end
 
     it "has user's profile" do
       visit user_path(user.id)
       expect(page).to have_current_path user_path(user.id)
+      expect(page).to have_selector "img[@alt='#{user.profile.display_name}のプロフィール画像']"
       expect(page).to have_text user.profile.display_name
       expect(page).to have_text user.profile.human_attribute_enum(:prefecture)
-      expect(page).to have_selector "img[@alt='#{user.profile.display_name}のプロフィール画像']"
+      expect(page).to have_text profile.description
+      expect(page).to have_link href: 'https://twitter.com/'.concat(profile.x_username)
+      expect(page).to have_link href: 'https://instagram.com/'.concat(profile.ig_username)
     end
 
     context "when user has signed in" do
