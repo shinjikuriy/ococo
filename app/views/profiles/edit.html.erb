@@ -1,0 +1,30 @@
+<h2>Profile#Edit</h2>
+<%= form_with model: @profile, url: update_profile_path, html: { method: 'put' }  do |f| %>
+  <div class="field">
+    <%= f.label :display_name %>
+    <%= f.text_field :display_name, autofocus: true, autocomplete: 'display_name' %>
+  </div>
+
+  <div class="field">
+    <%= f.label :prefecture %>
+  </div>
+
+  <div class="field">
+    <%= f.label :description %>
+    <%= f.text_field :description, autocomplete: 'description' %>
+  </div>
+
+  <div class="field">
+    <%= f.label :x_username %>
+    <%= f.text_field :x_username, autocomplete: 'x_username' %>
+  </div>
+
+  <div class="field">
+    <%= f.label :ig_username %>
+    <%= f.text_field :ig_username, autocomplete: 'ig_username' %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit t('.update') %>
+  </div>
+<% end %>
