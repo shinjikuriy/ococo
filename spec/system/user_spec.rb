@@ -95,8 +95,8 @@ RSpec.describe 'users', type: :system do
     end
 
     it "has user's profile" do
-      visit user_path(user.id)
-      expect(page).to have_current_path user_path(user.id)
+      visit show_user_path(user.id)
+      expect(page).to have_current_path show_user_path(user.id)
       expect(page).to have_selector "img[@alt='#{user.profile.display_name}のプロフィール画像']"
       expect(page).to have_text user.profile.display_name
       expect(page).to have_text user.profile.human_attribute_enum(:prefecture)
@@ -105,56 +105,58 @@ RSpec.describe 'users', type: :system do
       expect(page).to have_link href: 'https://instagram.com/'.concat(profile.ig_username)
     end
 
+    context "when user has not signed in" do
+      it "doesn't have link to edit user's profile" do
+        visit show_user_path(user.id)
+        expect(page).not_to have_link edit_profile_path(user.id)
+      end
+    end
+
     context "when user has signed in" do
       before { user.login }
 
       it "has link to edit user's profile" do
-        visit user_path(user.id)
+        visit show_user_path(user.id)
         expect(page).to have_link edit_profile_path(user.id)
       end
 
       it "can edit display name" do
         visit edit_profile_path(user.id)
-
         fill_in 'profile[display_name]', with: 'ルーカス🐇'
         click_button 'commit'
-
+        expect(page).to have_current_path show_user_path(user.id)
         expect(page).to have_text 'ルーカス🐇'
       end
 
       it 'can edit prefecture' do
         visit edit_profile_path(user.id)
-
         select '秋田', from: 'profile[prefecture]'
         click_button 'commit'
-
+        expect(page).to have_current_path show_user_path(user.id)
         expect(page).to have_text '秋田'
       end
 
       it 'can edit description' do
         visit edit_profile_path(user.id)
-
         fill_in 'user[description]', with: 'いぶりがっこが好きです。毎週浅漬をつけています。よろしくお願いします。'
         click_button 'commit'
-
+        expect(page).to have_current_path show_user_path(user.id)
         expect(page).to have_text 'いぶりがっこが好きです。毎週浅漬をつけています。よろしくお願いします。'
       end
 
       it 'can edit twitter id' do
         visit edit_profile_path(user.id)
-
         fill_in 'profile[x_username]', with: 'luke_skywalker'
         click_button 'commit'
-
+        expect(page).to have_current_path show_user_path(user.id)
         expect(page).to have_link 'https://twitter.com/luke_skywaker'
       end
 
       it 'can edit instagram id' do
         visit edit_profile_path(user.id)
-
         fill_in 'profile[ig_username]', with: 'luke_skywaker_ig'
         click_button 'commit'
-
+        expect(page).to have_current_path show_user_path(user.id)
         expect(page).to have_link 'https://instagram.com/luke_skywaker_ig'
       end
 
