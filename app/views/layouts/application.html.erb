@@ -14,7 +14,8 @@
     <%= render 'layouts/header' %>
     <div class="container">
       <% flash.each do |type, message| %>
-        <%= content_tag(:div, message, class: "alert alert-#{bootstrap_alert(type)}") if message.class == "String" %>
+        <% next if type == 'timedout' %>
+        <%= content_tag(:div, message, class: "alert alert-#{bootstrap_alert(type)}") %>
       <% end %>
       <%= yield %>
       <%= debug(params) if Rails.env.development? %>
