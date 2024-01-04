@@ -6,6 +6,9 @@ ja:
       profile:
         display_name: 表示名
         prefecture: 都道府県
+        description: 紹介文
+        x_username: X(Twitter) ID
+        ig_username: Instagram ID
       profile/prefecture:
         unselected: 未選択
         hokkaido: 北海道

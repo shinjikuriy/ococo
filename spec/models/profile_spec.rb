@@ -8,6 +8,9 @@
 #  prefecture   :integer          default("unselected"), not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
+#  description  :text
+#  x_username   :text
+#  ig_username  :text
 #
 require 'rails_helper'
 

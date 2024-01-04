@@ -9,7 +9,7 @@ class ProfilesController < ApplicationController
     @profile = Profile.find_by(user_id: params[:user_id])
 
     if @profile.update(profile_params)
-      flash[:success] = t('.profile_update_succeeded')
+      flash[:success] = t('.profile_successfully_updated')
       redirect_to show_user_url(params[:user_id])
     else
       render 'edit', status: :unprocessable_entity

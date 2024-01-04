@@ -8,6 +8,8 @@ module ApplicationHelper
         'success'
       when 'error'
         'danger'
+      else
+        key
     end
   end
 end

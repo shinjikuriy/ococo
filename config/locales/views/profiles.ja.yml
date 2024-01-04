@@ -1,0 +1,6 @@
+ja:
+  profiles:
+    edit:
+      update: 更新
+    update:
+      profile_successfully_updated: プロフィールが更新されました。
