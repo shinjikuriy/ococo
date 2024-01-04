@@ -113,11 +113,11 @@ RSpec.describe 'users', type: :system do
     end
 
     context "when user has signed in" do
-      before { user.login }
+      before { sign_in user }
 
       it "has link to edit user's profile" do
         visit show_user_path(user.id)
-        expect(page).to have_link edit_profile_path(user.id)
+        expect(page).to have_link 'プロフィールを編集する', href: edit_profile_path(user.id)
       end
 
       it "can edit display name" do
