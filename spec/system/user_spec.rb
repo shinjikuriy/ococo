@@ -138,7 +138,7 @@ RSpec.describe 'users', type: :system do
 
       it 'can edit description' do
         visit edit_profile_path(user.id)
-        fill_in 'user[description]', with: 'いぶりがっこが好きです。毎週浅漬をつけています。よろしくお願いします。'
+        fill_in 'profile[description]', with: 'いぶりがっこが好きです。毎週浅漬をつけています。よろしくお願いします。'
         click_button 'commit'
         expect(page).to have_current_path show_user_path(user.id)
         expect(page).to have_text 'いぶりがっこが好きです。毎週浅漬をつけています。よろしくお願いします。'
@@ -149,7 +149,7 @@ RSpec.describe 'users', type: :system do
         fill_in 'profile[x_username]', with: 'luke_skywalker'
         click_button 'commit'
         expect(page).to have_current_path show_user_path(user.id)
-        expect(page).to have_link 'https://twitter.com/luke_skywaker'
+        expect(page).to have_link href: 'https://twitter.com/luke_skywalker'
       end
 
       it 'can edit instagram id' do
@@ -157,7 +157,7 @@ RSpec.describe 'users', type: :system do
         fill_in 'profile[ig_username]', with: 'luke_skywaker_ig'
         click_button 'commit'
         expect(page).to have_current_path show_user_path(user.id)
-        expect(page).to have_link 'https://instagram.com/luke_skywaker_ig'
+        expect(page).to have_link href: 'https://instagram.com/luke_skywaker_ig'
       end
 
       it 'can edit avatar'
