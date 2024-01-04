@@ -11,6 +11,7 @@
 
       <div class="field">
         <%= f.label :prefecture %>
+        <%= f.select :prefecture, Profile.enum_options_for_select(:prefecture) %>
       </div>
 
       <div class="field">
