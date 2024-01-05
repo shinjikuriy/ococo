@@ -17,7 +17,8 @@ RSpec.describe 'users', type: :system do
   end
 
   describe 'sign in' do
-    before { create(:user).confirm }
+    let(:user) { create(:user) }
+    before { user.confirm }
     let!(:attrs) { attributes_for :user }
 
     it 'signs in with valid username' do
@@ -27,6 +28,8 @@ RSpec.describe 'users', type: :system do
       fill_in 'user[password]', with: attrs[:password]
       click_button 'commit'
       expect(page).to have_selector 'div.alert-success', text: 'ログインしました。'
+      expect(page).to have_link 'ログアウト', href: destroy_user_session_path
+      expect(page).to have_link 'マイページ', href: show_user_path(user.id)
     end
 
     it 'signs in with valid email' do
