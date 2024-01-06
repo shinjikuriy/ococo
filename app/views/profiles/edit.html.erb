@@ -9,7 +9,7 @@
         <%= f.text_field :display_name, autofocus: true, autocomplete: 'display_name' %>
       </div>
 
-      <div class="field">
+      <div class="select">
         <%= f.label :prefecture %>
         <%= f.select :prefecture, Profile.enum_options_for_select(:prefecture) %>
       </div>
@@ -27,6 +27,11 @@
       <div class="field">
         <%= f.label :ig_username %>
         <%= f.text_field :ig_username, autocomplete: 'ig_username' %>
+      </div>
+
+      <div class="field">
+        <%= f.label :avatar %>
+        <%= f.file_field :avatar %>
       </div>
 
       <div class="actions">

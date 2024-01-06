@@ -163,7 +163,13 @@ RSpec.describe 'users', type: :system do
         expect(page).to have_link href: 'https://instagram.com/luke_skywaker_ig'
       end
 
-      it 'can edit avatar'
+      it 'can edit avatar' do
+        visit edit_profile_path(user.id)
+        attach_file 'profile[avatar]', "#{Rails.root}/spec/fixtures/avatar_cat.png"
+        click_button 'commit'
+        expect(page).to have_current_path show_user_path(user.id)
+        expect(page).to have_selector("img[src$='avatar_cat.png']")
+      end
     end
   end
 end

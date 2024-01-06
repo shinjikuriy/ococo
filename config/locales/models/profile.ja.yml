@@ -9,6 +9,7 @@ ja:
         description: 紹介文
         x_username: X(Twitter) ID
         ig_username: Instagram ID
+        avatar: プロフィール画像
       profile/prefecture:
         unselected: 未選択
         hokkaido: 北海道
