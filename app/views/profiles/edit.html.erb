@@ -2,7 +2,7 @@
 
 <div class="row justify-content-center">
   <div class="col users-form">
-    <h2>Profile#Edit</h2>
+    <h2><%= t('.title') %></h2>
     <%= form_with model: @profile, url: update_profile_path, html: { method: 'put' }  do |f| %>
       <div class="field">
         <%= f.label :display_name %>
@@ -38,5 +38,6 @@
         <%= f.submit t('.update') %>
       </div>
     <% end %>
+    <%= link_to t('.back'), show_user_path(@profile.user_id) %>
   </div>
 </div>

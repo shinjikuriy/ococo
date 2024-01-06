@@ -1,6 +1,8 @@
 ja:
   profiles:
     edit:
+      title: プロフィール編集
       update: 更新
+      back: 編集せずに戻る
     update:
       profile_successfully_updated: プロフィールが更新されました。
