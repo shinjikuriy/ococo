@@ -13,6 +13,9 @@ RSpec.describe 'users', type: :system do
       click_button 'commit'
 
       expect(page).to have_text '本人確認用のメールを送信しました。メール内のリンクからアカウントを有効化させてください。'
+
+      visit root_url.concat("/users/confirmation?confirmation_token=#{User.find_by(username: attrs[:username]).confirmation_token}")
+      expect(page).to have_text 'メールアドレスが確認できました。'
     end
   end
 
