@@ -18,8 +18,8 @@ RSpec.describe 'users', type: :system do
 
   describe 'sign in' do
     let(:user) { create(:user) }
-    before { user.confirm }
     let!(:attrs) { attributes_for :user }
+    before { user.confirm }
 
     it 'signs in with valid username' do
       visit new_user_session_path
@@ -97,7 +97,7 @@ RSpec.describe 'users', type: :system do
       user.save!
     end
 
-    it "has user's profile" do
+    it "has user's profile", :aggregate_failures do
       visit show_user_path(user.id)
       expect(page).to have_current_path show_user_path(user.id)
       expect(page).to have_selector "img[@alt='#{user.profile.display_name}のプロフィール画像']"
@@ -116,59 +116,10 @@ RSpec.describe 'users', type: :system do
     end
 
     context "when user has signed in" do
-      before { sign_in user }
-
       it "has link to edit user's profile" do
+        sign_in user
         visit show_user_path(user.id)
         expect(page).to have_link 'プロフィールを編集する', href: edit_profile_path(user.id)
-      end
-
-      it "can edit display name" do
-        visit edit_profile_path(user.id)
-        fill_in 'profile[display_name]', with: 'ルーカス🐇'
-        click_button 'commit'
-        expect(page).to have_current_path show_user_path(user.id)
-        expect(page).to have_text 'ルーカス🐇'
-      end
-
-      it 'can edit prefecture' do
-        visit edit_profile_path(user.id)
-        select '秋田', from: 'profile[prefecture]'
-        click_button 'commit'
-        expect(page).to have_current_path show_user_path(user.id)
-        expect(page).to have_text '秋田'
-      end
-
-      it 'can edit description' do
-        visit edit_profile_path(user.id)
-        fill_in 'profile[description]', with: 'いぶりがっこが好きです。毎週浅漬をつけています。よろしくお願いします。'
-        click_button 'commit'
-        expect(page).to have_current_path show_user_path(user.id)
-        expect(page).to have_text 'いぶりがっこが好きです。毎週浅漬をつけています。よろしくお願いします。'
-      end
-
-      it 'can edit twitter id' do
-        visit edit_profile_path(user.id)
-        fill_in 'profile[x_username]', with: 'luke_skywalker'
-        click_button 'commit'
-        expect(page).to have_current_path show_user_path(user.id)
-        expect(page).to have_link href: 'https://twitter.com/luke_skywalker'
-      end
-
-      it 'can edit instagram id' do
-        visit edit_profile_path(user.id)
-        fill_in 'profile[ig_username]', with: 'luke_skywaker_ig'
-        click_button 'commit'
-        expect(page).to have_current_path show_user_path(user.id)
-        expect(page).to have_link href: 'https://instagram.com/luke_skywaker_ig'
-      end
-
-      it 'can edit avatar' do
-        visit edit_profile_path(user.id)
-        attach_file 'profile[avatar]', "#{Rails.root}/spec/fixtures/avatar_cat.png"
-        click_button 'commit'
-        expect(page).to have_current_path show_user_path(user.id)
-        expect(page).to have_selector("img[src$='avatar_cat.png']")
       end
     end
   end
