@@ -40,7 +40,7 @@ class User < ApplicationRecord
   validates :username, presence: true, length: { minimum: 3, maximum: 30 }, uniqueness: { case_sensitive: false },
                        format: { with: /\A[a-zA-Z0-9_]+\z/, message: :invalid_username_format }
 
-  before_save :initialize_profile
+  after_create :initialize_profile
 
   def login
     @login || username || email
@@ -58,9 +58,10 @@ class User < ApplicationRecord
   private
 
   def initialize_profile
-    if profile.nil?
-      build_profile(display_name: username, prefecture: :unselected)
-      profile.avatar.attach io: File.open(Rails.root.join('app/assets/images/default_avatar.png')), filename: 'default_avatar.png', content_type: 'image/png'
-    end
+    return if profile.present?
+
+    build_profile(display_name: username, prefecture: :unselected)
+    profile.avatar.attach io: File.open(Rails.root.join('app/assets/images/default_avatar.png')),
+                                        filename: 'default_avatar.png', content_type: 'image/png'
   end
 end
