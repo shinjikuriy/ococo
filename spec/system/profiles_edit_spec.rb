@@ -11,6 +11,7 @@ RSpec.describe "ProfilesEdit", type: :system do
       profile.description = 'ドイツ出身です。よろしくお願いします。'
       profile.x_username = 'luke_x'
       profile.ig_username = 'luke_ig'
+      profile.save
       sign_in user
       visit edit_profile_path(user.id)
     end
