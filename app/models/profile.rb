@@ -35,5 +35,5 @@ class Profile < ApplicationRecord
   validates :x_username, length: { maximum: 15 },
                          format: { with: /\A[a-zA-Z0-9_]+\z/, message: :invalid_username_format }
   validates :ig_username, length: { maximum: 30 },
-                          format: { with: /\A[a-zA-Z0-9_.]+\z/, message: :invalid_username_format }
+                          format: { with: /\A[a-zA-Z0-9_.]+\z/, message: :invalid_ig_username_format }
 end

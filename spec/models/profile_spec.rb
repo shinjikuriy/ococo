@@ -15,10 +15,10 @@
 require 'rails_helper'
 
 RSpec.describe Profile, type: :model do
-  describe 'initialization' do
+  describe 'Profile#create' do
     let!(:user) { create(:user) }
-    before { user.confirm }
     let!(:profile) { user.profile }
+    before { user.confirm }
 
     specify 'display_name is as same as username by default' do
       expect(profile.display_name).to eq 'lukas'
@@ -36,30 +36,101 @@ RSpec.describe Profile, type: :model do
       expect(profile.avatar).to be_attached
       expect(profile.avatar.filename).to eq 'default_avatar.png'
     end
+
+    specify 'description is nil by default' do
+      expect(profile.description).to be_nil
+    end
+
+    specify 'x_username is nil by default' do
+      expect(profile.x_username).to be_nil
+    end
+
+    specify 'ig_username is nil by default' do
+      expect(profile.ig_username).to be_nil
+    end
   end
 
-  describe 'edit attributes' do
+  describe 'Profile#update' do
     let!(:user) { create(:user) }
-    before { user.confirm }
     let!(:profile) { user.profile }
+    before { user.confirm }
 
-    it 'can edit display_name' do
-      profile.display_name = 'ルーカス'
-      profile.save
-      expect(profile.display_name).to eq 'ルーカス'
+    context 'when new value is valid' do
+      it 'can edit display_name' do
+        profile.display_name = 'ルーカス'
+        profile.save
+        expect(profile.display_name).to eq 'ルーカス'
+      end
+
+      it 'can edit prefecture' do
+        profile.prefecture = :aomori
+        profile.save
+        expect(profile.prefecture).to eq 'aomori'
+        expect(profile.human_attribute_enum(:prefecture)).to eq '青森'
+      end
+
+      it 'can change avatar' do
+        profile.avatar.attach(io: File.open("#{Rails.root}/spec/fixtures/avatar_cat.png"),
+                              filename: 'avatar_cat.png', content_type: 'image/png')
+        profile.save
+        expect(profile.avatar.filename).to eq 'avatar_cat.png'
+      end
+
+      it 'can edit description' do
+        profile.description = 'いぶりがっこが好きです。毎週浅漬をつけています。よろしくお願いします。'
+        profile.save
+        expect(profile.description).to eq 'いぶりがっこが好きです。毎週浅漬をつけています。よろしくお願いします。'
+      end
+
+      it 'can edit x_username' do
+        profile.x_username = 'luke_x'
+        profile.save
+        expect(profile.x_username).to eq 'luke_x'
+      end
+
+      it 'can edit ig_username' do
+        profile.ig_username = 'luke_ig'
+        profile.save
+        expect(profile.ig_username).to eq 'luke_ig'
+      end
     end
 
-    it 'can edit prefecture' do
-      profile.prefecture = :aomori
-      profile.save
-      expect(profile.prefecture).to eq 'aomori'
-      expect(profile.human_attribute_enum(:prefecture)).to eq '青森'
-    end
+    context 'when new value is invalid' do
+      it 'does not accept blank display_name' do
+        profile.display_name = ''
+        profile.valid?
+        expect(profile.errors[:display_name]).to include t('errors.messages.required')
+      end
 
-    it 'can change avatar' do
-      profile.avatar.attach(io: File.open("#{Rails.root}/spec/fixtures/avatar_cat.png"), filename: 'avatar_cat.png', content_type: 'image/png')
-      profile.save
-      expect(profile.avatar.filename).to eq 'avatar_cat.png'
+      it 'does not accept display_name over 30 characters' do
+        profile.display_name = '🐵' * 31
+        profile.valid?
+        expect(profile.errors[:display_name]).to include t('errors.messages.too_long', count: 30)
+      end
+
+      it 'does not accept description over 160 characters' do
+        profile.description = '🙈' * 161
+        profile.valid?
+        expect(profile.errors[:description]).to include t('errors.messages.too_long', count: 160)
+      end
+
+      it "does not accept 'luke.x' as x_username" do
+        profile.display_name = 'luke.x'
+        profile.valid?
+        expect(profile.errors[:x_username]).to include t('errors.messages.invalid_username_format')
+      end
+
+      it 'does not accept x_username over 15 characters' do
+        profile.x_username = 'l' * 16
+        profile.valid?
+        expect(profile.errors[:x_username]).to include t('errors.messages.too_long', count: 15)
+      end
+
+      it "does not accept 'luke_ig!' as ig_username" do
+        profile.ig_username = 'luke_ig!'
+        profile.valid?
+        expect(profile.errors[:ig_username]).to include t('errors.messages.invalid_ig_username_format')
+      end
     end
   end
 end
