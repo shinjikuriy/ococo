@@ -62,6 +62,6 @@ class User < ApplicationRecord
 
     build_profile(display_name: username, prefecture: :unselected)
     profile.avatar.attach io: File.open(Rails.root.join('app/assets/images/default_avatar.png')),
-                                        filename: 'default_avatar.png', content_type: 'image/png'
+                          filename: 'default_avatar.png', content_type: 'image/png'
   end
 end
