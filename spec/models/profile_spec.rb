@@ -114,7 +114,7 @@ RSpec.describe Profile, type: :model do
         expect(profile.errors[:description]).to include t('errors.messages.too_long', count: 160)
       end
 
-      it "does not accept 'luke.x' as x_username" do
+      it 'does not accept "luke.x" as x_username' do
         profile.display_name = 'luke.x'
         profile.valid?
         expect(profile.errors[:x_username]).to include t('errors.messages.invalid_username_format')
@@ -126,7 +126,7 @@ RSpec.describe Profile, type: :model do
         expect(profile.errors[:x_username]).to include t('errors.messages.too_long', count: 15)
       end
 
-      it "does not accept 'luke_ig!' as ig_username" do
+      it 'does not accept "luke_ig!" as ig_username' do
         profile.ig_username = 'luke_ig!'
         profile.valid?
         expect(profile.errors[:ig_username]).to include t('errors.messages.invalid_ig_username_format')
