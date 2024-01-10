@@ -2,6 +2,7 @@ ja:
   users:
     show:
       edit_profile: プロフィールを編集する
+      edit_authentication_information: 認証情報を編集する
     visit_current_user_page: マイページ
     confirmations:
       confirmed: メールアドレスが確認できました。

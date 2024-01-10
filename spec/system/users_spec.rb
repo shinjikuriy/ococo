@@ -105,6 +105,7 @@ RSpec.describe 'users', type: :system do
         sign_in user
         visit show_user_path(user.id)
         expect(page).to have_link t('users.show.edit_profile'), href: edit_profile_path(user.id)
+        expect(page).to have_link t('users.show.edit_authentication_information'), href: edit_user_registration_path
       end
     end
   end
