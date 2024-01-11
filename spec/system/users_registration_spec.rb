@@ -23,7 +23,7 @@ RSpec.describe "UsersRegistration", type: :system do
         # At this point, a confirmation email must be sent properly
         # Also the user's features must be unavailable
 
-        visit root_url.concat("/users/confirmation?confirmation_token=#{user.confirmation_token}")
+        visit root_url.concat("/confirmation?confirmation_token=#{user.confirmation_token}")
         expect(page).to have_text t('users.confirmations.confirmed')
         expect(user.reload).to be_confirmed
       end

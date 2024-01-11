@@ -38,6 +38,6 @@
         <%= f.submit t('.update') %>
       </div>
     <% end %>
-    <%= link_to t('.back'), show_user_path(@profile.user_id) %>
+    <%= link_to t('.back'), show_user_path(@profile.user.username) %>
   </div>
 </div>

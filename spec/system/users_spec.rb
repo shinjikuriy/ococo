@@ -14,7 +14,7 @@ RSpec.describe 'users', type: :system do
       click_button 'commit'
       expect(page).to have_selector 'div.alert-success', text: t('users.sessions.signed_in')
       expect(page).to have_link t('users.sessions.destroy.sign_out'), href: destroy_user_session_path
-      expect(page).to have_link t('users.visit_current_user_page'), href: show_user_path(user.id)
+      expect(page).to have_link t('users.visit_current_user_page'), href: show_user_path(user.username)
     end
 
     it 'signs in with valid email' do
@@ -83,8 +83,8 @@ RSpec.describe 'users', type: :system do
     end
 
     it "has user's profile", :aggregate_failures do
-      visit show_user_path(user.id)
-      expect(page).to have_current_path show_user_path(user.id)
+      visit show_user_path(user.username)
+      expect(page).to have_current_path show_user_path(user.username)
       expect(page).to have_selector "img[@alt='#{user.profile.display_name}のプロフィール画像']"
       expect(page).to have_text user.profile.display_name
       expect(page).to have_text user.profile.human_attribute_enum(:prefecture)
@@ -93,18 +93,23 @@ RSpec.describe 'users', type: :system do
       expect(page).to have_link href: 'https://instagram.com/'.concat(profile.ig_username)
     end
 
+    it "shows top page with an error message" do
+      visit show_user_path('hogehoge')
+      expect(page).to have_selector 'div.alert-warning', text: t('errors.messages.page_not_found')
+    end
+
     context "when user has not signed in" do
       it "doesn't have link to edit user's profile" do
-        visit show_user_path(user.id)
-        expect(page).not_to have_link edit_profile_path(user.id)
+        visit show_user_path(user.username)
+        expect(page).not_to have_link edit_profile_path(user.username)
       end
     end
 
     context "when user has signed in" do
       it "has link to edit user's profile" do
         sign_in user
-        visit show_user_path(user.id)
-        expect(page).to have_link t('users.show.edit_profile'), href: edit_profile_path(user.id)
+        visit show_user_path(user.username)
+        expect(page).to have_link t('users.show.edit_profile'), href: edit_profile_path(user.username)
         expect(page).to have_link t('users.show.edit_authentication_information'), href: edit_user_registration_path
       end
     end

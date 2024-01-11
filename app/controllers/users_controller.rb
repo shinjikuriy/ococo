@@ -1,5 +1,9 @@
 class UsersController < ApplicationController
   def show
-    @user = User.find(params[:id])
+    @user = User.find_by(username: params[:username])
+    if @user.nil?
+      flash.now[:warning] = t('errors.messages.page_not_found')
+      render 'static_pages/home', status: :not_found
+    end
   end
 end

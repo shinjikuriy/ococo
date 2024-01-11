@@ -39,7 +39,7 @@
               </div>
             <% end %>
             <% if @user.id == current_user&.id %>
-              <%= link_to t('.edit_profile'), edit_profile_path(current_user.id) %><br>
+              <%= link_to t('.edit_profile'), edit_profile_path(current_user.username) %><br>
               <%= link_to t('.edit_authentication_information'), edit_user_registration_path %>
             <% end %>
           </div>
