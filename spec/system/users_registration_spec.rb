@@ -94,5 +94,21 @@ RSpec.describe "UsersRegistration", type: :system do
 
   describe 'user update'
 
-  describe 'user withdrawal'
+  # describe 'user cancellation', js: true do
+  #   specify 'user can delete account' do
+  #     user = create(:user)
+  #     user.confirm
+  #     sign_in user
+
+  #     expect {
+  #       visit show_user_path(user.username)
+  #       click_on t('users.show.edit_authentication_information')
+  #       expect(page).to have_current_path(edit_user_registration_path)
+  #       page.accept_confirm do
+  #         click_on t('users.registrations.edit.cancel_my_account')
+  #       end
+  #       page.driver.browser.switch_to.alert.accept
+  #     }.to change { User.count }.by(-1)
+  #   end
+  # end
 end
