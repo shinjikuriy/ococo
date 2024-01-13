@@ -68,4 +68,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
       update_params.delete(k) if v.blank?
     end
   end
+
+  def after_update_path_for(resource)
+    show_user_path(resource)
+  end
 end

@@ -15,7 +15,7 @@ RSpec.describe "UsersSession", type: :system do
         click_button 'commit'
         expect(page).to have_selector 'div.alert-success', text: t('users.sessions.signed_in')
         expect(page).to have_link t('users.sessions.destroy.sign_out'), href: destroy_user_session_path
-        expect(page).to have_link t('users.visit_current_user_page'), href: show_user_path(user.username)
+        expect(page).to have_link t('users.visit_current_user_page'), href: show_user_path(user)
       end
 
       specify 'user can sign in with valid email' do

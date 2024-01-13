@@ -55,6 +55,10 @@ class User < ApplicationRecord
     end
   end
 
+  def to_param
+    username
+  end
+
   private
 
   def initialize_profile
