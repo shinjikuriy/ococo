@@ -21,7 +21,13 @@ RSpec.describe "UsersRegistration", type: :system do
         expect(user).not_to be_confirmed
 
         # At this point, a confirmation email must be sent properly
-        # Also the user's features must be unavailable
+
+        # the user's features must be unavailable
+        visit new_user_session_path
+        fill_in 'user[login]', with: attrs[:username]
+        fill_in 'user[password]', with: attrs[:password]
+        click_button 'commit'
+        expect(page).to have_selector 'div.alert-warning', text: t('users.failure.unconfirmed')
 
         visit root_url.concat("/confirmation?confirmation_token=#{user.confirmation_token}")
         expect(page).to have_text t('users.confirmations.confirmed')
@@ -42,7 +48,7 @@ RSpec.describe "UsersRegistration", type: :system do
         expect(page).to have_selector 'div.alert-warning', text: User.human_attribute_name(:password).concat(t('errors.messages.blank'))
       end
 
-      specify 'alert appears for username less then 3 characters' do
+      specify 'alert appears for username less than 3 characters' do
         fill_in 'user[username]', with: 'a' * 2
         click_button 'commit'
 
@@ -63,20 +69,8 @@ RSpec.describe "UsersRegistration", type: :system do
         expect(page).to have_selector 'div.alert-warning', text: t('errors.messages.invalid_username_format')
       end
 
-      specify 'alert appears for duplicated username' do
-        User.create(attrs)
-
-        fill_in 'user[username]', with: attrs[:username]
-        fill_in 'user[email]', with: attrs[:email]
-        fill_in 'user[password]', with: attrs[:password]
-        fill_in 'user[password_confirmation]', with: attrs[:password]
-        click_button 'commit'
-
-        expect(page).to have_selector 'div.alert-warning', text: t('errors.messages.taken')
-      end
-
-      # specify 'alert appears for invalid email like "lukas@skywalker"' do
-      #   fill_in 'user[email]', with: 'lukas@skywalker'
+      # specify 'alert appears for invalid email like "lukas@sky@walker"' do
+      #   fill_in 'user[email]', with: 'lukas@sky@walker'
       #   click_button 'commit'
 
       #   expect(page).to have_selector 'div.alert-warning', text: t('errors.messages.invalid')
@@ -89,10 +83,174 @@ RSpec.describe "UsersRegistration", type: :system do
 
         expect(page).to have_selector 'div.alert-warning', text: User.human_attribute_name(:password).concat(t('errors.messages.too_short', count: 6))
       end
+
+      context 'when new information is already taken' do
+        another_user = User.create(
+          username: 'another_user',
+          email: 'another_user@example.com',
+          password: 'password'
+        )
+
+        specify 'alert appears for duplicated username' do
+          User.create(attrs)
+
+          fill_in 'user[username]', with: another_user.username
+          fill_in 'user[email]', with: attrs[:email]
+          fill_in 'user[password]', with: attrs[:password]
+          fill_in 'user[password_confirmation]', with: attrs[:password]
+          click_button 'commit'
+
+          expect(page).to have_selector 'div.alert-warning', text: t('errors.messages.taken')
+        end
+
+        specify 'alert appears for duplicated email' do
+          User.create(attrs)
+
+          fill_in 'user[username]', with: attrs[:username]
+          fill_in 'user[email]', with: another_user.email
+          fill_in 'user[password]', with: attrs[:password]
+          fill_in 'user[password_confirmation]', with: attrs[:password]
+          click_button 'commit'
+
+          expect(page).to have_selector 'div.alert-warning', text: t('errors.messages.taken')
+        end
+      end
     end
   end
 
-  describe 'user update'
+  describe 'user update' do
+    let!(:user) { create(:user) }
+    before do
+      user.confirm
+      sign_in user
+      visit edit_user_registration_path
+    end
+
+    context 'when new information is valid' do
+      specify 'user can edit username' do
+        fill_in 'user[username]', with: 'lukas_new'
+        fill_in 'user[email]', with: user.email
+        fill_in 'user[current_password]', with: user.password
+        click_button 'commit'
+
+        expect(page).to have_current_path(show_user_path('lukas_new'))
+        expect(page).to have_selector 'div.alert-success', text: t('users.registrations.updated')
+      end
+
+      specify 'user can edit email' do
+        fill_in 'user[username]', with: user.username
+        fill_in 'user[email]', with: 'lukas_new@example.com'
+        fill_in 'user[current_password]', with: user.password
+        click_button 'commit'
+
+        expect(page).to have_current_path(show_user_path(user))
+        expect(page).to have_selector 'div.alert-success', text: t('users.registrations.updated')
+      end
+
+      specify 'user can edit password' do
+        fill_in 'user[username]', with: user.username
+        fill_in 'user[email]', with: user.email
+        fill_in 'user[password]', with: 'new_password'
+        fill_in 'user[password_confirmation]', with: 'new_password'
+        fill_in 'user[current_password]', with: user.password
+        click_button 'commit'
+
+        expect(page).to have_current_path(show_user_path(user))
+        expect(page).to have_selector 'div.alert-success', text: t('users.registrations.updated')
+      end
+
+      context 'when each form is blank' do
+        specify 'username will not be changed' do
+          fill_in 'user[username]', with: ''
+          fill_in 'user[email]', with: user.email
+          fill_in 'user[current_password]', with: user.password
+          click_button 'commit'
+
+          expect(page).to have_current_path(show_user_path(user))
+          expect(page).to have_selector 'div.alert-success', text: t('users.registrations.updated')
+        end
+
+        specify 'email will not be changed' do
+          fill_in 'user[username]', with: user.username
+          fill_in 'user[email]', with: ''
+          fill_in 'user[current_password]', with: user.password
+          click_button 'commit'
+
+          expect(page).to have_current_path(show_user_path(user))
+          expect(page).to have_selector 'div.alert-success', text: t('users.registrations.updated')
+        end
+
+        specify 'password will not be changed' do
+          fill_in 'user[username]', with: ''
+          fill_in 'user[email]', with: user.email
+          fill_in 'user[password]', with: ''
+          fill_in 'user[password_confirmation]', with: ''
+          fill_in 'user[current_password]', with: user.password
+          click_button 'commit'
+
+          expect(page).to have_current_path(show_user_path(user))
+          expect(page).to have_selector 'div.alert-success', text: t('users.registrations.updated')
+        end
+      end
+    end
+
+    # Basically the same tests as 'user registration > when information is invalid'
+    # must be carried out here
+    context 'when new information is invalid' do
+      specify 'alert appears for username less than 3 characters' do
+        fill_in 'user[username]', with: 'a' * 2
+        fill_in 'user[email]', with: user.email
+        fill_in 'user[current_password]', with: user.password
+        click_button 'commit'
+
+        expect(page).to have_selector 'div.alert-warning', text: User.human_attribute_name(:username).concat(t('errors.messages.too_short', count: 3))
+      end
+
+      specify 'alert appears for username over 30 characters' do
+        fill_in 'user[username]', with: 'a' * 31
+        fill_in 'user[email]', with: user.email
+        fill_in 'user[current_password]', with: user.password
+        click_button 'commit'
+
+        expect(page).to have_selector 'div.alert-warning', text: User.human_attribute_name(:username).concat(t('errors.messages.too_long', count: 30))
+      end
+
+      specify 'alert appears for invalid username like "lukas.s"' do
+        fill_in 'user[username]', with: 'lukas.s'
+        fill_in 'user[email]', with: user.email
+        fill_in 'user[current_password]', with: user.password
+        click_button 'commit'
+
+        expect(page).to have_selector 'div.alert-warning', text: t('errors.messages.invalid_username_format')
+      end
+
+      context 'when new information is already taken' do
+        another_user = User.create(
+            username: 'another_user',
+            email: 'another_user@example.com',
+            password: 'password'
+          )
+
+        specify 'alert appears for duplicated username' do
+          fill_in 'user[username]', with: another_user.username
+          fill_in 'user[email]', with: user.email
+          fill_in 'user[current_password]', with: user.password
+          click_button 'commit'
+
+          expect(page).to have_selector 'div.alert-warning', text: t('errors.messages.taken')
+        end
+
+        specify 'alert appears for duplicated email' do
+          fill_in 'user[username]', with: user.username
+          fill_in 'user[email]', with: another_user.email
+          fill_in 'user[current_password]', with: user.password
+          click_button 'commit'
+
+          expect(page).to have_selector 'div.alert-warning', text: t('errors.messages.taken')
+        end
+      end
+    end
+  end
 
   # describe 'user cancellation', js: true do
   #   specify 'user can delete account' do
@@ -101,7 +259,7 @@ RSpec.describe "UsersRegistration", type: :system do
   #     sign_in user
 
   #     expect {
-  #       visit show_user_path(user.username)
+  #       visit show_user_path(user)
   #       click_on t('users.show.edit_authentication_information')
   #       expect(page).to have_current_path(edit_user_registration_path)
   #       page.accept_confirm do
