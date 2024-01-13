@@ -29,7 +29,7 @@ RSpec.describe "UsersRegistration", type: :system do
         click_button 'commit'
         expect(page).to have_selector 'div.alert-warning', text: t('users.failure.unconfirmed')
 
-        visit root_url.concat("/confirmation?confirmation_token=#{user.confirmation_token}")
+        visit user_confirmation_url(confirmation_token: user.confirmation_token)
         expect(page).to have_text t('users.confirmations.confirmed')
         expect(user.reload).to be_confirmed
       end
