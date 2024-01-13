@@ -40,7 +40,7 @@ class User < ApplicationRecord
   validates :username, presence: true, length: { minimum: 3, maximum: 30 }, uniqueness: { case_sensitive: false },
                        format: { with: /\A[a-zA-Z0-9_]+\z/, message: :invalid_username_format }
 
-  after_create :initialize_profile
+  before_create :initialize_profile
 
   def login
     @login || username || email

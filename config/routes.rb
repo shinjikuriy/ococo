@@ -25,8 +25,5 @@ Rails.application.routes.draw do
   get ':username/edit_profile', to: 'profiles#edit', as: 'edit_profile'
   put ':username/edit_profile', to: 'profiles#update', as: 'update_profile'
 
-
-
   root to: "static_pages#home"
-
 end
