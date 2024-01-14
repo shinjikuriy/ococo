@@ -69,12 +69,12 @@ RSpec.describe "UsersRegistration", type: :system do
         expect(page).to have_selector 'div.alert-warning', text: t('errors.messages.invalid_username_format')
       end
 
-      # specify 'alert appears for invalid email like "lukas@sky@walker"' do
-      #   fill_in 'user[email]', with: 'lukas@sky@walker'
-      #   click_button 'commit'
+      specify 'alert appears for invalid email like "lukas@sky@walker"' do
+        fill_in 'user[email]', with: 'lukas@sky@walker'
+        click_button 'commit'
 
-      #   expect(page).to have_selector 'div.alert-warning', text: t('errors.messages.invalid')
-      # end
+        expect(page).to have_selector 'div.alert-warning', text: t('errors.messages.invalid')
+      end
 
       specify 'alert appears for password less than 6 characters' do
         fill_in 'user[password]', with: 'a' * 5
@@ -224,6 +224,15 @@ RSpec.describe "UsersRegistration", type: :system do
         expect(page).to have_selector 'div.alert-warning', text: t('errors.messages.invalid_username_format')
       end
 
+      specify 'alert appears for invalid email like "lukas@sky@walker"' do
+        fill_in 'user[username]', with: user.username
+        fill_in 'user[email]', with: 'lukas@sky@walker'
+        fill_in 'user[current_password]', with: user.password
+        click_button 'commit'
+
+        expect(page).to have_selector 'div.alert-warning', text: t('errors.messages.invalid')
+      end
+
       context 'when new information is already taken' do
         another_user = User.create(
             username: 'another_user',
@@ -252,21 +261,22 @@ RSpec.describe "UsersRegistration", type: :system do
     end
   end
 
-  # describe 'user cancellation', js: true do
-  #   specify 'user can delete account' do
-  #     user = create(:user)
-  #     user.confirm
-  #     sign_in user
+  describe 'user cancellation', js: true do
+    # check the version of selenium_driver
+    xspecify 'user can delete account' do
+      user = create(:user)
+      user.confirm
+      sign_in user
 
-  #     expect {
-  #       visit show_user_path(user)
-  #       click_on t('users.show.edit_authentication_information')
-  #       expect(page).to have_current_path(edit_user_registration_path)
-  #       page.accept_confirm do
-  #         click_on t('users.registrations.edit.cancel_my_account')
-  #       end
-  #       page.driver.browser.switch_to.alert.accept
-  #     }.to change { User.count }.by(-1)
-  #   end
-  # end
+      expect {
+        visit show_user_path(user)
+        click_on t('users.show.edit_authentication_information')
+        expect(page).to have_current_path(edit_user_registration_path)
+        page.accept_confirm do
+          click_on t('users.registrations.edit.cancel_my_account')
+        end
+        page.driver.browser.switch_to.alert.accept
+      }.to change { User.count }.by(-1)
+    end
+  end
 end
