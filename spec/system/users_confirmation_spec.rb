@@ -12,9 +12,9 @@ RSpec.describe "UsersConfirmation", type: :system do
         expect(page).to have_current_path new_user_session_path
         expect(page).to have_selector 'div.alert-success', text: t('users.confirmations.send_instructions')
 
-        # a confirmation e-mail should have been sent
+        # a confirmation e-mail should be sent
 
-        visit user_confirmation_url(confirmation_token: user.confirmation_token)
+        visit last_sent_url
         expect(page).to have_current_path new_user_session_path
         expect(page).to have_selector 'div.alert-success', text: t('users.confirmations.confirmed')
       end

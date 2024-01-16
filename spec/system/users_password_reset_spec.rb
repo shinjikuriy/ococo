@@ -10,13 +10,7 @@ RSpec.describe "UsersPasswordReset", type: :system do
     click_button t('users.passwords.new.send_me_reset_password_instructions')
     expect(page).to have_current_path new_user_session_path
 
-    # a reset password instructions email should be sent
-    password_reset_mail = ActionMailer::Base.deliveries.last
-    mail_body = password_reset_mail.body.encoded
-    password_reset_url = URI.extract(mail_body).first
-
-    # the token in the URL must be digested
-    visit password_reset_url
+    visit last_sent_url
     fill_in 'user[password]', with: 'new_password'
     fill_in 'user[password_confirmation]', with: 'new_password'
     click_button 'commit'
@@ -71,13 +65,8 @@ RSpec.describe "UsersPasswordReset", type: :system do
       fill_in 'user[email]', with: user.email
       click_button t('users.passwords.new.send_me_reset_password_instructions')
       expect(page).to have_current_path new_user_session_path
-
-      password_reset_mail = ActionMailer::Base.deliveries.last
-      mail_body = password_reset_mail.body.encoded
-      password_reset_url = URI.extract(mail_body).first
-
       travel 2.hours + 1.minute
-      visit password_reset_url
+      visit last_sent_url
       expect(page).to have_selector 'div.alert-warning', text: t('errors.messages.expired')
     end
   end

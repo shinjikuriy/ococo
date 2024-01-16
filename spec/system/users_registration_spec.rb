@@ -29,7 +29,7 @@ RSpec.describe "UsersRegistration", type: :system do
         click_button 'commit'
         expect(page).to have_selector 'div.alert-warning', text: t('users.failure.unconfirmed')
 
-        visit user_confirmation_url(confirmation_token: user.confirmation_token)
+        visit last_sent_url
         expect(page).to have_text t('users.confirmations.confirmed')
         expect(user.reload).to be_confirmed
       end
@@ -262,7 +262,6 @@ RSpec.describe "UsersRegistration", type: :system do
   end
 
   describe 'user cancellation', js: true do
-    # check the version of selenium_driver
     xspecify 'user can delete account' do
       user = create(:user)
       user.confirm
@@ -272,6 +271,8 @@ RSpec.describe "UsersRegistration", type: :system do
         visit show_user_path(user)
         click_on t('users.show.edit_authentication_information')
         expect(page).to have_current_path(edit_user_registration_path)
+        # method 'accept_confirm' is not working
+        # check the version of selenium_driver
         page.accept_confirm do
           click_on t('users.registrations.edit.cancel_my_account')
         end
