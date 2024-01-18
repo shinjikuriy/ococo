@@ -57,7 +57,33 @@ RSpec.describe Devise::Mailer, type: :mailer do
     end
   end
 
-  xdescribe 'unlock_instructions email'
+  describe 'unlock_instructions email' do
+    let(:user) { create(:user) }
+    let(:token) { Devise.token_generator.generate(User, :unlock_token).first }
+    let(:mail) { Devise::Mailer.unlock_instructions(user, token) }
+
+    it "sends a notification email to the user's email address" do
+      expect(mail.to).to eq [user.email]
+    end
+
+    it 'sends from the email address for transmission' do
+      expect(mail.from).to eq ['noreply@ococo.net']
+    end
+
+    it 'sends with the correct subject' do
+      expect(mail.subject).to eq t('users.mailer.unlock_instructions.subject')
+    end
+
+    it 'greets the user by email' do
+      expect(mail.body).to have_text t('users.mailer.unlock_instructions.greeting', recipient: user.email)
+    end
+
+    it 'has appropriate body text', :aggregate_failures do
+      expect(mail.body).to have_text t('users.mailer.unlock_instructions.message')
+      expect(mail.body).to have_text t('users.mailer.unlock_instructions.instruction')
+      expect(mail.body).to have_link href: user_unlock_url(unlock_token: token)
+    end
+  end
 
   describe 'email_changed notification email' do
     let(:user) { create(:user) }
