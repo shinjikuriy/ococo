@@ -1,11 +1,36 @@
 require "rails_helper"
 
 RSpec.describe Devise::Mailer, type: :mailer do
-  xdescribe 'confirmation_instructions email'
+  describe 'confirmation_instructions email' do
+    let(:user) { create(:user) }
+    let(:token) { Devise.friendly_token }
+    let(:mail) { Devise::Mailer.confirmation_instructions(user, token) }
+
+    it "sends a notification email to the user's email address" do
+      expect(mail.to).to eq [user.email]
+    end
+
+    it 'sends from the email address for transmission' do
+      expect(mail.from).to eq ['noreply@ococo.net']
+    end
+
+    it 'sends with the correct subject' do
+      expect(mail.subject).to eq t('users.mailer.confirmation_instructions.subject')
+    end
+
+    it 'greets the user by email' do
+      expect(mail.body).to have_text t('users.mailer.confirmation_instructions.greeting', recipient: user.email)
+    end
+
+    it 'has appropriate body text', :aggregate_failures do
+      expect(mail.body).to have_text t('users.mailer.confirmation_instructions.instruction')
+      expect(mail.body).to have_link href: user_confirmation_url(confirmation_token: token)
+    end
+  end
 
   describe 'reset_password_instructions email' do
     let(:user) { create(:user) }
-    let(:token) { user.send_reset_password_instructions }
+    let(:token) { Devise.token_generator.generate(User, :reset_password_token).first }
     let(:mail) { Devise::Mailer.reset_password_instructions(user, token) }
 
     it "sends a notification email to the user's email address" do
