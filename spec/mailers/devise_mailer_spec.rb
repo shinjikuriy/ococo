@@ -3,7 +3,34 @@ require "rails_helper"
 RSpec.describe Devise::Mailer, type: :mailer do
   xdescribe 'confirmation_instructions email'
 
-  xdescribe 'reset_password_instructions email'
+  describe 'reset_password_instructions email' do
+    let(:user) { create(:user) }
+    let(:token) { user.send_reset_password_instructions }
+    let(:mail) { Devise::Mailer.reset_password_instructions(user, token) }
+
+    it "sends a notification email to the user's email address" do
+      expect(mail.to).to eq [user.email]
+    end
+
+    it 'sends from the email address for transmission' do
+      expect(mail.from).to eq ['noreply@ococo.net']
+    end
+
+    it 'sends with the correct subject' do
+      expect(mail.subject).to eq t('users.mailer.reset_password_instructions.subject')
+    end
+
+    it 'greets the user by email' do
+      expect(mail.body).to have_text t('users.mailer.reset_password_instructions.greeting', recipient: user.email)
+    end
+
+    it 'has appropriate body text', :aggregate_failures do
+      expect(mail.body).to have_text t('users.mailer.reset_password_instructions.instruction')
+      expect(mail.body).to have_text t('users.mailer.reset_password_instructions.instruction_2')
+      expect(mail.body).to have_text t('users.mailer.reset_password_instructions.instruction_3')
+      expect(mail.body).to have_link href: edit_user_password_url(reset_password_token: token)
+    end
+  end
 
   xdescribe 'unlock_instructions email'
 
@@ -32,7 +59,7 @@ RSpec.describe Devise::Mailer, type: :mailer do
     end
   end
 
-  xdescribe 'password_change instruction email' do
+  describe 'password_change notification email' do
     let(:user) { create(:user) }
     let(:mail) { Devise::Mailer.password_change(user) }
 
@@ -45,17 +72,15 @@ RSpec.describe Devise::Mailer, type: :mailer do
     end
 
     it 'sends with the correct subject' do
-      expect(mail.subject).to eq t('users.mailer.reset_password_instruction.subject')
+      expect(mail.subject).to eq t('users.mailer.password_change.subject')
     end
 
     it 'greets the user by email' do
-      expect(mail.body).to have_text t('users.mailer.reset_password_instruction.greeting', recipient: user.email)
+      expect(mail.body).to have_text t('users.mailer.password_change.greeting', recipient: user.email)
     end
 
-    it 'has appropriate body text', :aggregate_failures do
-      expect(mail.body).to have_text t('users.mailer.reset_password_instruction.instruction')
-      expect(mail.body).to have_text t('users.mailer.reset_password_instruction.instruction_2')
-      expect(mail.body).to have_text t('users.mailer.reset_password_instruction.instruction_3')
+    it 'has appropriate body text' do
+      expect(mail.body).to have_text t('users.mailer.password_change.message')
     end
   end
 end
