@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "UsersPasswordReset", type: :system do
-  let!(:user){ create(:user) }
+  let!(:user) { create(:user) }
   before { user.confirm }
 
   specify 'user can reset password' do
@@ -65,6 +65,7 @@ RSpec.describe "UsersPasswordReset", type: :system do
       fill_in 'user[email]', with: user.email
       click_button t('users.passwords.new.send_me_reset_password_instructions')
       expect(page).to have_current_path new_user_session_path
+      expect(last_email.to).to eq [user.email]
       travel 2.hours + 1.minute
       visit last_sent_url
       expect(page).to have_selector 'div.alert-warning', text: t('errors.messages.expired')

@@ -21,6 +21,7 @@ RSpec.describe "UsersRegistration", type: :system do
         expect(user).not_to be_confirmed
 
         # At this point, a confirmation email must be sent properly
+        expect(last_email.to).to eq [user.email]
 
         # the user's features must be unavailable
         visit new_user_session_path
@@ -145,6 +146,17 @@ RSpec.describe "UsersRegistration", type: :system do
 
         expect(page).to have_current_path(show_user_path(user))
         expect(page).to have_selector 'div.alert-success', text: t('users.registrations.updated')
+
+        second_last_email = ActionMailer::Base.deliveries[-2]
+        expect(second_last_email.to).to eq ['lukas@example.com']
+        expect(second_last_email.subject).to eq t('users.mailer.email_changed.subject')
+
+        expect(last_email.to).to eq ['lukas_new@example.com']
+        expect(last_email.subject).to eq t('users.mailer.confirmation_instructions.subject')
+
+        visit last_sent_url
+        expect(page).to have_current_path new_user_session_path
+        expect(page).to have_selector 'div.alert-success', text: t('users.confirmations.confirmed')
       end
 
       specify 'user can edit password' do
@@ -157,6 +169,9 @@ RSpec.describe "UsersRegistration", type: :system do
 
         expect(page).to have_current_path(show_user_path(user))
         expect(page).to have_selector 'div.alert-success', text: t('users.registrations.updated')
+
+        expect(last_email.to).to eq [user.email]
+        expect(last_email.subject).to eq t('users.mailer.password_change.subject')
       end
 
       context 'when each form is blank' do

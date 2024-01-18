@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "UsersConfirmation", type: :system do
   describe 'user confirmation' do
     context 'when user is registered but not confirmed' do
-      let!(:user){ create(:user) }
+      let!(:user) { create(:user) }
       before { visit new_user_confirmation_path }
 
       specify 'user can confirm account' do
@@ -13,6 +13,7 @@ RSpec.describe "UsersConfirmation", type: :system do
         expect(page).to have_selector 'div.alert-success', text: t('users.confirmations.send_instructions')
 
         # a confirmation e-mail should be sent
+        expect(last_email.to).to eq [user.email]
 
         visit last_sent_url
         expect(page).to have_current_path new_user_session_path
