@@ -28,7 +28,7 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   describe 'varidation' do
-    let!(:attrs){ attributes_for(:user) }
+    let!(:attrs) { attributes_for(:user) }
 
     context 'valid attributes' do
       it 'is valid with a username, email and password' do
@@ -48,7 +48,7 @@ RSpec.describe User, type: :model do
         it 'is invalid without a username' do
           user = User.new(username: nil)
           user.valid?
-          expect(user.errors[:username]).to include('を入力してください')
+          expect(user.errors[:username]).to include t('errors.messages.empty')
         end
 
         it 'is invalid with a duplicated username' do
@@ -59,25 +59,25 @@ RSpec.describe User, type: :model do
             password: 'another_password'
           )
           another_user.valid?
-          expect(another_user.errors[:username]).to include('はすでに存在します')
+          expect(another_user.errors[:username]).to include t('errors.messages.taken')
         end
 
         it 'is invalid with a too short username' do
           user = User.new(username: 'lu')
           user.valid?
-          expect(user.errors[:username]).to include('は3文字以上で入力してください')
+          expect(user.errors[:username]).to include t('errors.messages.too_short', count: 3)
         end
 
         it 'is invalid with a too long username' do
           user = User.new(username: 'call_me_by_this_31_letter_name_')
           user.valid?
-          expect(user.errors[:username]).to include('は30文字以内で入力してください')
+          expect(user.errors[:username]).to include t('errors.messages.too_long', count: 30)
         end
 
         it 'is invalid with invalid characters' do
           user = User.new(username: 'lukas.')
           user.valid?
-          expect(user.errors[:username]).to include('にはアルファベット・数字・アンダースコア(_)のみ使用できます。')
+          expect(user.errors[:username]).to include t('errors.messages.invalid_username_format')
         end
       end
 
@@ -85,7 +85,7 @@ RSpec.describe User, type: :model do
         it 'is invalid without an email' do
           user = User.new(email: nil)
           user.valid?
-          expect(user.errors[:email]).to include("を入力してください")
+          expect(user.errors[:email]).to include t('errors.messages.empty')
         end
 
         it 'is invalid with a duplicated email' do
@@ -96,7 +96,7 @@ RSpec.describe User, type: :model do
             password: 'another_password'
           )
           another_user.valid?
-          expect(another_user.errors[:email]).to include('はすでに存在します')
+          expect(another_user.errors[:email]).to include t('errors.messages.taken')
         end
       end
 
@@ -104,7 +104,7 @@ RSpec.describe User, type: :model do
         it 'is invalid without a password' do
           user = User.new(password: nil)
           user.valid?
-          expect(user.errors[:password]).to include("を入力してください")
+          expect(user.errors[:password]).to include t('errors.messages.empty')
         end
       end
     end
