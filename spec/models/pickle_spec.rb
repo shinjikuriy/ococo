@@ -12,6 +12,8 @@
 require 'rails_helper'
 
 RSpec.describe Pickle, type: :model do
+  let(:attrs) { attributes_for(:pickle) }
+
   describe 'dependency' do
     specify 'user can have many pickles' do
       user = create(:user)
@@ -21,9 +23,14 @@ RSpec.describe Pickle, type: :model do
     end
   end
 
-  describe 'validation' do
-    let(:attrs) { attributes_for(:pickle) }
+  describe 'initialisation' do
+    specify 'started_on is set to the date pickle is created on by default' do
+      pickle = Pickle.create(user_id: attrs[:user_id], name: attrs[:name])
+      expect(pickle.started_on).to eq Date.today
+    end
+  end
 
+  describe 'validation' do
     context 'when values are valid' do
       specify 'user can create a pickle' do
         pickle = Pickle.new(attrs)
@@ -42,11 +49,6 @@ RSpec.describe Pickle, type: :model do
         pickle = Pickle.new(name: 'a' * 101)
         pickle.valid?
         expect(pickle.errors[:name]).to include t('errors.messages.too_long', count: 100)
-      end
-
-      specify 'started_on is the date pickle is created by default' do
-        pickle = Pickle.create(name: attrs[:name])
-        expect(pickle.started_on).to eq Date.today
       end
     end
   end

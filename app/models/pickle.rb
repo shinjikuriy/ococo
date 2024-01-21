@@ -11,4 +11,14 @@
 #
 class Pickle < ApplicationRecord
   belongs_to :user
+
+  before_create :set_default_values
+
+  validates :name, presence: true, length: { maximum: 100 }
+
+  private
+
+  def set_default_values
+    self.started_on ||= Date.today
+  end
 end
