@@ -15,7 +15,17 @@
 require 'rails_helper'
 
 RSpec.describe Profile, type: :model do
-  describe 'Profile#create' do
+  describe 'dependency' do
+    specify 'user has one profile' do
+      user = create(:user)
+      expect(user.profile).to be_present
+      expect {
+        user.create_profile(display_name: user.username, x_username: '', ig_username: '')
+      }.to raise_error(ActiveRecord::RecordNotUnique)
+    end
+  end
+
+  describe 'initialisation' do
     let!(:user) { create(:user) }
     let!(:profile) { user.profile }
     before { user.confirm }
@@ -50,7 +60,7 @@ RSpec.describe Profile, type: :model do
     end
   end
 
-  describe 'Profile#update' do
+  describe 'validation' do
     let!(:user) { create(:user) }
     let!(:profile) { user.profile }
     before { user.confirm }
@@ -115,7 +125,7 @@ RSpec.describe Profile, type: :model do
       end
 
       it 'does not accept "luke.x" as x_username' do
-        profile.display_name = 'luke.x'
+        profile.x_username = 'luke.x'
         profile.valid?
         expect(profile.errors[:x_username]).to include t('errors.messages.invalid_username_format')
       end
@@ -130,6 +140,12 @@ RSpec.describe Profile, type: :model do
         profile.ig_username = 'luke_ig!'
         profile.valid?
         expect(profile.errors[:ig_username]).to include t('errors.messages.invalid_ig_username_format')
+      end
+
+      it 'does not accept ig_username over 30 characters' do
+        profile.ig_username = 'a' * 31
+        profile.valid?
+        expect(profile.errors[:ig_username]).to include t('errors.messages.too_long', count: 30)
       end
     end
   end
