@@ -25,7 +25,9 @@ RSpec.describe Pickle, type: :model do
 
   describe 'initialisation' do
     specify 'started_on is set to the date pickle is created on by default' do
-      pickle = Pickle.create(user_id: attrs[:user_id], name: attrs[:name])
+      user = create(:user)
+      pickle = user.pickles.create(name: attrs[:name])
+      expect(pickle).to be_valid
       expect(pickle.started_on).to eq Date.today
     end
   end
@@ -33,7 +35,8 @@ RSpec.describe Pickle, type: :model do
   describe 'validation' do
     context 'when values are valid' do
       specify 'user can create a pickle' do
-        pickle = Pickle.new(attrs)
+        user = create(:user)
+        pickle = user.pickles.create(attrs)
         expect(pickle).to be_valid
       end
     end
