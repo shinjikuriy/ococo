@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_21_132143) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_22_145457) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,12 +42,24 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_21_132143) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "ingredients", force: :cascade do |t|
+    t.bigint "pickle_id", null: false
+    t.string "name"
+    t.string "quantity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["pickle_id"], name: "index_ingredients_on_pickle_id"
+  end
+
   create_table "pickles", force: :cascade do |t|
     t.bigint "user_id"
     t.string "name"
     t.date "started_on"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "preparation"
+    t.text "process"
+    t.text "note"
     t.index ["user_id"], name: "index_pickles_on_user_id"
   end
 
@@ -62,6 +74,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_21_132143) do
     t.text "ig_username"
     t.index ["prefecture"], name: "index_profiles_on_prefecture"
     t.index ["user_id"], name: "index_profiles_on_user_id", unique: true
+  end
+
+  create_table "sauce_materials", force: :cascade do |t|
+    t.bigint "pickle_id", null: false
+    t.string "name"
+    t.string "quantity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["pickle_id"], name: "index_sauce_materials_on_pickle_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -94,4 +115,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_21_132143) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "ingredients", "pickles"
+  add_foreign_key "sauce_materials", "pickles"
 end

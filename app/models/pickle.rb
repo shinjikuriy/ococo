@@ -2,12 +2,15 @@
 #
 # Table name: pickles
 #
-#  id         :bigint           not null, primary key
-#  user_id    :bigint
-#  name       :string
-#  started_on :date
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id          :bigint           not null, primary key
+#  user_id     :bigint
+#  name        :string
+#  started_on  :date
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  preparation :text
+#  process     :text
+#  note        :text
 #
 class Pickle < ApplicationRecord
   belongs_to :user
