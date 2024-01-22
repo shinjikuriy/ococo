@@ -29,7 +29,7 @@ RSpec.describe Pickle, type: :model do
   describe 'initialisation' do
     specify 'started_on is set to the date pickle is created on by default' do
       user = create(:user)
-      pickle = user.pickles.create(name: attrs[:name])
+      pickle = user.pickles.create(attrs.except(:user_id, :started_on))
       expect(pickle).to be_valid
       expect(pickle.started_on).to eq Date.today
     end
@@ -55,6 +55,30 @@ RSpec.describe Pickle, type: :model do
         pickle = Pickle.new(name: 'a' * 101)
         pickle.valid?
         expect(pickle.errors[:name]).to include t('errors.messages.too_long', count: 100)
+      end
+
+      specify 'preparation cannot be over 400 characters' do
+        pickle = Pickle.new(preparation: 'a' * 401)
+        pickle.valid?
+        expect(pickle.errors[:preparation]).to include t('errors.messages.too_long', count: 400)
+      end
+
+      specify 'process cannot be blank' do
+        pickle = Pickle.new(process: '')
+        pickle.valid?
+        expect(pickle.errors[:process]).to include t('errors.messages.blank')
+      end
+
+      specify 'process cannot be over 400 characters' do
+        pickle = Pickle.new(process: 'a' * 401)
+        pickle.valid?
+        expect(pickle.errors[:process]).to include t('errors.messages.too_long', count: 400)
+      end
+
+      specify 'note cannot be over 400 characters' do
+        pickle = Pickle.new(note: 'a' * 401)
+        pickle.valid?
+        expect(pickle.errors[:note]).to include t('errors.messages.too_long', count: 400)
       end
     end
   end
