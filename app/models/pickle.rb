@@ -14,6 +14,8 @@
 #
 class Pickle < ApplicationRecord
   belongs_to :user
+  has_many :ingredients
+  has_many :sauce_materials
 
   before_create :set_default_values
 

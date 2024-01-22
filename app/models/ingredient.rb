@@ -10,5 +10,10 @@
 #  updated_at :datetime         not null
 #
 class Ingredient < ApplicationRecord
-  belongs_to :recipe_id
+  belongs_to :pickle
+
+  with_options presence: true, length: { maximum: 100 } do
+    validates :name
+    validates :quantity
+  end
 end
