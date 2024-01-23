@@ -18,7 +18,7 @@ RSpec.describe Profile, type: :model do
   describe 'dependency' do
     specify 'user has one profile' do
       user = create(:user)
-      expect(user.profile).to be_present
+      expect(user.profile).to be_persisted
       expect {
         user.create_profile(display_name: user.username, x_username: '', ig_username: '')
       }.to raise_error(ActiveRecord::RecordNotUnique)

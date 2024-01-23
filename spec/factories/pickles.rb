@@ -13,10 +13,8 @@
 #  note        :text
 #
 FactoryBot.define do
-  factory :pickle do
-    user_id { 1 }
+  factory :pickle, aliases: [:pickle_daikon] do
     name { "大根のはりはり漬け" }
-    started_on { "2024-01-19" }
     preparation { "大根を短冊切りにして天日干しにする。" }
     process { <<~End
     ごぼうはささがきに、しょうがは千切りにする。
@@ -29,5 +27,20 @@ FactoryBot.define do
     End
     }
     note { "保存袋に入れて輪ゴムで口を縛るときに、大根がつけ汁に浸っている状態にすること。"}
+  end
+
+  factory :pickle_kabu, class: Pickle do
+    name { 'かぶの甘酢漬け' }
+    preparation { nil }
+    process { <<~End
+    かぶは厚さ2〜3mmの半月切りにする。
+    保存袋にかぶと塩を入れて袋ごともみ込み、塩を全体になじませる。
+    しんなりしたら袋の空気を抜いて口を閉じ、重しを乗せて2〜3時間ほど置く。
+    かぶをザルに上げて水気を切り、キッチンペーパーでさらに水分を取る。
+    保存袋に株を入れて、あとからつけ汁を加えもみ込んでなじませる。
+    袋の空気を抜きながら口を閉じ、冷蔵庫で1日ほど置く。
+    End
+    }
+    note { '赤唐辛子はちぎって加えるとよい。'}
   end
 end

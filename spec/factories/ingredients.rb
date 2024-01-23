@@ -11,7 +11,6 @@
 #
 FactoryBot.define do
   factory :ingredient do
-    pickle_id { nil }
     name { "大根" }
     quantity { "1本" }
   end

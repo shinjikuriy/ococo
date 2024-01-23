@@ -11,7 +11,6 @@
 #
 FactoryBot.define do
   factory :sauce_material do
-    pickle_id { nil }
     name { "塩" }
     quantity { "20g" }
   end
