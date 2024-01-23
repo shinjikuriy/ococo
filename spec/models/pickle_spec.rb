@@ -20,9 +20,16 @@ RSpec.describe Pickle, type: :model do
   describe 'dependency' do
     specify 'user can have many pickles' do
       user = create(:user)
-      user.pickles.create(name: '白菜の浅漬')
-      user.pickles.create(name: 'きゅうりのぬか漬け')
+      user.pickles.create(attributes_for(:pickle_daikon))
+      user.pickles.create(attributes_for(:pickle_kabu))
       expect(user.pickles.size).to eq 2
+    end
+
+    specify 'pickles are also destroyed when user is destroyed' do
+      user = create(:user)
+      pickle = user.pickles.create(attrs)
+      user.destroy
+      expect(pickle).to be_destroyed
     end
   end
 
@@ -40,7 +47,7 @@ RSpec.describe Pickle, type: :model do
       specify 'user can create a pickle' do
         user = create(:user)
         pickle = user.pickles.create(attrs)
-        expect(pickle).to be_valid
+        expect(pickle).to be_persisted
       end
     end
 
