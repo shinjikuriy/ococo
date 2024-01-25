@@ -1,0 +1,8 @@
+ja:
+  activerecord:
+    models:
+      ingredient: 材料
+    attributes:
+      ingredient:
+        name: 名前
+        quantity: 数量

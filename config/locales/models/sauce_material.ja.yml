@@ -1,0 +1,8 @@
+ja:
+  activerecord:
+    models:
+      sauce_material: 漬け汁・漬け床
+    attributes:
+      sauce_material:
+        name: 名前
+        quantity: 数量

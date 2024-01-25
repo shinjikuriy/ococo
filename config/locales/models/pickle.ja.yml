@@ -1,0 +1,11 @@
+ja:
+  activerecord:
+    models:
+      pickle: 漬け物
+    attributes:
+      pickle:
+        name: 名前
+        started_on: 漬け始めた日
+        preparation: 下準備
+        process: 作り方
+        note: ポイント
