@@ -16,6 +16,7 @@ class Pickle < ApplicationRecord
   belongs_to :user
   has_many :ingredients, dependent: :destroy
   has_many :sauce_materials, dependent: :destroy
+  accepts_nested_attributes_for :ingredients, :sauce_materials
 
   before_create :set_default_values
 

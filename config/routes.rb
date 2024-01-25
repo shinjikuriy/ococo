@@ -20,6 +20,8 @@ Rails.application.routes.draw do
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
+  resources :pickles
+
   get ':username', to: 'users#show', as: 'show_user'
 
   get ':username/edit_profile', to: 'profiles#edit', as: 'edit_profile'

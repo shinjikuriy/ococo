@@ -1,0 +1,44 @@
+<%= render 'users/shared/error_messages', resource: @pickle %>
+
+<h2><%= t('.create_pickle') %></h2>
+<%= form_with model: @pickle do |f| %>
+  <div>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div>
+    <%= f.label :preparation %><br />
+    <%= f.text_area :preparation %>
+  </div>
+  <div>
+    <%= f.label :process %><br />
+    <%= f.text_area :process %>
+  </div>
+  <div>
+    <%= f.label :note %><br />
+    <%= f.text_area :note %>
+  </div>
+    <%= f.fields_for :ingredients do |fi| %>
+      <div>
+        <%= fi.label :name %><br />
+        <%= fi.text_field :name %>
+      </div>
+      <div>
+        <%= fi.label :quantity %><br />
+        <%= fi.text_field :quantity %>
+      </div>
+    <% end %>
+    <%= f.fields_for :sauce_materials do |fs| %>
+      <div>
+        <%= fs.label :name %><br />
+        <%= fs.text_field :name %>
+      </div>
+      <div>
+        <%= fs.label :quantity %><br />
+        <%= fs.text_field :quantity %>
+      </div>
+    <% end %>
+  <div>
+    <%= f.submit t('.create_pickle') %>
+  </div>
+<% end %>

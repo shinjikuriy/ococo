@@ -1,0 +1,28 @@
+<h2><%= @pickle.name %></h2>
+
+<h3><%= Ingredient.model_name.human %></h3>
+<ul>
+  <% @pickle.ingredients.each do |ingredient| %>
+    <li><%= ingredient.name %>: <%= ingredient.quantity %></li>
+  <% end %>
+</ul>
+
+<h3><%= SauceMaterial.model_name.human %></h3>
+<ul>
+  <% @pickle.sauce_materials.each do |sauce_material| %>
+    <li><%= sauce_material.name %>: <%= sauce_material.quantity %></li>
+  <% end %>
+</ul>
+
+<% if @pickle.preparation.present? %>
+  <h3><%= Pickle.human_attribute_name(:preparation) %></h3>
+  <p><%= @pickle.preparation %></p>
+<% end %>
+
+<h3><%= Pickle.human_attribute_name(:process) %></h3>
+<p><%= @pickle.process %></p>
+
+<% if@pickle.note.present? %>
+  <h3><%= Pickle.human_attribute_name(:note) %></h3>
+  <p><%= @pickle.note %></p>
+<% end %>

@@ -45,5 +45,9 @@
           </div>
         </div>
       </div>
+      <div class="col-md-9 col">
+        <h2><%= t('pickles.show.title', name: profile.display_name) %></h2>
+        <%= link_to t('pickles.shared.links.create_pickle'), new_pickle_path, class: 'btn btn-primary' if user_signed_in? %>
+      </div>
     </div>
   </div>

@@ -1,0 +1,10 @@
+ja:
+  pickles:
+    new:
+      create_pickle: 漬物を新規作成する
+      created_pickle: 漬け物が作成されました。
+    shared:
+      links:
+        create_pickle: 漬物を新規作成する
+    show:
+      title: "%{name}の漬け物"
