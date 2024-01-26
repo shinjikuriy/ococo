@@ -22,7 +22,7 @@ Rails.application.routes.draw do
 
   resources :pickles
 
-  get ':username', to: 'users#show', as: 'show_user'
+  get ':username', to: 'users#show', as: 'user'
 
   get ':username/edit_profile', to: 'profiles#edit', as: 'edit_profile'
   put ':username/edit_profile', to: 'profiles#update', as: 'update_profile'

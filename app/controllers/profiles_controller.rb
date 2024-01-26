@@ -10,7 +10,7 @@ class ProfilesController < ApplicationController
 
     if @profile.update(profile_params)
       flash[:success] = t('.profile_successfully_updated')
-      redirect_to show_user_url(@profile.user.username)
+      redirect_to @profile.user
     else
       render 'edit', status: :unprocessable_entity
     end

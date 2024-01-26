@@ -10,7 +10,7 @@ RSpec.describe "Pickles", type: :system do
       attrs_ingredient = attributes_for(:ingredient)
       attrs_sauce_material = attributes_for(:sauce_material)
 
-      visit show_user_path(user)
+      visit user_path(user)
       click_on t('pickles.shared.links.create_pickle')
 
       # should test multiple ingredients/sauce_materials acceptance
@@ -36,10 +36,10 @@ RSpec.describe "Pickles", type: :system do
       user = create(:user)
       user.confirm
       sign_in user
-      user.pickles.create(attributes_for(:pickle_daikon))
-      user.pickles.create(attributes_for(:pickle_kabu))
+      pickle_daikon = user.pickles.create(attributes_for(:pickle_daikon))
+      pickle_kabu = user.pickles.create(attributes_for(:pickle_kabu))
 
-      visit show_user_path(user)
+      visit user_path(user)
       expect(page).to have_text pickle_daikon.name
       expect(page).to have_text pickle_kabu.name
     end
@@ -52,7 +52,7 @@ RSpec.describe "Pickles", type: :system do
       sign_in user
       pickle = user.pickles.create(attributes_for(:pickle_daikon))
 
-      visit show_user_path(user)
+      visit user_path(user)
       click_link t('pickles.shared.links.edit_pickle'), href: edit_pickle_path(pickle)
       fill_in 'pickle[name]', with: '大根のはりはり漬け🌶'
       fill_in 'pickle[preparation]', with: '新しい下ごしらえの文章'
@@ -63,7 +63,7 @@ RSpec.describe "Pickles", type: :system do
       fill_in 'pickle[sauce_materials_attributes][0][name]', with: '新しい漬け汁材料の名前'
       fill_in 'pickle[sauce_materials_attributes][0][quantity]', with: '新しい漬け汁材料の数量'
       click_button t('pickles.edit.edit_pickle')
-      expect(page).to have_current_path show_user_path(user)
+      expect(page).to have_current_path user_path(user)
       expect(page).to have_selector 'div.alert-success', text: t('pickles.edit.edited_pickle')
     end
   end
@@ -75,7 +75,7 @@ RSpec.describe "Pickles", type: :system do
       sign_in user
       pickle = user.pickles.create(attributes_for(:pickle_daikon))
 
-      visit show_user_path(user)
+      visit user_path(user)
       click_link t('pickles.shared.links.edit_pickle'), href: edit_pickle_path(pickle)
       expect {
         page.accept_confirm do

@@ -134,7 +134,7 @@ RSpec.describe "UsersRegistration", type: :system do
         fill_in 'user[current_password]', with: user.password
         click_button 'commit'
 
-        expect(page).to have_current_path(show_user_path('lukas_new'))
+        expect(page).to have_current_path(user_path('lukas_new'))
         expect(page).to have_selector 'div.alert-success', text: t('users.registrations.updated')
       end
 
@@ -144,7 +144,7 @@ RSpec.describe "UsersRegistration", type: :system do
         fill_in 'user[current_password]', with: user.password
         click_button 'commit'
 
-        expect(page).to have_current_path(show_user_path(user))
+        expect(page).to have_current_path(user_path(user))
         expect(page).to have_selector 'div.alert-success', text: t('users.registrations.updated')
 
         second_last_email = ActionMailer::Base.deliveries[-2]
@@ -167,7 +167,7 @@ RSpec.describe "UsersRegistration", type: :system do
         fill_in 'user[current_password]', with: user.password
         click_button 'commit'
 
-        expect(page).to have_current_path(show_user_path(user))
+        expect(page).to have_current_path(user_path(user))
         expect(page).to have_selector 'div.alert-success', text: t('users.registrations.updated')
 
         expect(last_email.to).to eq [user.email]
@@ -181,7 +181,7 @@ RSpec.describe "UsersRegistration", type: :system do
           fill_in 'user[current_password]', with: user.password
           click_button 'commit'
 
-          expect(page).to have_current_path(show_user_path(user))
+          expect(page).to have_current_path(user_path(user))
           expect(page).to have_selector 'div.alert-success', text: t('users.registrations.updated')
         end
 
@@ -191,7 +191,7 @@ RSpec.describe "UsersRegistration", type: :system do
           fill_in 'user[current_password]', with: user.password
           click_button 'commit'
 
-          expect(page).to have_current_path(show_user_path(user))
+          expect(page).to have_current_path(user_path(user))
           expect(page).to have_selector 'div.alert-success', text: t('users.registrations.updated')
         end
 
@@ -203,7 +203,7 @@ RSpec.describe "UsersRegistration", type: :system do
           fill_in 'user[current_password]', with: user.password
           click_button 'commit'
 
-          expect(page).to have_current_path(show_user_path(user))
+          expect(page).to have_current_path(user_path(user))
           expect(page).to have_selector 'div.alert-success', text: t('users.registrations.updated')
         end
       end
@@ -283,7 +283,7 @@ RSpec.describe "UsersRegistration", type: :system do
       sign_in user
 
       expect {
-        visit show_user_path(user)
+        visit user_path(user)
         click_on t('users.show.edit_authentication_information')
         expect(page).to have_current_path(edit_user_registration_path)
         # method 'accept_confirm' is not working
