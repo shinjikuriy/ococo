@@ -1,5 +1,5 @@
 class PicklesController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:index, :show]
 
   def new
     @pickle = Pickle.new
@@ -15,6 +15,10 @@ class PicklesController < ApplicationController
     else
       render 'new', status: :unprocessable_entity
     end
+  end
+
+  def index
+    @pickles = Pickle.all.order(created_at: :desc).page params[:page]
   end
 
   def show

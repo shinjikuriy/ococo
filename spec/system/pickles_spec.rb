@@ -35,13 +35,33 @@ RSpec.describe "Pickles", type: :system do
     specify "user's pickles are shown on user's page" do
       user = create(:user)
       user.confirm
-      sign_in user
       pickle_daikon = user.pickles.create(attributes_for(:pickle_daikon))
       pickle_kabu = user.pickles.create(attributes_for(:pickle_kabu))
 
       visit user_path(user)
-      expect(page).to have_text pickle_daikon.name
-      expect(page).to have_text pickle_kabu.name
+      expect(page).to have_link pickle_daikon.name, href: pickle_path(pickle_daikon)
+      expect(page).to have_link pickle_kabu.name, href: pickle_path(pickle_kabu)
+    end
+
+    specify "user's pickles are paginated" do
+      user = create(:user)
+      user.confirm
+      50.times do
+        user.pickles.create(
+          name: Faker::Food.dish,
+          preparation: Faker::Lorem.sentence(word_count: 3),
+          process: Faker::Food.description,
+          note: Faker::Lorem.sentence(word_count: 5)
+        )
+      end
+      pickles = user.pickles.order(updated_at: :desc)
+
+      visit user_path(user)
+      pickles.page(1).each do |pickle|
+        expect(page).to have_link pickle.name, href: pickle_path(pickle)
+      end
+      expect(page).to have_link '次', href: user_path(user, page: 2)
+      expect(page).to have_link '最後', href: user_path(user, page: 5)
     end
   end
 
