@@ -6,5 +6,6 @@ ja:
     shared:
       links:
         create_pickle: 漬物を新規作成する
+        edit_pickle: 編集
     show:
       title: "%{name}の漬け物"

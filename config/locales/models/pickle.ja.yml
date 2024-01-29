@@ -9,3 +9,9 @@ ja:
         preparation: 下準備
         process: 作り方
         note: ポイント
+      pickle/ingredients:
+        name: 名前
+        quantity: 分量
+      pickle/sauce_materials:
+        name: 名前
+        quantity: 分量

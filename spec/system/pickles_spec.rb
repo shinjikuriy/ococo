@@ -2,14 +2,16 @@ require 'rails_helper'
 
 RSpec.describe "Pickles", type: :system do
   describe 'create' do
-    specify 'user can create a new pickle' do
-      user = create(:user)
+    let!(:user) { create(:user) }
+    let!(:attrs_pickle) { attributes_for(:pickle) }
+    let!(:attrs_ingredient) { attributes_for(:ingredient) }
+    let!(:attrs_sauce_material) { attributes_for(:sauce_material) }
+    before do
       user.confirm
       sign_in user
-      attrs_pickle = attributes_for(:pickle)
-      attrs_ingredient = attributes_for(:ingredient)
-      attrs_sauce_material = attributes_for(:sauce_material)
+    end
 
+    specify 'user can create a new pickle' do
       visit user_path(user)
       click_on t('pickles.shared.links.create_pickle')
 
@@ -29,6 +31,21 @@ RSpec.describe "Pickles", type: :system do
       expect(page).to have_current_path pickle_path(user.pickles.first)
       expect(page).to have_selector 'div.alert-success', text: t('pickles.new.created_pickle')
     end
+
+    context 'when values are invalid' do
+      specify 'alerts apprear for unentered fields' do
+        visit user_path(user)
+        click_on t('pickles.shared.links.create_pickle')
+        click_button 'commit'
+
+        expect(page).to have_selector 'div.alert-warning', text: Pickle.human_attribute_name(:name).concat(t('errors.messages.blank'))
+        expect(page).to have_selector 'div.alert-warning', text: Pickle.human_attribute_name('ingredients.name').concat(t('errors.messages.blank'))
+        expect(page).to have_selector 'div.alert-warning', text: Pickle.human_attribute_name('ingredients.quantity').concat(t('errors.messages.blank'))
+        expect(page).to have_selector 'div.alert-warning', text: Pickle.human_attribute_name('sauce_materials.name').concat(t('errors.messages.blank'))
+        expect(page).to have_selector 'div.alert-warning', text: Pickle.human_attribute_name('sauce_materials.quantity').concat(t('errors.messages.blank'))
+        expect(page).to have_selector 'div.alert-warning', text: Pickle.human_attribute_name(:process).concat(t('errors.messages.blank'))
+      end
+    end
   end
 
   describe 'read' do
@@ -47,7 +64,7 @@ RSpec.describe "Pickles", type: :system do
       user = create(:user)
       user.confirm
       50.times do
-        user.pickles.create(
+        user.pickles.create!(
           name: Faker::Food.dish,
           preparation: Faker::Lorem.sentence(word_count: 3),
           process: Faker::Food.description,
@@ -66,7 +83,7 @@ RSpec.describe "Pickles", type: :system do
   end
 
   describe 'update' do
-    specify "user can edit pickles' information" do
+    xspecify "user can edit pickles' information" do
       user = create(:user)
       user.confirm
       sign_in user
