@@ -80,6 +80,38 @@ RSpec.describe "Pickles", type: :system do
       expect(page).to have_link '次', href: user_path(user, page: 2)
       expect(page).to have_link '最後', href: user_path(user, page: 5)
     end
+
+    specify 'all pickles are shown on index page' do
+      lukas = create(:user)
+      lena = create(:user_lena)
+      stefan = create(:user_stefan)
+
+      [lukas, lena, stefan].each do |u|
+        u.confirm
+        sign_in u
+      end
+
+      30.times do
+        [lukas, lena, stefan].each do |u|
+          u.pickles.create!(
+            name: Faker::Food.dish,
+            preparation: Faker::Lorem.sentence(word_count: 3),
+            process: Faker::Food.description,
+            note: Faker::Lorem.sentence(word_count: 5)
+          )
+        end
+      end
+
+      pickles = Pickle.all.order(created_at: :desc)
+
+      visit pickles_path
+      pickles[0..9].each do |pickle|
+        expect(page).to have_link pickle.name, href: pickle_path(pickle)
+      end
+
+      expect(page).to have_link '次', href: pickles_path(page: 2)
+      expect(page).to have_link '最後', href: pickles_path(page: 9)
+    end
   end
 
   describe 'update' do
