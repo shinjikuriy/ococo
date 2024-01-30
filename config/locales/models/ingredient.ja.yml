@@ -6,3 +6,6 @@ ja:
       ingredient:
         name: 名前
         quantity: 分量
+  errors:
+    messages:
+      invalid_name_and_quantity: "%{model}の名前と分量が正しく入力されていません。"

@@ -43,9 +43,9 @@ RSpec.describe SauceMaterial, type: :model do
 
     context 'when values are invalid' do
       specify 'name cannot be empty' do
-        sauce_material = SauceMaterial.new(name: '')
+        sauce_material = SauceMaterial.new(name: '', quantity: attrs[:quantity])
         sauce_material.valid?
-        expect(sauce_material.errors[:name]).to include t('errors.messages.blank')
+        expect(sauce_material.errors[:base]).to include t('errors.messages.invalid_name_and_quantity', model: SauceMaterial.model_name.human)
       end
 
       specify 'name cannot be over 100 characters' do
@@ -55,9 +55,9 @@ RSpec.describe SauceMaterial, type: :model do
       end
 
       specify 'quantity cannot be empty' do
-        sauce_material = SauceMaterial.new(quantity: '')
+        sauce_material = SauceMaterial.new(name: attrs[:name], quantity: '')
         sauce_material.valid?
-        expect(sauce_material.errors[:quantity]).to include t('errors.messages.blank')
+        expect(sauce_material.errors[:base]).to include t('errors.messages.invalid_name_and_quantity', model: SauceMaterial.model_name.human)
       end
 
       specify 'quantity cannot be over 100 characters' do
@@ -65,6 +65,26 @@ RSpec.describe SauceMaterial, type: :model do
         sauce_material.valid?
         expect(sauce_material.errors[:quantity]).to include t('errors.messages.too_long', count: 100)
       end
+    end
+  end
+
+  describe 'Pickle#incomplete?' do
+    specify 'returns true if either name or quantity is blank' do
+      ingredient = Ingredient.new(name: 'hogehoge', quantity: ' ')
+      expect(ingredient.incomplete?).to eq true
+
+      ingredient = Ingredient.new(name: ' ', quantity: 'fugafuga')
+      expect(ingredient.incomplete?).to eq true
+    end
+
+    specify 'returns false if the both name and quantity are present' do
+      ingredient = Ingredient.new(name: 'hogehoge', quantity: 'fugafuga')
+      expect(ingredient.incomplete?).to eq false
+    end
+
+    specify 'returns false if the both name and quantity are blank' do
+      ingredient = Ingredient.new(name: '', quantity: '')
+      expect(ingredient.incomplete?).to eq false
     end
   end
 end

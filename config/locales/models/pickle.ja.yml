@@ -15,3 +15,6 @@ ja:
       pickle/sauce_materials:
         name: 名前
         quantity: 分量
+  errors:
+    messages:
+      has_no_ingredient: 材料を入力してください
