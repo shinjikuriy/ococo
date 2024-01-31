@@ -1,0 +1,9 @@
+<h2>漬け物一覧</h2>
+<% @pickles.each do |pickle| %>
+  <div>
+    <h3>
+      <%= link_to pickle.name, pickle %>
+    </h3>
+  </div>
+<% end %>
+<%= paginate @pickles %>

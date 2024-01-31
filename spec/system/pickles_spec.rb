@@ -84,7 +84,7 @@ RSpec.describe "Pickles", type: :system do
       expect(page).to have_link '最後', href: user_path(user, page: 5)
     end
 
-    xspecify 'all pickles are shown on index page' do
+    specify 'all pickles are shown on index page' do
       lukas = create(:user)
       lena = create(:user_lena)
       stefan = create(:user_stefan)
