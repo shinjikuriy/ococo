@@ -39,7 +39,7 @@ class Pickle < ApplicationRecord
 
   def include_a_valid_ingredient
     ingredients.each do |ingredient|
-      return if ingredient.name.present? && ingredient.quantity.present?
+      return true if ingredient.name.present? && ingredient.quantity.present?
     end
     errors.add(:base, :has_no_ingredient)
   end
