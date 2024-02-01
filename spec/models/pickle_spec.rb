@@ -27,7 +27,9 @@ RSpec.describe Pickle, type: :model do
 
     specify 'pickles are also destroyed when user is destroyed' do
       user = create(:user)
-      pickle = user.pickles.create(attrs)
+      pickle = user.pickles.build(attrs)
+      pickle.ingredients.build(attributes_for(:ingredient))
+      pickle.save!
       user.destroy
       expect(pickle).to be_destroyed
     end
@@ -36,7 +38,9 @@ RSpec.describe Pickle, type: :model do
   describe 'initialisation' do
     specify 'started_on is set to the date pickle is created on by default' do
       user = create(:user)
-      pickle = user.pickles.create(attrs.except(:user_id, :started_on))
+      pickle = user.pickles.build(attrs.except(:user_id, :started_on))
+      pickle.ingredients.build(attributes_for(:ingredient))
+      pickle.save!
       expect(pickle).to be_valid
       expect(pickle.started_on).to eq Date.today
     end
@@ -46,7 +50,9 @@ RSpec.describe Pickle, type: :model do
     context 'when values are valid' do
       specify 'user can create a pickle' do
         user = create(:user)
-        pickle = user.pickles.create(attrs)
+        pickle = user.pickles.build(attrs)
+        pickle.ingredients.build(attributes_for(:ingredient))
+        pickle.save!
         expect(pickle).to be_persisted
       end
     end

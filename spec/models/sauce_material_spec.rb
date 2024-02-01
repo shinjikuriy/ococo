@@ -17,7 +17,9 @@ RSpec.describe SauceMaterial, type: :model do
   describe 'dependency' do
     specify 'pickle can have many sauce_materials' do
       user = create(:user)
-      pickle = user.pickles.create(attributes_for(:pickle))
+      pickle = user.pickles.build(attributes_for(:pickle))
+      pickle.ingredients.build(attributes_for(:ingredient))
+      pickle.save!
       pickle.sauce_materials.create(name: '塩', quantity: '20g')
       pickle.sauce_materials.create(name: '唐辛子', quantity: '3本')
       expect(pickle.sauce_materials.size).to eq 2
@@ -25,7 +27,9 @@ RSpec.describe SauceMaterial, type: :model do
 
     specify 'sauce_materials are destroyed when pickle is destroyed' do
       user = create(:user)
-      pickle = user.pickles.create(attributes_for(:pickle))
+      pickle = user.pickles.build(attributes_for(:pickle))
+      pickle.ingredients.build(attributes_for(:ingredient))
+      pickle.save!
       sauce_material = pickle.sauce_materials.create(attrs)
       pickle.destroy
       expect(sauce_material).to be_destroyed
@@ -35,7 +39,9 @@ RSpec.describe SauceMaterial, type: :model do
     context 'when values are valid' do
       specify 'user can successfully create a sauce_material' do
         user = create(:user)
-        pickle = user.pickles.create(attributes_for(:pickle))
+        pickle = user.pickles.build(attributes_for(:pickle))
+        pickle.ingredients.build(attributes_for(:ingredient))
+        pickle.save!
         sauce_material = pickle.sauce_materials.create(attrs)
         expect(sauce_material).to be_persisted
       end

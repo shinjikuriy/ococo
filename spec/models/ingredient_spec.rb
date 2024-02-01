@@ -17,16 +17,19 @@ RSpec.describe Ingredient, type: :model do
   describe 'dependency' do
     specify 'pickle can have many ingredients' do
       user = create(:user)
-      pickle = user.pickles.create(attributes_for(:pickle))
-      pickle.ingredients.create(name: '大根', quantity: '1本')
-      pickle.ingredients.create(name: 'ごぼう', quantity: '1/2本')
+      pickle = user.pickles.build(attributes_for(:pickle))
+      pickle.ingredients.build(name: '大根', quantity: '1本')
+      pickle.ingredients.build(name: 'ごぼう', quantity: '1/2本')
+      pickle.save!
       expect(pickle.ingredients.size).to eq 2
     end
 
     specify 'ingredients are destroyed when pickle is destroyed' do
       user = create(:user)
-      pickle = user.pickles.create(attributes_for(:pickle))
-      ingredient = pickle.ingredients.create(attrs)
+      pickle = user.pickles.build(attributes_for(:pickle))
+      pickle.ingredients.build(attrs)
+      pickle.save!
+      ingredient = pickle.ingredients.first
       pickle.destroy
       expect(ingredient).to be_destroyed
     end
@@ -36,9 +39,10 @@ RSpec.describe Ingredient, type: :model do
     context 'when values are valid' do
       specify 'user can successfully create a ingredient' do
         user = create(:user)
-        pickle = user.pickles.create(attributes_for(:pickle))
-        ingredient = pickle.ingredients.create(attrs)
-        expect(ingredient).to be_persisted
+        pickle = user.pickles.build(attributes_for(:pickle))
+        ingredient = pickle.ingredients.build(attrs)
+        pickle.save!
+        expect(ingredient.reload).to be_persisted
       end
     end
 
