@@ -46,6 +46,29 @@ RSpec.describe "Pickles", type: :system do
   end
 
   describe 'read' do
+    specify 'anyone can view a pickle page' do
+      user = create(:user)
+      user.confirm
+      pickle = user.pickles.build(attributes_for(:pickle))
+      pickle.ingredients.build(attributes_for(:ingredient))
+      pickle.save!
+
+      visit pickle_path(pickle)
+      expect(page).to have_current_path pickle_path(pickle)
+      expect(page).to have_text pickle.name
+      pickle.preparation.each_line { |line| expect(page).to have_text line.chomp }
+      pickle.process.each_line { |line| expect(page).to have_text line.chomp }
+      pickle.note.each_line { |line| expect(page).to have_text line.chomp }
+      pickle.ingredients.each do |ingredient|
+        expect(page).to have_text ingredient.name
+        expect(page).to have_text ingredient.quantity
+      end
+      pickle.sauce_materials.each do |sauce_material|
+        expect(page).to have_text sauce_material.name
+        expect(page).to have_text sauce_material.quantity
+      end
+    end
+
     specify "user's pickles are shown on user's page" do
       user = create(:user)
       user.confirm
