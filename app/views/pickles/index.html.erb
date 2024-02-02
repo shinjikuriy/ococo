@@ -1,9 +1,11 @@
 <h2>漬け物一覧</h2>
-<% @pickles.each do |pickle| %>
-  <div>
-    <h3>
-      <%= link_to pickle.name, pickle %>
-    </h3>
-  </div>
+<%= turbo_frame_tag 'pickles-list' do %>
+  <% @pickles.each do |pickle| %>
+    <div>
+      <h3>
+        <%= link_to pickle.name, pickle, data: { turbo_frame: '_top' } %>
+      </h3>
+    </div>
+  <% end %>
+  <%= paginate @pickles %>
 <% end %>
-<%= paginate @pickles %>
