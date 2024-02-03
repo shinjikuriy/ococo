@@ -48,7 +48,7 @@
       <div class="col-md-9 col">
         <%= turbo_frame_tag 'pickles-list' do %>
         <h2><%= t('pickles.show.title', name: profile.display_name) %></h2>
-        <%= link_to t('pickles.shared.links.create_pickle'), new_pickle_path, class: 'btn btn-primary' if user_signed_in? %>
+        <%= link_to t('pickles.shared.links.create_pickle'), new_pickle_path, class: 'btn btn-primary', data: {turbo_frame: '_top' } if user_signed_in? %>
         <% @pickles.each do |pickle| %>
           <div class="pickle-card h3">
             <%= link_to pickle.name, pickle, data: { turbo_frame: '_top' } %>
