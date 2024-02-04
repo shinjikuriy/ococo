@@ -1,6 +1,14 @@
 class PicklesController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
 
+  def index
+    @pickles = Pickle.all.order(created_at: :desc).page params[:page]
+  end
+
+  def show
+    @pickle = Pickle.find(params[:id])
+  end
+
   def new
     @pickle = Pickle.new
     @pickle.ingredients.build
@@ -13,16 +21,10 @@ class PicklesController < ApplicationController
       flash[:success] = t('pickles.new.created_pickle')
       redirect_to pickle_path(@pickle)
     else
+      @pickle.ingredients.build if @pickle.ingredients.empty?
+      @pickle.sauce_materials.build if @pickle.sauce_materials.empty?
       render 'new', status: :unprocessable_entity
     end
-  end
-
-  def index
-    @pickles = Pickle.all.order(created_at: :desc).page params[:page]
-  end
-
-  def show
-    @pickle = Pickle.find(params[:id])
   end
 
   private
