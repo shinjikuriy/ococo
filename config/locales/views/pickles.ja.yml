@@ -1,12 +1,17 @@
 ja:
   pickles:
-    new:
-      create_pickle: 漬物を新規作成する
-      created_pickle: 漬け物が作成されました。
+    destroy:
+      destroy_pickle: 削除
+      confirm: 本当によろしいですか？
     edit:
       edit_pickle: 漬け物情報を編集する
       edited_pickle: 漬け物情報を編集しました。
+    new:
+      create_pickle: 漬物を新規作成する
+      created_pickle: 漬け物が作成されました。
     shared:
+      destroyed_pickle: 漬け物を削除しました。
+      failed_to_destroy_pickle: 漬け物の削除に失敗しました。
       links:
         edit_pickle: 編集
         create_pickle: 漬物を新規作成する

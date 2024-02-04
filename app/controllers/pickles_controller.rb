@@ -41,6 +41,18 @@ class PicklesController < ApplicationController
     end
   end
 
+  def destroy
+    @pickle = Pickle.find(params[:id])
+    redirect_to pickle_path(@pickle) unless @pickle.user.id == current_user.id
+    if @pickle.destroy
+      flash[:success] = t('pickles.shared.destroyed_pickle')
+      redirect_to user_path(current_user), status: :see_other
+    else
+      flash[:danger] = t('pickles.shared.failed_to_destroy_pickle')
+      render 'edit'
+    end
+  end
+
   private
 
   def pickle_params

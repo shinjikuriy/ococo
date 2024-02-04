@@ -50,3 +50,8 @@
     <%= f.submit t('.edit_pickle') %>
   </div>
 <% end %>
+
+<div>
+  <%= link_to t('pickles.destroy.destroy_pickle'), @pickle, class: 'btn btn-warning',
+                                                            data: { 'turbo-method': :delete, turbo_confirm: t('pickles.destroy.confirm') } %>
+</div>
