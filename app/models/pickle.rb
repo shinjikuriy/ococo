@@ -23,11 +23,7 @@ class Pickle < ApplicationRecord
 
   validates :name, presence: true, length: { maximum: 100 }
   validates :process, presence: true
-  with_options length: { maximum: 400 } do
-    validates :preparation
-    validates :process
-    validates :note
-  end
+  validates :preparation, :process, :note, length: { maximum: 400 }
   validates :ingredients, presence: true
   validates_associated :ingredients
   validate :include_a_valid_ingredient
