@@ -16,9 +16,10 @@ class Pickle < ApplicationRecord
   belongs_to :user
   has_many :ingredients, dependent: :destroy
   has_many :sauce_materials, dependent: :destroy
-  accepts_nested_attributes_for :ingredients, :sauce_materials
+  accepts_nested_attributes_for :ingredients, :sauce_materials, allow_destroy: true
 
-  before_create :set_default_values, :delete_blank_associations
+  before_create :set_default_values, :destroy_blank_associations
+  before_update :destroy_blank_associations
 
   validates :name, presence: true, length: { maximum: 100 }
   validates :process, presence: true
@@ -44,7 +45,7 @@ class Pickle < ApplicationRecord
     errors.add(:base, :has_no_ingredient)
   end
 
-  def delete_blank_associations
+  def destroy_blank_associations
     ingredients.each do |ingredient|
       if ingredient.name.blank? && ingredient.quantity.blank?
         ingredients.destroy(ingredient)

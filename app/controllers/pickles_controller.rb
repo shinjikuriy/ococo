@@ -45,8 +45,8 @@ class PicklesController < ApplicationController
 
   def pickle_params
     params.require(:pickle).permit(:name, :preparation, :process, :note,
-                                   ingredients_attributes: [:name, :quantity],
-                                   sauce_materials_attributes: [:name, :quantity]
+                                   ingredients_attributes: [:id, :name, :quantity, :_destroy],
+                                   sauce_materials_attributes: [:id, :name, :quantity, :_destroy]
                                    ).merge(user_id: current_user.id)
   end
 

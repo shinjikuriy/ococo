@@ -163,6 +163,14 @@ RSpec.describe "Pickles", type: :system do
       click_button t('pickles.edit.edit_pickle')
       expect(page).to have_current_path pickle_path(pickle)
       expect(page).to have_selector 'div.alert-success', text: t('pickles.edit.edited_pickle')
+      expect(page).to have_text '大根のはりはり漬け🌶'
+      expect(page).to have_text '新しい下ごしらえの文章'
+      expect(page).to have_text '新しい作り方の文章'
+      expect(page).to have_text '新しいポイントの文章'
+      expect(page).to have_text '新しい材料の名前'
+      expect(page).to have_text '新しい材料の数量'
+      expect(page).to have_text '新しい漬け汁材料の名前'
+      expect(page).to have_text '新しい漬け汁材料の数量'
     end
   end
 
