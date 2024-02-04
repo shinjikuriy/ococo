@@ -11,8 +11,7 @@ class PicklesController < ApplicationController
 
   def new
     @pickle = Pickle.new
-    @pickle.ingredients.build
-    @pickle.sauce_materials.build
+    build_nested_attributes
   end
 
   def create
@@ -21,9 +20,24 @@ class PicklesController < ApplicationController
       flash[:success] = t('pickles.new.created_pickle')
       redirect_to pickle_path(@pickle)
     else
-      @pickle.ingredients.build if @pickle.ingredients.empty?
-      @pickle.sauce_materials.build if @pickle.sauce_materials.empty?
+      build_nested_attributes
       render 'new', status: :unprocessable_entity
+    end
+  end
+
+  def edit
+    @pickle = Pickle.find(params[:id])
+    build_nested_attributes
+  end
+
+  def update
+    @pickle = Pickle.find(params[:id])
+    if @pickle.update(pickle_params)
+      flash[:success] = t('pickles.edit.edited_pickle')
+      redirect_to pickle_path(@pickle)
+    else
+      build_nested_attributes
+      render 'edit', status: :unprocessable_entity
     end
   end
 
@@ -34,5 +48,10 @@ class PicklesController < ApplicationController
                                    ingredients_attributes: [:name, :quantity],
                                    sauce_materials_attributes: [:name, :quantity]
                                    ).merge(user_id: current_user.id)
+  end
+
+  def build_nested_attributes
+    @pickle.ingredients.build if @pickle.ingredients.empty?
+    @pickle.sauce_materials.build if @pickle.sauce_materials.empty?
   end
 end

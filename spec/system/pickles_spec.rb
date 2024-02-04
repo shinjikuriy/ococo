@@ -143,13 +143,14 @@ RSpec.describe "Pickles", type: :system do
   end
 
   describe 'update' do
-    xspecify "user can edit pickles' information" do
+    specify "user can edit pickles' information" do
       user = create(:user)
       user.confirm
       sign_in user
-      pickle = user.pickles.create(attributes_for(:pickle_daikon))
+      pickle = user.pickles.create(attributes_for(:pickle_daikon).merge(ingredients_attributes: [attributes_for(:ingredient)]))
 
       visit user_path(user)
+      click_link user.pickles.last.name
       click_link t('pickles.shared.links.edit_pickle'), href: edit_pickle_path(pickle)
       fill_in 'pickle[name]', with: '大根のはりはり漬け🌶'
       fill_in 'pickle[preparation]', with: '新しい下ごしらえの文章'
@@ -160,7 +161,7 @@ RSpec.describe "Pickles", type: :system do
       fill_in 'pickle[sauce_materials_attributes][0][name]', with: '新しい漬け汁材料の名前'
       fill_in 'pickle[sauce_materials_attributes][0][quantity]', with: '新しい漬け汁材料の数量'
       click_button t('pickles.edit.edit_pickle')
-      expect(page).to have_current_path user_path(user)
+      expect(page).to have_current_path pickle_path(pickle)
       expect(page).to have_selector 'div.alert-success', text: t('pickles.edit.edited_pickle')
     end
   end

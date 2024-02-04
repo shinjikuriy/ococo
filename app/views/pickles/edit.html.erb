@@ -1,0 +1,52 @@
+<%= render 'users/shared/error_messages', resource: @pickle %>
+
+<h2><%= t('.edit_pickle') %></h2>
+<%= form_with model: @pickle do |f| %>
+  <div>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div>
+    <%= f.label :preparation %><br />
+    <%= f.text_area :preparation %>
+  </div>
+  <div>
+    <%= f.label :process %><br />
+    <%= f.text_area :process %>
+  </div>
+  <div>
+    <%= f.label :note %><br />
+    <%= f.text_area :note %>
+  </div>
+  <div data-controller="nested-form">
+    <template data-nested-form-target="template">
+      <%= f.fields_for :ingredients, Ingredient.new, child_index: 'NEW_RECORD' do |ingredient| %>
+        <%= render 'ingredient_fields', form: ingredient %>
+      <% end %>
+    </template>
+    <%= f.fields_for :ingredients do |ingredient| %>
+      <%= render 'ingredient_fields', form: ingredient %>
+    <% end %>
+    <div class="mb-3" data-nested-form-target="links">
+      <%= link_to '材料を追加', '#', class: 'btn btn-primary', data: { action: 'click->nested-form#add_association' } %>
+    </div>
+  </div>
+
+  <div data-controller="nested-form">
+    <template data-nested-form-target="template">
+      <%= f.fields_for :sauce_materials, SauceMaterial.new, child_index: 'NEW_RECORD' do |sauce_material| %>
+        <%= render 'ingredient_fields', form: sauce_material %>
+      <% end %>
+    </template>
+    <%= f.fields_for :sauce_materials do |sauce_material| %>
+      <%= render 'ingredient_fields', form: sauce_material %>
+    <% end %>
+    <div class="mb-3" data-nested-form-target="links">
+      <%= link_to '調味料を追加', '#', class: 'btn btn-primary', data: { action: 'click->nested-form#add_association' } %>
+    </div>
+  </div>
+
+  <div>
+    <%= f.submit t('.edit_pickle') %>
+  </div>
+<% end %>

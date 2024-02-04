@@ -28,3 +28,9 @@
   <h3><%= Pickle.human_attribute_name(:note) %></h3>
   <p><%= simple_format @pickle.note %></p>
 <% end %>
+
+<% if @pickle.user.id == current_user&.id %>
+  <%= link_to t('pickles.shared.links.edit_pickle'), edit_pickle_path(@pickle) %>
+<% end %>
+
+<%= link_to t('devise.shared.links.back'), :back %>
