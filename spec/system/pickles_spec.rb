@@ -33,7 +33,7 @@ RSpec.describe "Pickles", type: :system do
     end
 
     context 'when values are invalid' do
-      specify 'alerts apprear for unentered fields' do
+      specify 'alerts appear for unentered fields' do
         visit user_path(user)
         click_on t('pickles.shared.links.create_pickle')
         click_button 'commit'

@@ -21,10 +21,10 @@ class Pickle < ApplicationRecord
   before_create :set_default_values, :destroy_blank_associations
   before_update :destroy_blank_associations
 
-  validates :name, presence: true, length: { maximum: 100 }
-  validates :process, presence: true
+  validates :name, :process, presence: true
+  validates :name, length: { maximum: 100 }
   validates :preparation, :process, :note, length: { maximum: 400 }
-  validates :ingredients, presence: true
+  # validates :ingredients, presence: true
   validates_associated :ingredients
   validate :include_a_valid_ingredient
 
