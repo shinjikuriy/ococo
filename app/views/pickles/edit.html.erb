@@ -1,65 +1,6 @@
 <%= render 'users/shared/error_messages', resource: @pickle %>
 
-<div class="pickle-form">
-  <h2><%= t('.edit_pickle') %></h2>
-
-  <%= form_with model: @pickle do |f| %>
-    <div>
-      <%= f.label :name %><br />
-      <%= f.text_field :name, class: 'form-control' %>
-    </div>
-
-    <div class="ingredients">
-      <h3><%= Ingredient.model_name.human %></h3>
-      <div data-controller="nested-form">
-        <template data-nested-form-target="template">
-          <%= f.fields_for :ingredients, Ingredient.new, child_index: 'NEW_RECORD' do |ingredient| %>
-            <%= render 'ingredient_fields', form: ingredient %>
-          <% end %>
-        </template>
-        <%= f.fields_for :ingredients do |ingredient| %>
-          <%= render 'ingredient_fields', form: ingredient %>
-        <% end %>
-        <div class="mb-3" data-nested-form-target="links">
-          <%= link_to t('.add_ingredient'), '#', class: 'btn btn-outline-primary btn-sm', data: { action: 'click->nested-form#add_association' } %>
-        </div>
-      </div>
-    </div>
-
-    <div class="sauce-materials">
-      <h3><%= SauceMaterial.model_name.human %></h3>
-      <div data-controller="nested-form">
-        <template data-nested-form-target="template">
-          <%= f.fields_for :sauce_materials, SauceMaterial.new, child_index: 'NEW_RECORD' do |sauce_material| %>
-            <%= render 'ingredient_fields', form: sauce_material %>
-          <% end %>
-        </template>
-        <%= f.fields_for :sauce_materials do |sauce_material| %>
-          <%= render 'ingredient_fields', form: sauce_material %>
-        <% end %>
-        <div class="mb-3" data-nested-form-target="links">
-          <%= link_to t('.add_ingredient'), '#', class: 'btn btn-outline-primary btn-sm', data: { action: 'click->nested-form#add_association' } %>
-        </div>
-      </div>
-    </div>
-
-    <div>
-      <%= f.label :preparation %><br />
-      <%= f.text_area :preparation, class: 'form-control' %>
-    </div>
-    <div>
-      <%= f.label :process %><br />
-      <%= f.text_area :process, class: 'form-control' %>
-    </div>
-    <div>
-      <%= f.label :note %><br />
-      <%= f.text_area :note, class: 'form-control' %>
-    </div>
-    <div>
-      <%= f.submit t('.edit_pickle'), class: 'btn btn-primary' %>
-    </div>
-  <% end %>
-</div>
+<%= render 'pickle_form', pickle: @pickle, title: t('.edit_pickle') %>
 
 <div>
   <%= link_to t('pickles.destroy.destroy_pickle'), @pickle, class: 'btn btn-danger',

@@ -4,13 +4,13 @@ ja:
       destroy_pickle: 削除
       confirm: 本当によろしいですか？
     edit:
-      add_ingredient: 材料を追加
       edit_pickle: 漬け物情報を編集する
       edited_pickle: 漬け物情報を編集しました。
     new:
       create_pickle: 漬物を新規作成する
       created_pickle: 漬け物が作成されました。
     shared:
+      add_ingredient: 材料を追加
       destroyed_pickle: 漬け物を削除しました。
       failed_to_destroy_pickle: 漬け物の削除に失敗しました。
       links:
