@@ -61,6 +61,22 @@
   border-radius: 100%;
 }
 
+/* pickles */
+.pickle-form {
+  background-color: $gray-500;
+  border-radius: 10px;
+  @extend .p-3;
+}
+
+.pickle-form h2{
+  text-align: center;
+}
+
+.pickle-form .ingredients,
+.pickle-form .sauce-materials {
+  @extend .p-2;
+}
+
 /* miscellaneous */
 .debug_dump {
   clear: both;

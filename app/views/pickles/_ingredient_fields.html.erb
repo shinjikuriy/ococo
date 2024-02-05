@@ -4,7 +4,10 @@
     <%= form.text_field :name, class: 'form-control' %>
     <%= form.label :quantity %><br />
     <%= form.text_field :quantity, class: 'form-control' %>
-    <small><%= link_to '削除', '#', data: { action: 'click->nested-form#remove_association' } %></small>
+    <small>
+      <%= link_to '削除', '#', data: { action: 'click->nested-form#remove_association' },
+                              class: 'btn btn-danger btn-sm' %>
+    </small>
   </div>
 
   <%= form.hidden_field :_destroy %>

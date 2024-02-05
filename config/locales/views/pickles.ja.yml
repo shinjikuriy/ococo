@@ -4,6 +4,7 @@ ja:
       destroy_pickle: 削除
       confirm: 本当によろしいですか？
     edit:
+      add_ingredient: 材料を追加
       edit_pickle: 漬け物情報を編集する
       edited_pickle: 漬け物情報を編集しました。
     new:
