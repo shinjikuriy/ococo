@@ -74,14 +74,14 @@ GEM
       minitest (>= 5.1)
       mutex_m
       tzinfo (~> 2.0)
-    addressable (2.8.5)
+    addressable (2.8.6)
       public_suffix (>= 2.0.2, < 6.0)
     annotate (3.2.0)
       activerecord (>= 3.2, < 8.0)
       rake (>= 10.4, < 14.0)
     autoprefixer-rails (10.4.15.0)
       execjs (~> 2)
-    base64 (0.1.1)
+    base64 (0.2.0)
     bcrypt (3.1.19)
     better_errors (2.10.1)
       erubi (>= 1.0.0)
@@ -95,11 +95,11 @@ GEM
       autoprefixer-rails (>= 9.1.0)
       popper_js (>= 2.11.8, < 3)
     builder (3.2.4)
-    capybara (3.39.2)
+    capybara (3.40.0)
       addressable
       matrix
       mini_mime (>= 0.1.3)
-      nokogiri (~> 1.8)
+      nokogiri (~> 1.11)
       rack (>= 1.6.0)
       rack-test (>= 0.6.3)
       regexp_parser (>= 1.5, < 3.0)
@@ -235,20 +235,20 @@ GEM
     net-smtp (0.4.0)
       net-protocol
     nio4r (2.5.9)
-    nokogiri (1.15.4-aarch64-linux)
+    nokogiri (1.16.2-aarch64-linux)
       racc (~> 1.4)
-    nokogiri (1.15.4-x86_64-linux)
+    nokogiri (1.16.2-x86_64-linux)
       racc (~> 1.4)
     orm_adapter (0.5.0)
     pg (1.5.4)
     popper_js (2.11.8)
     psych (5.1.1.1)
       stringio
-    public_suffix (5.0.3)
+    public_suffix (5.0.4)
     puma (6.4.0)
       nio4r (~> 2.0)
-    racc (1.7.1)
-    rack (3.0.8)
+    racc (1.7.3)
+    rack (3.0.9)
     rack-session (2.0.0)
       rack (>= 3.0.0)
     rack-test (2.1.0)
@@ -291,7 +291,7 @@ GEM
     rake (13.0.6)
     rdoc (6.5.0)
       psych (>= 4.0.0)
-    regexp_parser (2.8.2)
+    regexp_parser (2.9.0)
     reline (0.3.9)
       io-console (~> 0.5)
     responders (3.1.1)
@@ -328,7 +328,8 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    selenium-webdriver (4.14.0)
+    selenium-webdriver (4.17.0)
+      base64 (~> 0.2)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
@@ -395,7 +396,7 @@ DEPENDENCIES
   rails-i18n
   rspec-rails
   sassc-rails (~> 2.1, >= 2.1.2)
-  selenium-webdriver
+  selenium-webdriver (= 4.17.0)
   sprockets-rails
   stimulus-rails
   turbo-rails
