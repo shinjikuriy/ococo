@@ -250,10 +250,10 @@ RSpec.describe "UsersRegistration", type: :system do
 
       context 'when new information is already taken' do
         another_user = User.create(
-            username: 'another_user',
-            email: 'another_user@example.com',
-            password: 'password'
-          )
+          username: 'another_user',
+          email: 'another_user@example.com',
+          password: 'password'
+        )
 
         specify 'alert appears for duplicated username' do
           fill_in 'user[username]', with: another_user.username
@@ -277,22 +277,22 @@ RSpec.describe "UsersRegistration", type: :system do
   end
 
   describe 'user cancellation', js: true do
-    xspecify 'user can delete account' do
+    specify 'user can delete account' do
       user = create(:user)
       user.confirm
       sign_in user
 
-      expect {
-        visit user_path(user)
-        click_on t('users.show.edit_authentication_information')
-        expect(page).to have_current_path(edit_user_registration_path)
-        # method 'accept_confirm' is not working
-        # check the version of selenium_driver
-        page.accept_confirm do
-          click_on t('users.registrations.edit.cancel_my_account')
+      visit user_path(user)
+      click_on t('users.show.edit_authentication_information')
+      expect(page).to have_current_path(edit_user_registration_path)
+      expect do
+        page.accept_confirm(t('users.registrations.edit.are_you_sure')) do
+          click_button t('users.registrations.edit.cancel_my_account')
         end
-        page.driver.browser.switch_to.alert.accept
-      }.to change { User.count }.by(-1)
+        sleep 0.5
+      end.to change { User.count }.by(-1)
+      expect(page).to have_current_path root_path
+      expect(page).to have_selector 'div.alert-success', text: t('users.registrations.destroyed')
     end
   end
 end
