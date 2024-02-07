@@ -1,7 +1,7 @@
 ja:
   pickles:
     destroy:
-      destroy_pickle: 削除
+      destroy_pickle: 漬け物を削除
       confirm: 本当によろしいですか？
     edit:
       edit_pickle: 漬け物情報を編集する

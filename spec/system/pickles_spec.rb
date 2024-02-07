@@ -175,19 +175,24 @@ RSpec.describe "Pickles", type: :system do
   end
 
   describe 'delete' do
-    xspecify 'user can delete pickles', js: true do
+    specify 'user can delete pickles', js: true do
       user = create(:user)
       user.confirm
       sign_in user
-      pickle = user.pickles.create(attributes_for(:pickle_daikon))
+      pickle = user.pickles.build(attributes_for(:pickle_daikon))
+      pickle.ingredients.build(attributes_for(:ingredient))
+      pickle.save!
 
-      visit user_path(user)
+      visit pickle_path(pickle)
       click_link t('pickles.shared.links.edit_pickle'), href: edit_pickle_path(pickle)
-      expect {
+      expect do
         page.accept_confirm do
-          click_on t('pickles.destroy_pickle')
+          click_link t('pickles.destroy.destroy_pickle')
         end
-      }.to change { Pickle.count }.by(-1)
+        sleep 0.5
+      end.to change { user.pickles.count }.by(-1)
+      expect(page).to have_current_path user_path(user)
+      expect(page).to have_selector 'div.alert-success', text: t('pickles.shared.destroyed_pickle')
     end
   end
 end
