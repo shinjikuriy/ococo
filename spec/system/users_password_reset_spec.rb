@@ -9,6 +9,7 @@ RSpec.describe "UsersPasswordReset", type: :system do
     fill_in 'user[email]', with: user.email
     click_button t('users.passwords.new.send_me_reset_password_instructions')
     expect(page).to have_current_path new_user_session_path
+    expect(page).to have_selector 'div.alert-success', text: t('users.passwords.send_instructions')
 
     visit last_sent_url
     fill_in 'user[password]', with: 'new_password'
@@ -60,7 +61,7 @@ RSpec.describe "UsersPasswordReset", type: :system do
   end
 
   context 'when the token is expired' do
-    xspecify 'user cannot access the page' do
+    specify 'an alert is shown and user cannot reset the password' do
       visit new_user_password_path
       fill_in 'user[email]', with: user.email
       click_button t('users.passwords.new.send_me_reset_password_instructions')
@@ -68,7 +69,28 @@ RSpec.describe "UsersPasswordReset", type: :system do
       expect(last_email.to).to eq [user.email]
       travel 2.hours + 1.minute
       visit last_sent_url
+      fill_in 'user[password]', with: 'new_password'
+      fill_in 'user[password_confirmation]', with: 'new_passsword'
+      click_button 'commit'
       expect(page).to have_selector 'div.alert-warning', text: t('errors.messages.expired')
+    end
+  end
+
+  context 'when the token is invalid' do
+    specify 'an alert is shown and user cannot reset the password' do
+      visit edit_user_password_path(reset_password_token: 'hogehoge')
+      fill_in 'user[password]', with: 'new_password'
+      fill_in 'user[password_confirmation]', with: 'new_passsword'
+      click_button 'commit'
+      expect(page).to have_selector 'div.alert-warning', text: t('errors.messages.invalid')
+    end
+  end
+
+  context 'when the token is not put to the request' do
+    specify 'an alert is shown and user cannot reach the page' do
+      visit edit_user_password_path
+      expect(page).to have_current_path new_user_session_path
+      expect(page).to have_selector 'div.alert-warning', text: t('users.passwords.no_token')
     end
   end
 end
