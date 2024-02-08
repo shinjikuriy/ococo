@@ -11,25 +11,44 @@ RSpec.describe "Pickles", type: :system do
       sign_in user
     end
 
-    specify 'user can create a new pickle' do
+    specify 'user can create a new pickle', js: true do
       visit user_path(user)
       click_on t('pickles.shared.links.create_pickle')
 
       # should test multiple ingredients/sauce_materials acceptance
       expect {
         fill_in 'pickle[name]', with: attrs_pickle[:name]
-        fill_in 'pickle[ingredients_attributes][0][name]', with: attrs_ingredient[:name]
-        fill_in 'pickle[ingredients_attributes][0][quantity]', with: attrs_ingredient[:quantity]
-        fill_in 'pickle[sauce_materials_attributes][0][name]', with: attrs_sauce_material[:name]
-        fill_in 'pickle[sauce_materials_attributes][0][quantity]', with: attrs_sauce_material[:quantity]
+        all(id: /pickle_ingredients_attributes_\d+_name/).last.fill_in with: attrs_ingredient[:name]
+        all(id: /pickle_ingredients_attributes_\d+_quantity/).last.fill_in with: attrs_ingredient[:quantity]
+        within '.ingredient-form' do click_link '材料を追加' end
+        all(id: /pickle_ingredients_attributes_\d+_name/).last.fill_in with: '2つ目の材料名'
+        all(id: /pickle_ingredients_attributes_\d+_quantity/).last.fill_in with: '2つ目の材料の分量'
+        all(id: /pickle_sauce_materials_attributes_\d+_name/).last.fill_in with: attrs_sauce_material[:name]
+        all(id: /pickle_sauce_materials_attributes_\d+_quantity/).last.fill_in with: attrs_sauce_material[:quantity]
+        within '.sauce-material-form' do click_link '材料を追加' end
+        all(id: /pickle_sauce_materials_attributes_\d+_name/).last.fill_in with: '2つ目の漬け汁材料名'
+        all(id: /pickle_sauce_materials_attributes_\d+_quantity/).last.fill_in with: '2つ目の漬け汁材料の分量'
         fill_in 'pickle[preparation]', with: attrs_pickle[:preparation]
         fill_in 'pickle[process]', with: attrs_pickle[:process]
         fill_in 'pickle[note]', with: attrs_pickle[:note]
         click_button t('pickles.new.create_pickle')
+        sleep 0.5
       }.to change { Pickle.count }.by 1
 
       expect(page).to have_current_path pickle_path(user.pickles.first)
       expect(page).to have_selector 'div.alert-success', text: t('pickles.new.created_pickle')
+      expect(page).to have_text attrs_pickle[:name]
+      expect(page).to have_text attrs_ingredient[:name]
+      expect(page).to have_text attrs_ingredient[:quantity]
+      expect(page).to have_text '2つ目の材料名'
+      expect(page).to have_text '2つ目の材料の分量'
+      expect(page).to have_text attrs_sauce_material[:name]
+      expect(page).to have_text attrs_sauce_material[:quantity]
+      expect(page).to have_text '2つ目の漬け汁材料名'
+      expect(page).to have_text '2つ目の漬け汁材料の分量'
+      attrs_pickle[:preparation].each_line { |line| expect(page).to have_text line.chomp }
+      attrs_pickle[:process].each_line { |line| expect(page).to have_text line.chomp }
+      attrs_pickle[:note].each_line { |line| expect(page).to have_text line.chomp }
     end
 
     context 'when values are invalid' do

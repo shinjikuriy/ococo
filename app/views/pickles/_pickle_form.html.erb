@@ -7,7 +7,7 @@
       <%= f.text_field :name, class: 'form-control' %>
     </div>
 
-    <div class="ingredients">
+    <div class="ingredient-form">
       <h3><%= Ingredient.model_name.human %></h3>
       <div data-controller="nested-form">
         <template data-nested-form-target="template">
@@ -24,7 +24,7 @@
       </div>
     </div>
 
-    <div class="sauce-materials">
+    <div class="sauce-material-form">
       <h3><%= SauceMaterial.model_name.human %></h3>
       <div data-controller="nested-form">
         <template data-nested-form-target="template">
