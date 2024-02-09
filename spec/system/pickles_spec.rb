@@ -52,6 +52,25 @@ RSpec.describe "Pickles", type: :system do
     end
 
     context 'when values are invalid' do
+      before do
+        visit user_path(user)
+        click_on t('pickles.shared.links.create_pickle')
+        fill_in 'pickle[name]', with: attrs_pickle[:name]
+        all(id: /pickle_ingredients_attributes_\d+_name/).last.fill_in with: attrs_ingredient[:name]
+        all(id: /pickle_ingredients_attributes_\d+_quantity/).last.fill_in with: attrs_ingredient[:quantity]
+        within '.ingredient-form' do click_link '材料を追加' end
+        all(id: /pickle_ingredients_attributes_\d+_name/).last.fill_in with: '2つ目の材料名'
+        all(id: /pickle_ingredients_attributes_\d+_quantity/).last.fill_in with: '2つ目の材料の分量'
+        all(id: /pickle_sauce_materials_attributes_\d+_name/).last.fill_in with: attrs_sauce_material[:name]
+        all(id: /pickle_sauce_materials_attributes_\d+_quantity/).last.fill_in with: attrs_sauce_material[:quantity]
+        within '.sauce-material-form' do click_link '材料を追加' end
+        all(id: /pickle_sauce_materials_attributes_\d+_name/).last.fill_in with: '2つ目の漬け汁材料名'
+        all(id: /pickle_sauce_materials_attributes_\d+_quantity/).last.fill_in with: '2つ目の漬け汁材料の分量'
+        fill_in 'pickle[preparation]', with: attrs_pickle[:preparation]
+        fill_in 'pickle[process]', with: attrs_pickle[:process]
+        fill_in 'pickle[note]', with: attrs_pickle[:note]
+      end
+
       specify 'alerts appear for unentered fields' do
         visit user_path(user)
         click_on t('pickles.shared.links.create_pickle')
@@ -60,6 +79,52 @@ RSpec.describe "Pickles", type: :system do
         expect(page).to have_selector 'div.alert-warning', text: Pickle.human_attribute_name(:name).concat(t('errors.messages.blank'))
         expect(page).to have_selector 'div.alert-warning', text: Pickle.human_attribute_name(:process).concat(t('errors.messages.blank'))
         expect(page).to have_selector 'div.alert-warning', text: Ingredient.model_name.human.concat(t('errors.messages.blank'))
+      end
+
+      specify 'an alert appears when pickle name is over 100 characters' do
+        fill_in 'pickle_name', with: 'a' * 101
+        click_button 'commit'
+        expect(page).to have_selector 'div.alert-warning', text: Pickle.human_attribute_name(:name).concat(t('errors.messages.too_long', count: 100))
+      end
+
+      specify 'an alert appears when preparation is ove 400 characters' do
+        fill_in 'pickle_preparation', with: 'a' * 401
+        click_button 'commit'
+        expect(page).to have_selector 'div.alert-warning', text: Pickle.human_attribute_name(:preparation).concat(t('errors.messages.too_long', count: 400))
+      end
+
+      specify 'an alert appears when processing is over 400 characters' do
+        fill_in 'pickle_process', with: 'a' * 401
+        click_button 'commit'
+        expect(page).to have_selector 'div.alert-warning', text: Pickle.human_attribute_name(:process).concat(t('errors.messages.too_long', count: 400))
+      end
+
+      specify 'an alert appears when note is over 400 characters' do
+        fill_in 'pickle_note', with: 'a' * 401
+        click_button 'commit'
+        expect(page).to have_selector 'div.alert-warning', text: Pickle.human_attribute_name(:note).concat(t('errors.messages.too_long', count: 400))
+      end
+
+      specify 'an alert appears when either ingredient name or quantity is blank' do
+        fill_in 'pickle_ingredients_attributes_0_name', with: ''
+        click_button 'commit'
+        expect(page).to have_selector 'div.alert-warning', text: t('errors.messages.invalid_name_and_quantity', model: Ingredient.model_name.human)
+
+        fill_in 'pickle_ingredients_attributes_0_name', with: attrs_ingredient[:name]
+        fill_in 'pickle_ingredients_attributes_0_quantity', with: ''
+        click_button 'commit'
+        expect(page).to have_selector 'div.alert-warning', text: t('errors.messages.invalid_name_and_quantity', model: Ingredient.model_name.human)
+      end
+
+      specify 'an alert appears when either sauce_material name or quantity is blank' do
+        fill_in 'pickle_sauce_materials_attributes_0_name', with: ''
+        click_button 'commit'
+        expect(page).to have_selector 'div.alert-warning', text: t('errors.messages.invalid_name_and_quantity', model: SauceMaterial.model_name.human)
+
+        fill_in 'pickle_sauce_materials_attributes_0_name', with: attrs_sauce_material[:name]
+        fill_in 'pickle_sauce_materials_attributes_0_quantity', with: ''
+        click_button 'commit'
+        expect(page).to have_selector 'div.alert-warning', text: t('errors.messages.invalid_name_and_quantity', model: SauceMaterial.model_name.human)
       end
     end
   end
