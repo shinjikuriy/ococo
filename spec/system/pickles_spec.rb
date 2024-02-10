@@ -227,14 +227,22 @@ RSpec.describe "Pickles", type: :system do
   end
 
   describe 'update' do
-    specify "user can edit pickles' information" do
-      user = create(:user)
+    let!(:user) { create(:user) }
+    let!(:pickle) {
+      user.pickles.create!(attributes_for(:pickle_daikon).merge(ingredients_attributes: [attributes_for(:ingredient)])
+      .merge(sauce_materials_attributes: [attributes_for(:sauce_material)]))
+    }
+    let!(:attrs_pickle) { attributes_for(:pickle) }
+    let!(:attrs_ingredient) { attributes_for(:ingredient) }
+    let!(:attrs_sauce_material) { attributes_for(:sauce_material) }
+    before do
       user.confirm
       sign_in user
-      pickle = user.pickles.create(attributes_for(:pickle_daikon).merge(ingredients_attributes: [attributes_for(:ingredient)]))
+    end
 
+    specify "user can edit pickles' information" do
       visit user_path(user)
-      click_link user.pickles.last.name
+      click_link pickle.name
       click_link t('pickles.shared.links.edit_pickle'), href: edit_pickle_path(pickle)
       fill_in 'pickle[name]', with: '大根のはりはり漬け🌶'
       fill_in 'pickle[preparation]', with: '新しい下ごしらえの文章'
@@ -255,6 +263,61 @@ RSpec.describe "Pickles", type: :system do
       expect(page).to have_text '新しい材料の数量'
       expect(page).to have_text '新しい漬け汁材料の名前'
       expect(page).to have_text '新しい漬け汁材料の数量'
+    end
+
+    specify 'user can delete ingredients', js: true do
+      pickle.ingredients.create!(name: '新しい材料の名前', quantity: '新しい材料の分量')
+
+      visit user_path(user)
+      click_link pickle.name
+      click_link t('pickles.shared.links.edit_pickle'), href: edit_pickle_path(pickle)
+      within '.ingredient-form' do
+        all('.nested-fields')[1].find_link(t('pickles.edit.delete')).click
+      end
+      click_button t('pickles.edit.edit_pickle')
+      expect(page).to have_current_path pickle_path(pickle)
+      expect(page).to have_selector 'div.alert-success', text: t('pickles.edit.edited_pickle')
+      expect(page).not_to have_text '新しい材料の名前'
+      expect(page).not_to have_text '新しい材料の分量'
+      expect(page).to have_text attrs_pickle[:name]
+      expect(page).to have_text attrs_ingredient[:name]
+      expect(page).to have_text attrs_ingredient[:quantity]
+      expect(page).to have_text attrs_sauce_material[:name]
+      expect(page).to have_text attrs_sauce_material[:quantity]
+      attrs_pickle[:preparation].each_line { |line| expect(page).to have_text line.chomp }
+      attrs_pickle[:process].each_line { |line| expect(page).to have_text line.chomp }
+      attrs_pickle[:note].each_line { |line| expect(page).to have_text line.chomp }
+    end
+
+    specify 'an alert appears when user tries to delete all the ingredients', js: true do
+      visit user_path(user)
+      click_link pickle.name
+      click_link t('pickles.shared.links.edit_pickle'), href: edit_pickle_path(pickle)
+      within '.ingredient-form' do
+        all('.nested-fields')[0].find_link(t('pickles.edit.delete')).click
+      end
+      click_button t('pickles.edit.edit_pickle')
+      expect(page).to have_selector 'div.alert-warning', text: t('errors.messages.has_no_ingredient')
+    end
+
+    specify 'user can delete sauce_materials', js: true do
+      visit user_path(user)
+      click_link pickle.name
+      click_link t('pickles.shared.links.edit_pickle'), href: edit_pickle_path(pickle)
+      within '.sauce-material-form' do
+        all('.nested-fields')[0].find_link(t('pickles.edit.delete')).click
+      end
+      click_button t('pickles.edit.edit_pickle')
+      expect(page).to have_current_path pickle_path(pickle)
+      expect(page).to have_selector 'div.alert-success', text: t('pickles.edit.edited_pickle')
+      expect(page).to have_text attrs_pickle[:name]
+      expect(page).to have_text attrs_ingredient[:name]
+      expect(page).to have_text attrs_ingredient[:quantity]
+      expect(page).not_to have_text attrs_sauce_material[:name]
+      expect(page).not_to have_text attrs_sauce_material[:quantity]
+      attrs_pickle[:preparation].each_line { |line| expect(page).to have_text line.chomp }
+      attrs_pickle[:process].each_line { |line| expect(page).to have_text line.chomp }
+      attrs_pickle[:note].each_line { |line| expect(page).to have_text line.chomp }
     end
   end
 

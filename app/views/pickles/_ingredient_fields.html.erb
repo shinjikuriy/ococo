@@ -5,7 +5,7 @@
     <%= form.label :quantity %><br />
     <%= form.text_field :quantity, class: 'form-control' %>
     <small>
-      <%= link_to '削除', '#', data: { action: 'click->nested-form#remove_association' },
+      <%= link_to t('pickles.edit.delete'), '#', data: { action: 'click->nested-form#remove_association' },
                               class: 'btn btn-danger btn-sm' %>
     </small>
   </div>
