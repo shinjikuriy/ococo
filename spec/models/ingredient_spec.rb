@@ -50,7 +50,7 @@ RSpec.describe Ingredient, type: :model do
       specify 'name cannot be empty' do
         ingredient = Ingredient.new(name: '', quantity: attrs[:quantity])
         ingredient.valid?
-        expect(ingredient.errors[:base]).to include t('errors.messages.invalid_name_and_quantity', model: Ingredient.model_name.human)
+        expect(ingredient.errors[:name]).to include t('errors.messages.blank')
       end
 
       specify 'name cannot be over 100 characters' do
@@ -62,7 +62,7 @@ RSpec.describe Ingredient, type: :model do
       specify 'quantity cannot be empty' do
         ingredient = Ingredient.new(name: attrs[:name], quantity: '')
         ingredient.valid?
-        expect(ingredient.errors[:base]).to include t('errors.messages.invalid_name_and_quantity', model: Ingredient.model_name.human)
+        expect(ingredient.errors[:quantity]).to include t('errors.messages.blank')
       end
 
       specify 'quantity cannot be over 100 characters' do
@@ -70,26 +70,6 @@ RSpec.describe Ingredient, type: :model do
         ingredient.valid?
         expect(ingredient.errors[:quantity]).to include t('errors.messages.too_long', count: 100)
       end
-    end
-  end
-
-  describe 'Pickle#incomplete?' do
-    specify 'returns true if either name or quantity is blank' do
-      ingredient = Ingredient.new(name: 'hogehoge', quantity: ' ')
-      expect(ingredient.incomplete?).to eq true
-
-      ingredient = Ingredient.new(name: ' ', quantity: 'fugafuga')
-      expect(ingredient.incomplete?).to eq true
-    end
-
-    specify 'returns false if the both name and quantity are present' do
-      ingredient = Ingredient.new(name: 'hogehoge', quantity: 'fugafuga')
-      expect(ingredient.incomplete?).to eq false
-    end
-
-    specify 'returns false if the both name and quantity are blank' do
-      ingredient = Ingredient.new(name: '', quantity: '')
-      expect(ingredient.incomplete?).to eq false
     end
   end
 end

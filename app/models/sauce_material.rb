@@ -12,22 +12,5 @@
 class SauceMaterial < ApplicationRecord
   belongs_to :pickle
 
-  with_options length: { maximum: 100 } do
-    validates :name
-    validates :quantity
-  end
-
-  validate :valid_name_and_quantity
-
-  def incomplete?
-    (name.blank? && quantity.present?) || (name.present? && quantity.blank?)
-  end
-
-  private
-
-  def valid_name_and_quantity
-    if incomplete?
-      errors.add(:base, :invalid_name_and_quantity)
-    end
-  end
+  validates :name, :quantity, presence: true, length: { maximum: 100 }
 end

@@ -132,23 +132,23 @@ RSpec.describe "Pickles", type: :system do
       specify 'an alert appears when either ingredient name or quantity is blank' do
         fill_in 'pickle_ingredients_attributes_0_name', with: ''
         click_button 'commit'
-        expect(page).to have_selector 'div.alert-warning', text: t('errors.messages.invalid_name_and_quantity')
+        expect(page).to have_selector 'div.alert-warning', text: Ingredient.human_attribute_name(:name).concat(t('errors.messages.blank'))
 
         fill_in 'pickle_ingredients_attributes_0_name', with: attrs_ingredient[:name]
         fill_in 'pickle_ingredients_attributes_0_quantity', with: ''
         click_button 'commit'
-        expect(page).to have_selector 'div.alert-warning', text: t('errors.messages.invalid_name_and_quantity')
+        expect(page).to have_selector 'div.alert-warning', text: Ingredient.human_attribute_name(:quantity).concat(t('errors.messages.blank'))
       end
 
       specify 'an alert appears when either sauce_material name or quantity is blank' do
         fill_in 'pickle_sauce_materials_attributes_0_name', with: ''
         click_button 'commit'
-        expect(page).to have_selector 'div.alert-warning', text: t('errors.messages.invalid_name_and_quantity')
+        expect(page).to have_selector 'div.alert-warning', text: SauceMaterial.human_attribute_name(:name).concat(t('errors.messages.blank'))
 
         fill_in 'pickle_sauce_materials_attributes_0_name', with: attrs_sauce_material[:name]
         fill_in 'pickle_sauce_materials_attributes_0_quantity', with: ''
         click_button 'commit'
-        expect(page).to have_selector 'div.alert-warning', text: t('errors.messages.invalid_name_and_quantity')
+        expect(page).to have_selector 'div.alert-warning', text: SauceMaterial.human_attribute_name(:quantity).concat(t('errors.messages.blank'))
       end
     end
   end
@@ -337,8 +337,7 @@ RSpec.describe "Pickles", type: :system do
       expect(page).to have_text attrs_pickle[:name]
       expect(page).to have_text attrs_ingredient[:name]
       expect(page).to have_text attrs_ingredient[:quantity]
-      expect(page).not_to have_text attrs_sauce_material[:name]
-      expect(page).not_to have_text attrs_sauce_material[:quantity]
+      expect(page).not_to have_selector 'h3', text: SauceMaterial.model_name.human
       attrs_pickle[:preparation].each_line { |line| expect(page).to have_text line.chomp }
       attrs_pickle[:process].each_line { |line| expect(page).to have_text line.chomp }
       attrs_pickle[:note].each_line { |line| expect(page).to have_text line.chomp }
