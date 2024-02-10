@@ -4,11 +4,13 @@ ja:
       pickle: 漬け物
     attributes:
       pickle:
+        ingredients: 材料
         name: 名前
-        started_on: 漬け始めた日
+        note: ポイント
         preparation: 下準備
         process: 作り方
-        note: ポイント
+        sauce_materials: 漬け汁・漬け床
+        started_on: 漬け始めた日
       pickle/ingredients:
         name: 名前
         quantity: 分量

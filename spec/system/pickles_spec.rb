@@ -105,26 +105,50 @@ RSpec.describe "Pickles", type: :system do
         expect(page).to have_selector 'div.alert-warning', text: Pickle.human_attribute_name(:note).concat(t('errors.messages.too_long', count: 400))
       end
 
+      specify 'an alert appears when ingredient_name is over 100 characters' do
+        fill_in 'pickle_ingredients_attributes_0_name', with: 'a' * 101
+        click_button 'commit'
+        expect(page).to have_selector 'div.alert-warning', text: '名前'.concat(t('errors.messages.too_long', count: 100))
+      end
+
+      specify 'an alert appears when ingredient_quantity is over 100 characters' do
+        fill_in 'pickle_ingredients_attributes_0_quantity', with: 'a' * 101
+        click_button 'commit'
+        expect(page).to have_selector 'div.alert-warning', text: '分量'.concat(t('errors.messages.too_long', count: 100))
+      end
+
+      specify 'an alert appears when sauce_material_name is over 100 characters' do
+        fill_in 'pickle_sauce_materials_attributes_0_name', with: 'a' * 101
+        click_button 'commit'
+        expect(page).to have_selector 'div.alert-warning', text: '名前'.concat(t('errors.messages.too_long', count: 100))
+      end
+
+      specify 'an alert appears when sauce_material_quantity is over 100 characters' do
+        fill_in 'pickle_sauce_materials_attributes_0_quantity', with: 'a' * 101
+        click_button 'commit'
+        expect(page).to have_selector 'div.alert-warning', text: '分量'.concat(t('errors.messages.too_long', count: 100))
+      end
+
       specify 'an alert appears when either ingredient name or quantity is blank' do
         fill_in 'pickle_ingredients_attributes_0_name', with: ''
         click_button 'commit'
-        expect(page).to have_selector 'div.alert-warning', text: t('errors.messages.invalid_name_and_quantity', model: Ingredient.model_name.human)
+        expect(page).to have_selector 'div.alert-warning', text: t('errors.messages.invalid_name_and_quantity')
 
         fill_in 'pickle_ingredients_attributes_0_name', with: attrs_ingredient[:name]
         fill_in 'pickle_ingredients_attributes_0_quantity', with: ''
         click_button 'commit'
-        expect(page).to have_selector 'div.alert-warning', text: t('errors.messages.invalid_name_and_quantity', model: Ingredient.model_name.human)
+        expect(page).to have_selector 'div.alert-warning', text: t('errors.messages.invalid_name_and_quantity')
       end
 
       specify 'an alert appears when either sauce_material name or quantity is blank' do
         fill_in 'pickle_sauce_materials_attributes_0_name', with: ''
         click_button 'commit'
-        expect(page).to have_selector 'div.alert-warning', text: t('errors.messages.invalid_name_and_quantity', model: SauceMaterial.model_name.human)
+        expect(page).to have_selector 'div.alert-warning', text: t('errors.messages.invalid_name_and_quantity')
 
         fill_in 'pickle_sauce_materials_attributes_0_name', with: attrs_sauce_material[:name]
         fill_in 'pickle_sauce_materials_attributes_0_quantity', with: ''
         click_button 'commit'
-        expect(page).to have_selector 'div.alert-warning', text: t('errors.messages.invalid_name_and_quantity', model: SauceMaterial.model_name.human)
+        expect(page).to have_selector 'div.alert-warning', text: t('errors.messages.invalid_name_and_quantity')
       end
     end
   end
