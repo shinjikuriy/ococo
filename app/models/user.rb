@@ -24,6 +24,14 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
+class NamespaceValidator < ActiveModel::EachValidator
+  def validate_each(record, attribute, value)
+    if value =~ PathRegex.root_namespace_path_regex
+      record.errors.add(attribute, I18n.t('errors.messages.taken'))
+    end
+  end
+end
+
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :omniauthable
@@ -39,7 +47,8 @@ class User < ApplicationRecord
   has_many :pickles, dependent: :destroy
 
   validates :username, presence: true, length: { minimum: 3, maximum: 30 }, uniqueness: { case_sensitive: false },
-                       format: { with: /\A[a-zA-Z0-9_]+\z/, message: :invalid_username_format }
+                       format: { with: /\A[a-zA-Z0-9_]+\z/, message: :invalid_username_format },
+                       namespace: true
 
   before_create :initialize_profile
 
