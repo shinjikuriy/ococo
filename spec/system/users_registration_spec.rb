@@ -49,6 +49,14 @@ RSpec.describe "UsersRegistration", type: :system do
         expect(page).to have_selector 'div.alert-warning', text: User.human_attribute_name(:password).concat(t('errors.messages.blank'))
       end
 
+      specify 'an alert appears for username that conflicts with pathnames' do
+        pathnames = %w[sign_in sign_out password confirmation unlock cancel sign_up edit_credentials pickles]
+        pathnames.each do |pathname|
+          fill_in 'user_username', with: pathname
+          click_button 'commit'
+          expect(page).to have_selector 'div.alert-warning', text: User.human_attribute_name(:username).concat(t('errors.messages.taken'))
+        end
+      end
       specify 'alert appears for username less than 3 characters' do
         fill_in 'user[username]', with: 'a' * 2
         click_button 'commit'

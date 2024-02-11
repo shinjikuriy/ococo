@@ -1,7 +1,7 @@
 module PathRegex
   extend self
 
-  TOP_LEVEL_ROUTES = %w[404.html 505.html]
+  TOP_LEVEL_ROUTES = %w[404.html 422.html 505.html]
 
   def root_namespace_path_regex
     Regexp.new(Regexp.union(top_level_routes).source, Regexp::IGNORECASE)
