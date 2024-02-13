@@ -15,21 +15,18 @@
 require 'rails_helper'
 
 RSpec.describe Pickle, type: :model do
-  let(:attrs) { attributes_for(:pickle) }
+  let(:user) { create(:user, :confirmed) }
+  let(:pickle) { user.pickles.create(attributes_for(:pickle)) }
 
   describe 'dependency' do
     specify 'user can have many pickles' do
-      user = create(:user)
       user.pickles.create(attributes_for(:pickle_daikon))
       user.pickles.create(attributes_for(:pickle_kabu))
       expect(user.pickles.size).to eq 2
     end
 
     specify 'pickles are also destroyed when user is destroyed' do
-      user = create(:user)
-      pickle = user.pickles.build(attrs)
-      pickle.ingredients.build(attributes_for(:ingredient))
-      pickle.save!
+      pickle
       user.destroy
       expect(pickle).to be_destroyed
     end
@@ -37,11 +34,6 @@ RSpec.describe Pickle, type: :model do
 
   describe 'initialisation' do
     specify 'started_on is set to the date pickle is created on by default' do
-      user = create(:user)
-      pickle = user.pickles.build(attrs.except(:user_id, :started_on))
-      pickle.ingredients.build(attributes_for(:ingredient))
-      pickle.save!
-      expect(pickle).to be_valid
       expect(pickle.started_on).to eq Date.today
     end
   end
@@ -49,10 +41,6 @@ RSpec.describe Pickle, type: :model do
   describe 'validation' do
     context 'when values are valid' do
       specify 'user can create a pickle' do
-        user = create(:user)
-        pickle = user.pickles.build(attrs)
-        pickle.ingredients.build(attributes_for(:ingredient))
-        pickle.save!
         expect(pickle).to be_persisted
       end
     end

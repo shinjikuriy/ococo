@@ -27,19 +27,14 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  describe 'varidation' do
-    let!(:attrs) { attributes_for(:user) }
+  let(:user) { create(:user) }
+  let(:attrs) { attributes_for(:user) }
 
+  describe 'varidation' do
     context 'valid attributes' do
       it 'is valid with a username, email and password' do
         user = User.new(attrs)
         expect(user).to be_valid
-      end
-
-      it 'has one profile after create' do
-        user = User.create(attrs)
-        expect(user.profile.display_name).to eq attrs[:username]
-        expect(user.profile.prefecture).to eq 'unselected'
       end
     end
 
@@ -69,7 +64,7 @@ RSpec.describe User, type: :model do
         end
 
         it 'is invalid with a too long username' do
-          user = User.new(username: 'call_me_by_this_31_letter_name_')
+          user = User.new(username: 'a' * 31)
           user.valid?
           expect(user.errors[:username]).to include t('errors.messages.too_long', count: 30)
         end
@@ -111,10 +106,8 @@ RSpec.describe User, type: :model do
   end
 
   describe '#destroy' do
-    let!(:user) { create(:user) }
-    let!(:profile) { user.profile }
-
     it 'should destroy associated stuff too' do
+      profile = user.profile
       user.destroy
       expect(profile).to be_destroyed
     end

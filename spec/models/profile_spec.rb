@@ -19,16 +19,15 @@ RSpec.describe Profile, type: :model do
     specify 'user has one profile' do
       user = create(:user)
       expect(user.profile).to be_persisted
-      expect {
+      expect do
         user.create_profile(display_name: user.username, x_username: '', ig_username: '')
-      }.to raise_error(ActiveRecord::RecordNotUnique)
+      end.to raise_error(ActiveRecord::RecordNotUnique)
     end
   end
 
   describe 'initialisation' do
-    let!(:user) { create(:user) }
+    let!(:user) { create(:user, :confirmed) }
     let!(:profile) { user.profile }
-    before { user.confirm }
 
     specify 'display_name is as same as username by default' do
       expect(profile.display_name).to eq 'lukas'

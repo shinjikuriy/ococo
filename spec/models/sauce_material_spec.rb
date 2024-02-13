@@ -12,36 +12,25 @@
 require 'rails_helper'
 
 RSpec.describe SauceMaterial, type: :model do
+  let(:user) { create(:user, :confirmed) }
+  let(:pickle) { user.pickles.create(attributes_for(:pickle)) }
   let(:attrs) { attributes_for :sauce_material }
 
   describe 'dependency' do
     specify 'pickle can have many sauce_materials' do
-      user = create(:user)
-      pickle = user.pickles.build(attributes_for(:pickle))
-      pickle.ingredients.build(attributes_for(:ingredient))
-      pickle.save!
-      pickle.sauce_materials.create(name: '塩', quantity: '20g')
-      pickle.sauce_materials.create(name: '唐辛子', quantity: '3本')
-      expect(pickle.sauce_materials.size).to eq 2
+      expect(pickle.sauce_materials.size).to eq 4
     end
 
     specify 'sauce_materials are destroyed when pickle is destroyed' do
-      user = create(:user)
-      pickle = user.pickles.build(attributes_for(:pickle))
-      pickle.ingredients.build(attributes_for(:ingredient))
-      pickle.save!
       sauce_material = pickle.sauce_materials.create(attrs)
       pickle.destroy
       expect(sauce_material).to be_destroyed
     end
   end
+
   describe 'validation' do
     context 'when values are valid' do
       specify 'user can successfully create a sauce_material' do
-        user = create(:user)
-        pickle = user.pickles.build(attributes_for(:pickle))
-        pickle.ingredients.build(attributes_for(:ingredient))
-        pickle.save!
         sauce_material = pickle.sauce_materials.create(attrs)
         expect(sauce_material).to be_persisted
       end

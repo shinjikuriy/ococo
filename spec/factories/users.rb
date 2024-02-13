@@ -29,6 +29,18 @@ FactoryBot.define do
     username { 'lukas' }
     email { 'lukas@example.com' }
     password { 'password' }
+
+    trait :confirmed do
+      after(:create) do |user|
+        user.confirm
+      end
+    end
+
+    trait :with_edited_profile do
+      after(:create) do |user|
+        user.profile.update(attributes_for(:profile))
+      end
+    end
   end
 
   factory :user_lena, class: User do
