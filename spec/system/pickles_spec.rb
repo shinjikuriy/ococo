@@ -1,76 +1,58 @@
 require 'rails_helper'
 
 RSpec.describe "Pickles", type: :system do
-  describe 'create' do
-    let!(:user) { create(:user) }
-    let!(:attrs_pickle) { attributes_for(:pickle) }
-    let!(:attrs_ingredient) { attributes_for(:ingredient) }
-    let!(:attrs_sauce_material) { attributes_for(:sauce_material) }
-    before do
-      user.confirm
-      sign_in user
-    end
+  let(:user) { create(:user, :confirmed) }
+  let(:attrs_pickle) { attributes_for(:pickle) }
 
-    specify 'user can create a new pickle', js: true do
+  describe 'create' do
+    before do
+      sign_in user
       visit user_path(user)
       click_on t('pickles.shared.links.create_pickle')
 
-      # should test multiple ingredients/sauce_materials acceptance
-      expect {
-        fill_in 'pickle[name]', with: attrs_pickle[:name]
-        all(id: /pickle_ingredients_attributes_\d+_name/).last.fill_in with: attrs_ingredient[:name]
-        all(id: /pickle_ingredients_attributes_\d+_quantity/).last.fill_in with: attrs_ingredient[:quantity]
-        within '.ingredient-form' do click_link '材料を追加' end
-        all(id: /pickle_ingredients_attributes_\d+_name/).last.fill_in with: '2つ目の材料名'
-        all(id: /pickle_ingredients_attributes_\d+_quantity/).last.fill_in with: '2つ目の材料の分量'
-        all(id: /pickle_sauce_materials_attributes_\d+_name/).last.fill_in with: attrs_sauce_material[:name]
-        all(id: /pickle_sauce_materials_attributes_\d+_quantity/).last.fill_in with: attrs_sauce_material[:quantity]
-        within '.sauce-material-form' do click_link '材料を追加' end
-        all(id: /pickle_sauce_materials_attributes_\d+_name/).last.fill_in with: '2つ目の漬け汁材料名'
-        all(id: /pickle_sauce_materials_attributes_\d+_quantity/).last.fill_in with: '2つ目の漬け汁材料の分量'
-        fill_in 'pickle[preparation]', with: attrs_pickle[:preparation]
-        fill_in 'pickle[process]', with: attrs_pickle[:process]
-        fill_in 'pickle[note]', with: attrs_pickle[:note]
+      fill_in 'pickle_name', with: attrs_pickle[:name]
+      within '.ingredient-form' do
+        attrs_pickle[:ingredients_attributes].each do |ingredient|
+          all(id: /pickle_ingredients_attributes_\d+_name/).last.fill_in with: ingredient[:name]
+          all(id: /pickle_ingredients_attributes_\d+_quantity/).last.fill_in with: ingredient[:quantity]
+          click_link t('pickles.shared.add_ingredient')
+        end
+      end
+      within '.sauce-material-form' do
+        attrs_pickle[:sauce_materials_attributes].each do |sauce_material|
+          all(id: /pickle_sauce_materials_attributes_\d+_name/).last.fill_in with: sauce_material[:name]
+          all(id: /pickle_sauce_materials_attributes_\d+_quantity/).last.fill_in with: sauce_material[:quantity]
+          click_link t('pickles.shared.add_ingredient')
+        end
+      end
+      fill_in 'pickle_preparation', with: attrs_pickle[:preparation]
+      fill_in 'pickle_process', with: attrs_pickle[:process]
+      fill_in 'pickle_note', with: attrs_pickle[:note]
+    end
+
+    specify 'user can create a new pickle', js: true do
+      expect do
         click_button t('pickles.new.create_pickle')
         sleep 0.5
-      }.to change { Pickle.count }.by 1
+      end.to change { Pickle.count }.by 1
 
       expect(page).to have_current_path pickle_path(user.pickles.first)
       expect(page).to have_selector 'div.alert-success', text: t('pickles.new.created_pickle')
       expect(page).to have_text attrs_pickle[:name]
-      expect(page).to have_text attrs_ingredient[:name]
-      expect(page).to have_text attrs_ingredient[:quantity]
-      expect(page).to have_text '2つ目の材料名'
-      expect(page).to have_text '2つ目の材料の分量'
-      expect(page).to have_text attrs_sauce_material[:name]
-      expect(page).to have_text attrs_sauce_material[:quantity]
-      expect(page).to have_text '2つ目の漬け汁材料名'
-      expect(page).to have_text '2つ目の漬け汁材料の分量'
+      attrs_pickle[:ingredients_attributes].each do |ingredient|
+        expect(find('.ingredients')).to have_text ingredient[:name]
+        expect(find('.ingredients')).to have_text ingredient[:quantity]
+      end
+      attrs_pickle[:sauce_materials_attributes].each do |sauce_material|
+        expect(find('.sauce-materials')).to have_text sauce_material[:name]
+        expect(find('.sauce-materials')).to have_text sauce_material[:quantity]
+      end
       attrs_pickle[:preparation].each_line { |line| expect(page).to have_text line.chomp }
       attrs_pickle[:process].each_line { |line| expect(page).to have_text line.chomp }
       attrs_pickle[:note].each_line { |line| expect(page).to have_text line.chomp }
     end
 
     context 'when values are invalid' do
-      before do
-        visit user_path(user)
-        click_on t('pickles.shared.links.create_pickle')
-        fill_in 'pickle[name]', with: attrs_pickle[:name]
-        all(id: /pickle_ingredients_attributes_\d+_name/).last.fill_in with: attrs_ingredient[:name]
-        all(id: /pickle_ingredients_attributes_\d+_quantity/).last.fill_in with: attrs_ingredient[:quantity]
-        within '.ingredient-form' do click_link '材料を追加' end
-        all(id: /pickle_ingredients_attributes_\d+_name/).last.fill_in with: '2つ目の材料名'
-        all(id: /pickle_ingredients_attributes_\d+_quantity/).last.fill_in with: '2つ目の材料の分量'
-        all(id: /pickle_sauce_materials_attributes_\d+_name/).last.fill_in with: attrs_sauce_material[:name]
-        all(id: /pickle_sauce_materials_attributes_\d+_quantity/).last.fill_in with: attrs_sauce_material[:quantity]
-        within '.sauce-material-form' do click_link '材料を追加' end
-        all(id: /pickle_sauce_materials_attributes_\d+_name/).last.fill_in with: '2つ目の漬け汁材料名'
-        all(id: /pickle_sauce_materials_attributes_\d+_quantity/).last.fill_in with: '2つ目の漬け汁材料の分量'
-        fill_in 'pickle[preparation]', with: attrs_pickle[:preparation]
-        fill_in 'pickle[process]', with: attrs_pickle[:process]
-        fill_in 'pickle[note]', with: attrs_pickle[:note]
-      end
-
       specify 'alerts appear for unentered fields' do
         visit user_path(user)
         click_on t('pickles.shared.links.create_pickle')
@@ -134,7 +116,7 @@ RSpec.describe "Pickles", type: :system do
         click_button 'commit'
         expect(page).to have_selector 'div.alert-warning', text: Ingredient.human_attribute_name(:name).concat(t('errors.messages.blank'))
 
-        fill_in 'pickle_ingredients_attributes_0_name', with: attrs_ingredient[:name]
+        fill_in 'pickle_ingredients_attributes_0_name', with: attrs_pickle[:ingredients_attributes][0][:name]
         fill_in 'pickle_ingredients_attributes_0_quantity', with: ''
         click_button 'commit'
         expect(page).to have_selector 'div.alert-warning', text: Ingredient.human_attribute_name(:quantity).concat(t('errors.messages.blank'))
@@ -145,7 +127,7 @@ RSpec.describe "Pickles", type: :system do
         click_button 'commit'
         expect(page).to have_selector 'div.alert-warning', text: SauceMaterial.human_attribute_name(:name).concat(t('errors.messages.blank'))
 
-        fill_in 'pickle_sauce_materials_attributes_0_name', with: attrs_sauce_material[:name]
+        fill_in 'pickle_sauce_materials_attributes_0_name', with: attrs_pickle[:sauce_materials_attributes][0][:name]
         fill_in 'pickle_sauce_materials_attributes_0_quantity', with: ''
         click_button 'commit'
         expect(page).to have_selector 'div.alert-warning', text: SauceMaterial.human_attribute_name(:quantity).concat(t('errors.messages.blank'))
@@ -155,37 +137,27 @@ RSpec.describe "Pickles", type: :system do
 
   describe 'read' do
     specify 'anyone can view a pickle page' do
-      user = create(:user)
-      user.confirm
-      pickle = user.pickles.build(attributes_for(:pickle))
-      pickle.ingredients.build(attributes_for(:ingredient))
-      pickle.save!
+      pickle = user.pickles.create(attrs_pickle)
 
       visit pickle_path(pickle)
       expect(page).to have_current_path pickle_path(pickle)
+      pickle.ingredients.each do |ingredient|
+        expect(find('.ingredients')).to have_text ingredient.name
+        expect(find('.ingredients')).to have_text ingredient.quantity
+      end
+      pickle.sauce_materials.each do |sauce_material|
+        expect(find('.sauce-materials')).to have_text sauce_material.name
+        expect(find('.sauce-materials')).to have_text sauce_material.quantity
+      end
       expect(page).to have_text pickle.name
       pickle.preparation.each_line { |line| expect(page).to have_text line.chomp }
       pickle.process.each_line { |line| expect(page).to have_text line.chomp }
       pickle.note.each_line { |line| expect(page).to have_text line.chomp }
-      pickle.ingredients.each do |ingredient|
-        expect(page).to have_text ingredient.name
-        expect(page).to have_text ingredient.quantity
-      end
-      pickle.sauce_materials.each do |sauce_material|
-        expect(page).to have_text sauce_material.name
-        expect(page).to have_text sauce_material.quantity
-      end
     end
 
     specify "user's pickles are shown on user's page" do
-      user = create(:user)
-      user.confirm
-      pickle_daikon = user.pickles.build(attributes_for(:pickle_daikon))
-      pickle_daikon.ingredients.build(attributes_for(:ingredient))
-      pickle_daikon.save!
-      pickle_kabu = user.pickles.build(attributes_for(:pickle_kabu))
-      pickle_kabu.ingredients.build(attributes_for(:ingredient))
-      pickle_kabu.save!
+      pickle_daikon = user.pickles.create(attributes_for(:pickle_daikon))
+      pickle_kabu = user.pickles.create(attributes_for(:pickle_kabu))
 
       visit user_path(user)
       expect(page).to have_link pickle_daikon.name, href: pickle_path(pickle_daikon)
@@ -193,8 +165,6 @@ RSpec.describe "Pickles", type: :system do
     end
 
     specify "user's pickles are paginated" do
-      user = create(:user)
-      user.confirm
       50.times do
         pickle = user.pickles.build(
           name: Faker::Food.dish,
@@ -216,7 +186,7 @@ RSpec.describe "Pickles", type: :system do
     end
 
     specify 'all pickles are shown on index page' do
-      lukas = create(:user)
+      lukas = user
       lena = create(:user_lena)
       stefan = create(:user_stefan)
 
@@ -251,35 +221,27 @@ RSpec.describe "Pickles", type: :system do
   end
 
   describe 'update' do
-    let!(:user) { create(:user) }
-    let!(:pickle) {
-      user.pickles.create!(attributes_for(:pickle_daikon).merge(ingredients_attributes: [attributes_for(:ingredient)])
-      .merge(sauce_materials_attributes: [attributes_for(:sauce_material)]))
-    }
-    let!(:attrs_pickle) { attributes_for(:pickle) }
-    let!(:attrs_ingredient) { attributes_for(:ingredient) }
-    let!(:attrs_sauce_material) { attributes_for(:sauce_material) }
+    let!(:pickle) { user.pickles.create(attrs_pickle) }
     before do
-      user.confirm
       sign_in user
-    end
-
-    specify "user can edit pickles' information" do
       visit user_path(user)
       click_link pickle.name
       click_link t('pickles.shared.links.edit_pickle'), href: edit_pickle_path(pickle)
-      fill_in 'pickle[name]', with: '大根のはりはり漬け🌶'
-      fill_in 'pickle[preparation]', with: '新しい下ごしらえの文章'
-      fill_in 'pickle[process]', with: '新しい作り方の文章'
-      fill_in 'pickle[note]', with: '新しいポイントの文章'
-      fill_in 'pickle[ingredients_attributes][0][name]', with: '新しい材料の名前'
-      fill_in 'pickle[ingredients_attributes][0][quantity]', with: '新しい材料の数量'
-      fill_in 'pickle[sauce_materials_attributes][0][name]', with: '新しい漬け汁材料の名前'
-      fill_in 'pickle[sauce_materials_attributes][0][quantity]', with: '新しい漬け汁材料の数量'
+    end
+
+    specify "user can edit pickles' information" do
+      fill_in 'pickle_name', with: '大根の🥑はりはり漬け🌶'
+      fill_in 'pickle_preparation', with: '新しい下ごしらえの文章'
+      fill_in 'pickle_process', with: '新しい作り方の文章'
+      fill_in 'pickle_note', with: '新しいポイントの文章'
+      fill_in 'pickle_ingredients_attributes_0_name', with: '新しい材料の名前'
+      fill_in 'pickle_ingredients_attributes_0_quantity', with: '新しい材料の数量'
+      fill_in 'pickle_sauce_materials_attributes_0_name', with: '新しい漬け汁材料の名前'
+      fill_in 'pickle_sauce_materials_attributes_0_quantity', with: '新しい漬け汁材料の数量'
       click_button t('pickles.edit.edit_pickle')
       expect(page).to have_current_path pickle_path(pickle)
       expect(page).to have_selector 'div.alert-success', text: t('pickles.edit.edited_pickle')
-      expect(page).to have_text '大根のはりはり漬け🌶'
+      expect(page).to have_text '大根の🥑はりはり漬け🌶'
       expect(page).to have_text '新しい下ごしらえの文章'
       expect(page).to have_text '新しい作り方の文章'
       expect(page).to have_text '新しいポイントの文章'
@@ -290,54 +252,58 @@ RSpec.describe "Pickles", type: :system do
     end
 
     specify 'user can delete ingredients', js: true do
-      pickle.ingredients.create!(name: '新しい材料の名前', quantity: '新しい材料の分量')
-
-      visit user_path(user)
-      click_link pickle.name
-      click_link t('pickles.shared.links.edit_pickle'), href: edit_pickle_path(pickle)
       within '.ingredient-form' do
-        all('.nested-fields')[1].find_link(t('pickles.edit.delete')).click
+        all('.nested-fields').last.find_link(t('pickles.edit.delete')).click
       end
       click_button t('pickles.edit.edit_pickle')
       expect(page).to have_current_path pickle_path(pickle)
       expect(page).to have_selector 'div.alert-success', text: t('pickles.edit.edited_pickle')
-      expect(page).not_to have_text '新しい材料の名前'
-      expect(page).not_to have_text '新しい材料の分量'
       expect(page).to have_text attrs_pickle[:name]
-      expect(page).to have_text attrs_ingredient[:name]
-      expect(page).to have_text attrs_ingredient[:quantity]
-      expect(page).to have_text attrs_sauce_material[:name]
-      expect(page).to have_text attrs_sauce_material[:quantity]
+      deleted_ingredient = attrs_pickle[:ingredients_attributes].pop
+      expect(find('.ingredients')).not_to have_text deleted_ingredient[:name]
+      expect(find('.ingredients')).not_to have_text deleted_ingredient[:quantity]
+      attrs_pickle[:ingredients_attributes].each do |ingredient|
+        expect(find('.ingredients')).to have_text ingredient[:name]
+        expect(find('.ingredients')).to have_text ingredient[:quantity]
+      end
+      attrs_pickle[:sauce_materials_attributes].each do |sauce_material|
+        expect(find('.sauce-materials')).to have_text sauce_material[:name]
+        expect(find('.sauce-materials')).to have_text sauce_material[:quantity]
+      end
       attrs_pickle[:preparation].each_line { |line| expect(page).to have_text line.chomp }
       attrs_pickle[:process].each_line { |line| expect(page).to have_text line.chomp }
       attrs_pickle[:note].each_line { |line| expect(page).to have_text line.chomp }
     end
 
     specify 'an alert appears when user tries to delete all the ingredients', js: true do
-      visit user_path(user)
-      click_link pickle.name
-      click_link t('pickles.shared.links.edit_pickle'), href: edit_pickle_path(pickle)
       within '.ingredient-form' do
-        all('.nested-fields')[0].find_link(t('pickles.edit.delete')).click
+        attrs_pickle[:ingredients_attributes].size.times do
+          all('.nested-fields').first.find_link(t('pickles.edit.delete')).click
+        end
       end
       click_button t('pickles.edit.edit_pickle')
       expect(page).to have_selector 'div.alert-warning', text: t('errors.messages.has_no_ingredient')
     end
 
     specify 'user can delete sauce_materials', js: true do
-      visit user_path(user)
-      click_link pickle.name
-      click_link t('pickles.shared.links.edit_pickle'), href: edit_pickle_path(pickle)
       within '.sauce-material-form' do
-        all('.nested-fields')[0].find_link(t('pickles.edit.delete')).click
+        all('.nested-fields').last.find_link(t('pickles.edit.delete')).click
       end
       click_button t('pickles.edit.edit_pickle')
       expect(page).to have_current_path pickle_path(pickle)
       expect(page).to have_selector 'div.alert-success', text: t('pickles.edit.edited_pickle')
       expect(page).to have_text attrs_pickle[:name]
-      expect(page).to have_text attrs_ingredient[:name]
-      expect(page).to have_text attrs_ingredient[:quantity]
-      expect(page).not_to have_selector 'h3', text: SauceMaterial.model_name.human
+      deleted_sauce_material = attrs_pickle[:sauce_materials_attributes].pop
+      expect(find('.ingredients')).not_to have_text deleted_sauce_material[:name]
+      expect(find('.ingredients')).not_to have_text deleted_sauce_material[:quantity]
+      attrs_pickle[:ingredients_attributes].each do |ingredient|
+        expect(find('.ingredients')).to have_text ingredient[:name]
+        expect(find('.ingredients')).to have_text ingredient[:quantity]
+      end
+      attrs_pickle[:sauce_materials_attributes].each do |sauce_material|
+        expect(find('.sauce-materials')).to have_text sauce_material[:name]
+        expect(find('.sauce-materials')).to have_text sauce_material[:quantity]
+      end
       attrs_pickle[:preparation].each_line { |line| expect(page).to have_text line.chomp }
       attrs_pickle[:process].each_line { |line| expect(page).to have_text line.chomp }
       attrs_pickle[:note].each_line { |line| expect(page).to have_text line.chomp }
@@ -346,12 +312,8 @@ RSpec.describe "Pickles", type: :system do
 
   describe 'delete' do
     specify 'user can delete pickles', js: true do
-      user = create(:user)
-      user.confirm
       sign_in user
-      pickle = user.pickles.build(attributes_for(:pickle_daikon))
-      pickle.ingredients.build(attributes_for(:ingredient))
-      pickle.save!
+      pickle = user.pickles.create(attributes_for(:pickle))
 
       visit pickle_path(pickle)
       click_link t('pickles.shared.links.edit_pickle'), href: edit_pickle_path(pickle)

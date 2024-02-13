@@ -36,6 +36,7 @@ FactoryBot.define do
     sauce_materials_attributes do
       [{ name: '中ザラ糖', quantity: '50g' },
        { name: '醤油', quantity: '100ml' },
+       { name: '酢', quantity: '75ml' },
        { name: '顆粒和風だし', quantity: '大さじ1/2' },
        { name: '赤唐辛子', quantity: '1〜2本' }]
     end

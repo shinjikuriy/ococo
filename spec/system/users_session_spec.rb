@@ -2,16 +2,15 @@ require 'rails_helper'
 
 RSpec.describe "UsersSession", type: :system do
   describe 'user sign in' do
-    let(:user) { create(:user) }
+    let!(:user) { create(:user, :confirmed) }
     let!(:attrs) { attributes_for :user }
-    before { user.confirm }
 
     context 'when information is valid' do
       specify 'user can sign in with valid username' do
         visit new_user_session_path
 
-        fill_in 'user[login]', with: attrs[:username]
-        fill_in 'user[password]', with: attrs[:password]
+        fill_in 'user_login', with: attrs[:username]
+        fill_in 'user_password', with: attrs[:password]
         click_button 'commit'
         expect(page).to have_selector 'div.alert-success', text: t('users.sessions.signed_in')
         expect(page).to have_link t('users.sessions.destroy.sign_out'), href: destroy_user_session_path
@@ -21,8 +20,8 @@ RSpec.describe "UsersSession", type: :system do
       specify 'user can sign in with valid email' do
         visit new_user_session_path
 
-        fill_in 'user[login]', with: attrs[:email]
-        fill_in 'user[password]', with: attrs[:password]
+        fill_in 'user_login', with: attrs[:email]
+        fill_in 'user_password', with: attrs[:password]
         click_button 'commit'
         expect(page).to have_selector 'div.alert-success', text: t('users.sessions.signed_in')
       end
@@ -32,8 +31,8 @@ RSpec.describe "UsersSession", type: :system do
       specify 'user cannot sign in with invalid username' do
         visit new_user_session_path
 
-        fill_in 'user[login]', with: 'invalid_username'
-        fill_in 'user[password]', with: attrs[:password]
+        fill_in 'user_login', with: 'invalid_username'
+        fill_in 'user_password', with: attrs[:password]
         click_button 'commit'
         expect(page).to have_selector 'div.alert-warning', text: t('users.failure.invalid', authentication_keys: User.human_attribute_name(:login))
       end
@@ -41,8 +40,8 @@ RSpec.describe "UsersSession", type: :system do
       specify 'user cannot sign in with invalid email' do
         visit new_user_session_path
 
-        fill_in 'user[login]', with: 'invalid_email@example.com'
-        fill_in 'user[password]', with: attrs[:password]
+        fill_in 'user_login', with: 'invalid_email@example.com'
+        fill_in 'user_password', with: attrs[:password]
         click_button 'commit'
         expect(page).to have_selector 'div.alert-warning', text: t('users.failure.invalid', authentication_keys: User.human_attribute_name(:login))
       end
@@ -50,8 +49,8 @@ RSpec.describe "UsersSession", type: :system do
       specify 'user cannot sign in with invalid password' do
         visit new_user_session_path
 
-        fill_in 'user[login]', with: attrs[:username]
-        fill_in 'user[password]', with: 'invalid_password'
+        fill_in 'user_login', with: attrs[:username]
+        fill_in 'user_password', with: 'invalid_password'
         click_button 'commit'
         expect(page).to have_selector 'div.alert-warning', text: t('users.failure.invalid', authentication_keys: User.human_attribute_name(:login))
       end
@@ -59,11 +58,8 @@ RSpec.describe "UsersSession", type: :system do
   end
 
   describe 'user sign out' do
-    before do
-      user = create(:user)
-      user.confirm
-      sign_in user
-    end
+    let!(:user) { create(:user, :confirmed) }
+    before { sign_in user }
 
     specify 'user can sign out successfully' do
       visit root_path
@@ -74,15 +70,14 @@ RSpec.describe "UsersSession", type: :system do
   end
 
   describe 'user session expiration' do
-    let!(:user) { create(:user) }
-    before { user.confirm }
+    let!(:user) { create(:user, :confirmed) }
 
     context 'when "remember me" is not set' do
       specify 'user session times out in 30 minutes after last access' do
         visit new_user_session_path
-        fill_in 'user[login]', with: user.username
-        fill_in 'user[password]', with: user.password
-        uncheck 'user[remember_me]'
+        fill_in 'user_login', with: user.username
+        fill_in 'user_password', with: user.password
+        uncheck 'user_remember_me'
         click_button 'commit'
 
         expect(page).to have_selector 'div.alert-success', text: t('users.sessions.signed_in')
@@ -105,9 +100,9 @@ RSpec.describe "UsersSession", type: :system do
     context 'when "remember_me" is set' do
       specify 'user is required to sign in again after 2 weeks' do
         visit new_user_session_path
-        fill_in 'user[login]', with: user.username
-        fill_in 'user[password]', with: user.password
-        check 'user[remember_me]'
+        fill_in 'user_login', with: user.username
+        fill_in 'user_password', with: user.password
+        check 'user_remember_me'
         click_button 'commit'
 
         expect(page).to have_selector 'div.alert-success', text: t('users.sessions.signed_in')

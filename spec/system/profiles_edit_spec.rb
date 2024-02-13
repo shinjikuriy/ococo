@@ -2,16 +2,9 @@ require 'rails_helper'
 
 RSpec.describe "ProfilesEdit", type: :system do
   describe 'profile update' do
-    let(:user) { create(:user) }
+    let(:user) { create(:user, :confirmed, :with_edited_profile) }
     let(:profile) { user.profile }
     before do
-      user.confirm
-      profile.display_name = 'ルーカス'
-      profile.prefecture = 'kanagawa'
-      profile.description = 'ドイツ出身です。よろしくお願いします。'
-      profile.x_username = 'luke_x'
-      profile.ig_username = 'luke_ig'
-      profile.save
       sign_in user
       visit edit_profile_path(user)
     end

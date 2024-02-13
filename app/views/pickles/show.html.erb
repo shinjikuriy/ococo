@@ -1,19 +1,23 @@
 <h2><%= @pickle.name %></h2>
 
-<h3><%= Ingredient.model_name.human %></h3>
+<div class="ingredients">
+  <h3><%= Ingredient.model_name.human %></h3>
 <ul>
   <% @pickle.ingredients.each do |ingredient| %>
     <li><%= ingredient.name %>: <%= ingredient.quantity %></li>
   <% end %>
 </ul>
+</div>
 
 <% if @pickle.sauce_materials.present? %>
-  <h3><%= SauceMaterial.model_name.human %></h3>
+  <div class="sauce-materials">
+    <h3><%= SauceMaterial.model_name.human %></h3>
   <ul>
     <% @pickle.sauce_materials.each do |sauce_material| %>
       <li><%= sauce_material.name %>: <%= sauce_material.quantity %></li>
     <% end %>
   </ul>
+  </div>
 <% end %>
 
 <% if @pickle.preparation.present? %>
