@@ -18,7 +18,7 @@ RSpec.describe SauceMaterial, type: :model do
 
   describe 'dependency' do
     specify 'pickle can have many sauce_materials' do
-      expect(pickle.sauce_materials.size).to eq 4
+      expect(pickle.sauce_materials.size).to eq 5
     end
 
     specify 'sauce_materials are destroyed when pickle is destroyed' do
