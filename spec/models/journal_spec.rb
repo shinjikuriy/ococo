@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: journals
+#
+#  id         :bigint           not null, primary key
+#  pickle_id  :bigint           not null
+#  body       :text
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
 require 'rails_helper'
 
 RSpec.describe Journal, type: :model do
@@ -25,7 +35,16 @@ RSpec.describe Journal, type: :model do
   end
 
   describe 'validation' do
-    specify 'body cannot be blank'
-    specify 'body cannot be over 140 characters'
+    specify 'body cannot be blank' do
+      journal = Journal.new(body: '')
+      journal.valid?
+      expect(journal.errors[:body]).to include t('errors.messages.blank')
+    end
+
+    specify 'body cannot be over 140 characters' do
+      journal = Journal.new(body: 'a' * 141)
+      journal.valid?
+      expect(journal.errors[:body]).to include t('errors.messages.too_long', count: 140)
+    end
   end
 end
