@@ -5,6 +5,11 @@
 /* universal */
 
 
+/* shared */
+.journal-section, .pickle-section{
+  background-color: $gray-200;
+}
+
 /* home */
 .home-bg {
   background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), image-url('home_bg.jpg');
@@ -21,70 +26,75 @@
   @extend .px-4, .py-3;
   background-color: $gray-500;
   border-radius: 10px;
-}
-
-.users-form h2 {
-  text-align: center;
-}
-
-.users-form > form > div {
-  @extend .mb-3;
-}
-
-.users-form input {
-  width: 100%;
-}
-
-.users-form input[type="checkbox"] {
-  width: auto;
-}
-
-.users-form .actions input {
-  @extend .btn;
-  @extend .btn-primary;
+  h2 {
+    text-align: center;
+  }
+  > form > div {
+    @extend .mb-3;
+  }
+  input {
+    width: 100%;
+  }
+  input[type="checkbox"] {
+    width: auto;
+  }
+  .actions input {
+    @extend .btn;
+    @extend .btn-primary;
+  }
 }
 
 .field_with_errors {
   display: inline;
 }
 
+
 /* user profile page */
 .profile-card {
   background-color: $gray-500;
   border-radius: 10px;
+  .avatar {
+    background-color: $gray-200;
+    max-width: 100px;
+    max-height: auto;
+    border-radius: 100%;
+  }
 }
 
-.avatar {
-  background-color: $gray-200;
-  max-width: 100px;
-  max-height: auto;
-  border-radius: 100%;
-}
-
-.pickle-section {
-  background-color: $gray-200;
-  border-radius: 10px;
-}
-
-.log-section {
-  background-color: $gray-200;
-  border-radius: 10px;
-}
 
 /* pickles */
 .pickle-form {
   background-color: $gray-500;
   border-radius: 10px;
   @extend .p-3;
+  h2 {
+    text-align: center;
+  }
+  .ingredients, .sauce-materials {
+    @extend .p-2;
+  }
 }
 
-.pickle-form h2{
-  text-align: center;
-}
-
-.pickle-form .ingredients,
-.pickle-form .sauce-materials {
-  @extend .p-2;
+.journal-card {
+  @extend .d-flex;
+  @extend .gx-3;
+  background-color: $orange-300;
+  .journal-avatar {
+    @extend .align-self-start;
+    .avatar {
+      background-color: $gray-200;
+      max-width: 2.5rem;
+      max-height: auto;
+      border-radius: 100%;
+    }
+  }
+  .journal-content {
+    @extend .align-self-stretch;
+    .journal-head {
+      @extend .d-flex;
+      @extend .justify-content-between;
+    }
+  }
 }
 
 /* miscellaneous */
