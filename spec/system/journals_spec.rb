@@ -35,6 +35,29 @@ RSpec.describe "Journals", type: :system do
         expect(journal_section).to have_text journal.body
       end
     end
+
+    specify "user's journals are shown on the user's page and paginated" do
+      visit user_path(user)
+
+      journal_section = find('.journal-section')
+      pickle.journals.each_with_index do |journal, i|
+        if i < 10
+          expect(journal_section).to have_text journal.body
+        else
+          expect(journal_section).not_to have_text journal.body
+        end
+      end
+      within('.journal-section') do
+        click_link '次 ›'
+      end
+      pickle.journals.each_with_index do |journal, i|
+        if i < 10
+          expect(journal_section).not_to have_text journal.body
+        else
+          expect(journal_section).to have_text journal.body
+        end
+      end
+    end
   end
 
   describe 'UPDATE'

@@ -55,12 +55,12 @@
 
   <div class="content-section col-md-9 col">
     <div class="pickle-section p-3">
+      <h2>
+        <%= t('pickles.show.title', name: profile.display_name) %>
+      </h2>
+      <%= link_to t('pickles.shared.links.create_pickle'), new_pickle_path, class: 'btn btn-primary',
+          data: {turbo_frame: '_top' } if user_signed_in? %>
       <%= turbo_frame_tag 'pickles-list' do %>
-        <h2>
-          <%= t('pickles.show.title', name: profile.display_name) %>
-        </h2>
-        <%= link_to t('pickles.shared.links.create_pickle'), new_pickle_path, class: 'btn btn-primary',
-            data: {turbo_frame: '_top' } if user_signed_in? %>
         <% @pickles.each do |pickle| %>
           <div class="pickle-card h3">
             <%= link_to pickle.name, pickle, data: { turbo_frame: '_top' } %>
@@ -74,9 +74,12 @@
       <h2>
         <%= "#{profile.display_name}の漬け物記録" %>
       </h2>
-      <p>ほげほげ</p>
-      <p>ふがふが</p>
-      <p>ぴよぴよ</p>
+      <%= turbo_frame_tag 'journals-list' do %>
+        <% @journals.each do |journal| %>
+          <%= render 'journals/journal', journal: journal %>
+        <% end %>
+        <%= paginate @journals %>
+      <% end %>
     </div>
   </div>
 </div>

@@ -6,6 +6,7 @@ class UsersController < ApplicationController
       render 'static_pages/home', status: :not_found
     else
       @pickles = @user.pickles.order(updated_at: :desc).page params[:page]
+      @journals = @user.journals.page params[:page]
     end
   end
 end
