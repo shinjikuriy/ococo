@@ -17,7 +17,7 @@ class Pickle < ApplicationRecord
   has_many :ingredients, dependent: :destroy
   has_many :sauce_materials, dependent: :destroy
   accepts_nested_attributes_for :ingredients, :sauce_materials, allow_destroy: true, reject_if: :all_blank
-  has_many :journals, dependent: :destroy
+  has_many :journals, -> { order(created_at: :desc) }, dependent: :destroy
 
   before_create :set_default_values
 

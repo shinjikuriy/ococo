@@ -1,12 +1,25 @@
-<div id="<%= dom_id journal %>">
-  <p>
-    <strong>Pickle:</strong>
-    <%= journal.pickle_id %>
-  </p>
-
-  <p>
-    <strong>Body:</strong>
-    <%= journal.body %>
-  </p>
-
+<% profile = journal.user.profile %>
+<div id="<%= dom_id journal %>" class="journal-card my-2">
+  <div class="journal-avatar">
+    <%= image_tag profile.avatar.variant(:thumb), class: 'avatar' ,
+    alt: "#{profile.display_name}のプロフィール画像" %>
+  </div>
+  <div class="journal-content">
+    <div class="journal-head">
+      <div>
+        <%= profile.display_name %>
+      </div>
+      <div>
+        <%= time_ago_in_words journal.created_at %>
+      </div>
+    </div>
+    <% unless current_page? pickle_path(journal.pickle) %>
+      <div>
+        <%= link_to journal.pickle.name, pickle_path(journal.pickle) %>
+      </div>
+    <% end %>
+    <div class="journal-body">
+      <%= journal.body %>
+    </div>
+  </div>
 </div>

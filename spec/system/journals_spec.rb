@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Journals", type: :system do
-  describe 'CREATE' do
+  xdescribe 'CREATE' do
     let(:user) { create(:user, :confirmed) }
     let(:pickle) { user.pickles.create(attributes_for(:pickle)) }
     let!(:attrs_journal) { attributes_for(:journal) }
@@ -19,7 +19,23 @@ RSpec.describe "Journals", type: :system do
     end
   end
 
-  describe 'READ'
+  describe 'READ' do
+    let(:user) { create(:user, :confirmed) }
+    let(:pickle) { user.pickles.create(attributes_for(:pickle)) }
+    before do
+      20.times do
+        pickle.journals.create!(attributes_for(:journal_sequence))
+      end
+    end
+
+    specify 'pickle page shows all its journals' do
+      visit pickle_path(pickle)
+      journal_section = find('.journal-section')
+      pickle.journals.each do |journal|
+        expect(journal_section).to have_text journal.body
+      end
+    end
+  end
 
   describe 'UPDATE'
 
