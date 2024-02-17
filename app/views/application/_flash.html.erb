@@ -1,0 +1,4 @@
+<% flash.each do |type, message| %>
+  <% next if type == 'timedout' %>
+  <%= content_tag(:div, message, class: "alert alert-#{bootstrap_alert(type)}") %>
+<% end %>

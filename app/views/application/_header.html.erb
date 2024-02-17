@@ -1,0 +1,19 @@
+  <nav class="navbar navbar-expand-md bg-body-tertiary mb-3">
+    <div class="container">
+      <%= link_to "ococo" , root_path, class: 'navbar-brand' %>
+      <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <% if user_signed_in? %>
+            <li class="nav-item"><%= link_to t('visit_current_user_page', scope: 'users'), current_user, class: 'nav-link' %></li>
+            <li class="nav-item"><%= link_to t('sign_out', scope: 'users.sessions.destroy') , destroy_user_session_path, class: 'nav-link', id: 'sign-out-link', data: { "turbo-method": :delete } %></li>
+          <% else %>
+            <li class="nav-item"><%= link_to t('sign_in', scope: 'users.sessions.new') , new_user_session_path, class: 'nav-link' %></li>
+            <li class="nav-item"><%= link_to t('sign_up', scope: 'users.registrations.new') , new_user_registration_path, class: 'nav-link' %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </nav>
