@@ -75,9 +75,7 @@
         <%= "#{profile.display_name}の漬け物記録" %>
       </h2>
       <%= turbo_frame_tag 'journals-list' do %>
-        <% @journals.each do |journal| %>
-          <%= render 'journals/journal', journal: journal %>
-        <% end %>
+        <%= render @journals %>
         <%= paginate @journals %>
       <% end %>
     </div>
