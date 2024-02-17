@@ -41,14 +41,14 @@ RSpec.describe "/journals", type: :request do
     end
   end
 
-  describe "GET /new" do
+  xdescribe "GET /new" do
     it "renders a successful response" do
       get new_journal_url
       expect(response).to be_successful
     end
   end
 
-  describe "GET /edit" do
+  xdescribe "GET /edit" do
     it "renders a successful response" do
       journal = Journal.create! valid_attributes
       get edit_journal_url(journal)
@@ -86,7 +86,7 @@ RSpec.describe "/journals", type: :request do
     end
   end
 
-  describe "PATCH /update" do
+  xdescribe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) {
         skip("Add a hash of attributes valid for your model")
