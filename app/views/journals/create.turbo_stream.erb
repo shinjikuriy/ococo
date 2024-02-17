@@ -1,0 +1,5 @@
+<%= turbo_stream.prepend 'journals', @journal %>
+
+<%= turbo_stream.update Journal.new, partial: 'form', locals: { journal: Journal.new(pickle_id: @journal.pickle_id) } %>
+
+<%= turbo_stream.update 'flash', partial: 'flash' %>

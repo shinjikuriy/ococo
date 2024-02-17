@@ -44,7 +44,7 @@ class User < ApplicationRecord
   has_one :profile, dependent: :destroy
   accepts_nested_attributes_for :profile
   has_many :pickles, dependent: :destroy
-  has_many :journals, through: :pickles
+  has_many :journals, -> { order(created_at: :desc) }, through: :pickles
 
   validates :username, presence: true, length: { minimum: 3, maximum: 30 }, uniqueness: { case_sensitive: false },
                        format: { with: /\A[a-zA-Z0-9_]+\z/, message: :invalid_username_format },

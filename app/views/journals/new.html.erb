@@ -1,6 +1,8 @@
 <h1>New journal</h1>
 
-<%= render "form", journal: @journal %>
+<%= turbo_frame_tag 'new_journal' do %>
+  <%= render 'journals/form', journal: @journal %>
+<% end %>
 
 <br>
 

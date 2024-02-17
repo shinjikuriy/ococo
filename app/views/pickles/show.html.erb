@@ -41,9 +41,14 @@
 
 <div class="journal-section">
   <% if @pickle.user.id == current_user&.id %>
-    <%= render 'journals/form', journal: @journal %>
+    <%= turbo_frame_tag Journal.new do %>
+      <%= render 'journals/form', journal: @journal %>
+    <% end %>
   <% end %>
-  <% @pickle.journals.each do |journal| %>
-    <%= render 'journals/journal', journal: journal %>
+  <%= turbo_frame_tag 'journals-list' do %>
+    <div id="journals">
+      <%= render @journals %>
+    </div>
+    <%= paginate @journals %>
   <% end %>
 </div>

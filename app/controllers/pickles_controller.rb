@@ -7,6 +7,8 @@ class PicklesController < ApplicationController
 
   def show
     @pickle = Pickle.find(params[:id])
+    @journals = @pickle.journals.page params[:page]
+    @journal = Journal.new(pickle_id: @pickle.id) if @pickle.user.id == current_user&.id
   end
 
   def new

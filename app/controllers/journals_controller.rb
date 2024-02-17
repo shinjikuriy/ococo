@@ -23,14 +23,10 @@ class JournalsController < ApplicationController
   def create
     @journal = Journal.new(journal_params)
 
-    respond_to do |format|
-      if @journal.save
-        format.html { redirect_to journal_url(@journal), notice: "Journal was successfully created." }
-        format.json { render :show, status: :created, location: @journal }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @journal.errors, status: :unprocessable_entity }
-      end
+    if @journal.save
+      flash.now[:success] = "Journal was successfully created."
+    else
+      render 'new', status: :unprocessable_entity
     end
   end
 
