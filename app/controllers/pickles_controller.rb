@@ -29,6 +29,7 @@ class PicklesController < ApplicationController
 
   def edit
     @pickle = Pickle.find(params[:id])
+    check_authorization
     build_nested_attributes
   end
 
@@ -45,7 +46,7 @@ class PicklesController < ApplicationController
 
   def destroy
     @pickle = Pickle.find(params[:id])
-    redirect_to pickle_path(@pickle) unless @pickle.user.id == current_user.id
+    check_authorization
     if @pickle.destroy
       flash[:success] = t('pickles.shared.destroyed_pickle')
       redirect_to user_path(current_user), status: :see_other
@@ -67,5 +68,9 @@ class PicklesController < ApplicationController
   def build_nested_attributes
     @pickle.ingredients.build if @pickle.ingredients.empty?
     @pickle.sauce_materials.build if @pickle.sauce_materials.empty?
+  end
+
+  def check_authorization
+    redirect_to pickle_path(@pickle) unless @pickle.user.id == current_user.id
   end
 end

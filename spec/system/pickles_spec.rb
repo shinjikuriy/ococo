@@ -4,7 +4,7 @@ RSpec.describe "Pickles", type: :system do
   let(:user) { create(:user, :confirmed) }
   let(:attrs_pickle) { attributes_for(:pickle) }
 
-  describe 'create' do
+  describe 'CREATE' do
     before do
       sign_in user
       visit user_path(user)
@@ -50,6 +50,14 @@ RSpec.describe "Pickles", type: :system do
       attrs_pickle[:preparation].each_line { |line| expect(page).to have_text line.chomp }
       attrs_pickle[:process].each_line { |line| expect(page).to have_text line.chomp }
       attrs_pickle[:note].each_line { |line| expect(page).to have_text line.chomp }
+    end
+
+    specify "user cannnot create other user's pickles" do
+      lena = create(:user_lena)
+      lena.confirm
+
+      visit user_path(lena)
+      expect(page).not_to have_link t('pickles.new.create_pickle')
     end
 
     context 'when values are invalid' do
@@ -135,7 +143,7 @@ RSpec.describe "Pickles", type: :system do
     end
   end
 
-  describe 'read' do
+  describe 'READ' do
     specify 'anyone can view a pickle page' do
       pickle = user.pickles.create(attrs_pickle)
 
@@ -220,7 +228,7 @@ RSpec.describe "Pickles", type: :system do
     end
   end
 
-  describe 'update' do
+  describe 'UPDATE' do
     let!(:pickle) { user.pickles.create(attrs_pickle) }
     before do
       sign_in user
@@ -249,6 +257,15 @@ RSpec.describe "Pickles", type: :system do
       expect(page).to have_text '新しい材料の数量'
       expect(page).to have_text '新しい漬け汁材料の名前'
       expect(page).to have_text '新しい漬け汁材料の数量'
+    end
+
+    specify "user cannot edit other user's pickles" do
+      lena = create(:user_lena)
+      lena.confirm
+      lena_pickle = lena.pickles.create(attributes_for(:pickle_kabu))
+
+      visit edit_pickle_path(lena_pickle)
+      expect(page).to have_current_path pickle_path(lena_pickle)
     end
 
     specify 'user can delete ingredients', js: true do
@@ -310,7 +327,7 @@ RSpec.describe "Pickles", type: :system do
     end
   end
 
-  describe 'delete' do
+  describe 'DELETE' do
     specify 'user can delete pickles', js: true do
       sign_in user
       pickle = user.pickles.create(attributes_for(:pickle))
