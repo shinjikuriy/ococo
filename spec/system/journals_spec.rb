@@ -2,12 +2,12 @@ require 'rails_helper'
 
 RSpec.describe "Journals", type: :system do
   describe 'CREATE' do
-    let(:user) { create(:user, :confirmed) }
-    let(:pickle) { user.pickles.create(attributes_for(:pickle)) }
+    let!(:user) { create(:user, :confirmed) }
+    let!(:pickle) { user.pickles.create(attributes_for(:pickle)) }
     let!(:attrs_journal) { attributes_for(:journal) }
     before { sign_in user }
 
-    specify "user can post a journal on the pickle's page", js: true do
+    specify "pickle's owner can post a journal on the pickle's page", js: true do
       pickle
       visit user_path(user)
       click_link pickle.name
@@ -20,6 +20,15 @@ RSpec.describe "Journals", type: :system do
       end.to change { Journal.count }.by 1
       expect(page).to have_selector 'div.alert-success'
       expect(find('#journals')).to have_text attrs_journal[:body]
+    end
+
+    specify "user cannot post a journal on other user's pickle" do
+      lena = create(:user_lena)
+      pickle_lena = lena.pickles.create(attributes_for(:pickle_kabu))
+
+      visit user_path(lena)
+      click_link pickle_lena.name
+      expect(page).not_to have_selector '.journal-form'
     end
   end
 
