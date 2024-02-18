@@ -46,11 +46,7 @@ class JournalsController < ApplicationController
   # DELETE /journals/1 or /journals/1.json
   def destroy
     @journal.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to journals_url, notice: "Journal was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    flash.now[:success] = t('journals.shared.destroyed_journal')
   end
 
   private

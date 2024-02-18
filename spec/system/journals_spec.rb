@@ -91,6 +91,7 @@ RSpec.describe "Journals", type: :system do
     let!(:user) { create(:user, :confirmed) }
     let!(:pickle) { user.pickles.create(attributes_for(:pickle)) }
     let!(:journal) { pickle.journals.create(attributes_for(:journal)) }
+    before { sign_in user }
 
     specify 'user can delete own journal', js: true do
       visit user_path(user)
@@ -99,6 +100,7 @@ RSpec.describe "Journals", type: :system do
           page.accept_confirm do
             click_on t('journals.shared.destroy_journal')
           end
+          sleep 0.5
         end.to change { Journal.count }.by -1
       end
       expect(page).to have_selector('div.alert-success'), text: t('journals.shared.destroyed_journal')

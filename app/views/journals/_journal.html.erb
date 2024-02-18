@@ -12,6 +12,12 @@
       <div>
         <%= time_ago_in_words journal.created_at %>
       </div>
+      <% if journal.user.id == current_user&.id %>
+        <div>
+          <%= button_to t('journals.shared.destroy_journal'), journal_path(journal), form: { data: { turbo_confirm: t('journals.shared.confirm') } },
+                                                                                      method: :delete, class: 'btn btn-danger btn-sm' %>
+        </div>
+      <% end %>
     </div>
     <div class="journal-body">
       <div class="pickle-link">
