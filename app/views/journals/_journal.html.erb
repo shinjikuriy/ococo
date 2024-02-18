@@ -13,12 +13,10 @@
         <%= time_ago_in_words journal.created_at %>
       </div>
     </div>
-    <% unless current_page? pickle_path(journal.pickle) %>
-      <div>
+    <div class="journal-body">
+      <div class="pickle-link">
         <%= link_to journal.pickle.name, pickle_path(journal.pickle) %>
       </div>
-    <% end %>
-    <div class="journal-body">
       <%= journal.body %>
     </div>
   </div>
