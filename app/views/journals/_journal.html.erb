@@ -15,7 +15,7 @@
     </div>
     <div class="journal-body">
       <div class="pickle-link">
-        <%= link_to journal.pickle.name, pickle_path(journal.pickle) %>
+        <%= link_to journal.pickle.name, pickle_path(journal.pickle), data: { turbo_frame: '_top' } %>
       </div>
       <%= journal.body %>
     </div>
