@@ -24,7 +24,7 @@ RSpec.describe 'users', type: :system do
     context "when user has not signed in" do
       it "doesn't have link to edit user's profile" do
         visit user_path(user)
-        expect(page).not_to have_link edit_profile_path(user)
+        expect(page).not_to have_link edit_profile_path
       end
     end
 
@@ -32,7 +32,7 @@ RSpec.describe 'users', type: :system do
       it "has link to edit user's profile" do
         sign_in user
         visit user_path(user)
-        expect(page).to have_link t('users.show.edit_profile'), href: edit_profile_path(user)
+        expect(page).to have_link t('users.show.edit_profile'), href: edit_profile_path
         expect(page).to have_link t('users.show.edit_authentication_information'), href: edit_user_registration_path
       end
     end

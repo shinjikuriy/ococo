@@ -6,7 +6,7 @@ RSpec.describe "ProfilesEdit", type: :system do
     let(:profile) { user.profile }
     before do
       sign_in user
-      visit edit_profile_path(user)
+      visit edit_profile_path
     end
 
     context 'when information is valid' do

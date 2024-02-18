@@ -21,12 +21,14 @@ Rails.application.routes.draw do
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
+  get 'edit_profile', to: 'profiles#edit', as: 'edit_profile'
+  put 'edit_profile', to: 'profiles#update', as: 'update_profile'
+
   resources :pickles
 
   get ':username', to: 'users#show', as: 'user'
 
-  get ':username/edit_profile', to: 'profiles#edit', as: 'edit_profile'
-  put ':username/edit_profile', to: 'profiles#update', as: 'update_profile'
+
 
   root to: "static_pages#home"
 end
