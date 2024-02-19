@@ -216,7 +216,7 @@ RSpec.describe "Pickles", type: :system do
         end
       end
 
-      pickles = Pickle.all.order(created_at: :desc)
+      pickles = Pickle.order(created_at: :desc)
 
       visit pickles_path
       pickles[0..9].each do |pickle|

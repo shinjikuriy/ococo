@@ -3,7 +3,7 @@ class JournalsController < ApplicationController
 
   # GET /journals or /journals.json
   def index
-    @journals = Journal.all
+    @journals = Journal.order(created_at: :desc).page params[:page]
   end
 
   # GET /journals/1 or /journals/1.json

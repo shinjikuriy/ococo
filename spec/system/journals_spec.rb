@@ -85,6 +85,31 @@ RSpec.describe "Journals", type: :system do
         end
       end
     end
+
+    specify 'all journals are shown on index page' do
+      lukas = user
+      lena = create(:user_lena)
+      stefan = create(:user_stefan)
+      pickle.journals.clear
+      lena.confirm
+      stefan.confirm
+      pickle_lena = lena.pickles.create(attributes_for(:pickle_kabu))
+      pickle_stefan = stefan.pickles.create(attributes_for(:pickle_celery))
+
+      10.times do
+        [pickle, pickle_lena, pickle_stefan].each do |p|
+          p.journals.create!(body: Faker::Lorem.sentence(word_count: 3))
+        end
+      end
+      journals = Journal.order(created_at: :desc)
+
+      visit journals_path
+      journals[0..9].each do |j|
+        expect(find('#journals')).to have_text j.body
+      end
+      expect(page).to have_link '次', href: journals_path(page: 2)
+      expect(page).to have_link '最後', href: journals_path(page: 3)
+    end
   end
 
   describe 'DELETE' do
@@ -103,7 +128,7 @@ RSpec.describe "Journals", type: :system do
           sleep 0.5
         end.to change { Journal.count }.by -1
       end
-      expect(page).to have_selector('div.alert-success'), text: t('journals.shared.destroyed_journal')
+      expect(page).to have_selector 'div.alert-success', text: t('journals.shared.destroyed_journal')
       expect(find('#journals')).not_to have_text journal.body
     end
 
