@@ -1,22 +1,9 @@
 class JournalsController < ApplicationController
-  before_action :set_journal, only: %i[ show edit update destroy ]
+  before_action :set_journal, only: :destroy
 
-  # GET /journals or /journals.json
+  # GET /journals
   def index
     @journals = Journal.order(created_at: :desc).page params[:page]
-  end
-
-  # GET /journals/1 or /journals/1.json
-  def show
-  end
-
-  # GET /journals/new
-  def new
-    @journal = Journal.new
-  end
-
-  # GET /journals/1/edit
-  def edit
   end
 
   # POST /journals or /journals.json
@@ -27,19 +14,6 @@ class JournalsController < ApplicationController
       flash.now[:success] = "Journal was successfully created."
     else
       render 'new', status: :unprocessable_entity
-    end
-  end
-
-  # PATCH/PUT /journals/1 or /journals/1.json
-  def update
-    respond_to do |format|
-      if @journal.update(journal_params)
-        format.html { redirect_to journal_url(@journal), notice: "Journal was successfully updated." }
-        format.json { render :show, status: :ok, location: @journal }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @journal.errors, status: :unprocessable_entity }
-      end
     end
   end
 

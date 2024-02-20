@@ -1,10 +1,11 @@
 Rails.application.routes.draw do
-  resources :journals
-  mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
-
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
+
+  mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
+
+  root to: "static_pages#home"
 
   devise_for :users, path: '',
                      controllers: { registrations: 'users/registrations' },
@@ -19,16 +20,12 @@ Rails.application.routes.draw do
     post 'edit_credentials', to: 'users/registrations#create'
     delete 'edit_credentials', to: 'users/registrations#destroy'
   end
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   get 'edit_profile', to: 'profiles#edit', as: 'edit_profile'
   put 'edit_profile', to: 'profiles#update', as: 'update_profile'
 
   resources :pickles
+  resources :journals, only: [:index, :create, :destroy]
 
   get ':username', to: 'users#show', as: 'user'
-
-
-
-  root to: "static_pages#home"
 end
