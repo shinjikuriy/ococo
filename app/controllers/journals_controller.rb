@@ -1,4 +1,5 @@
 class JournalsController < ApplicationController
+  before_action :authenticate_user!, except: :index
   before_action :set_journal, only: :destroy
 
   # GET /journals
@@ -9,9 +10,10 @@ class JournalsController < ApplicationController
   # POST /journals or /journals.json
   def create
     @journal = Journal.new(journal_params)
+    check_authorization
 
     if @journal.save
-      flash.now[:success] = "Journal was successfully created."
+      flash.now[:success] = t('journals.shared.created_journal')
     else
       render 'new', status: :unprocessable_entity
     end
@@ -19,6 +21,7 @@ class JournalsController < ApplicationController
 
   # DELETE /journals/1 or /journals/1.json
   def destroy
+    check_authorization
     @journal.destroy!
     flash.now[:success] = t('journals.shared.destroyed_journal')
   end
@@ -32,5 +35,9 @@ class JournalsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def journal_params
       params.require(:journal).permit(:pickle_id, :body)
+    end
+
+    def check_authorization
+      redirect_to root_url unless @journal.user.id == current_user.id
     end
 end

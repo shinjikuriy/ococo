@@ -18,7 +18,7 @@ RSpec.describe "Journals", type: :system do
         end
         sleep 0.5
       end.to change { Journal.count }.by 1
-      expect(page).to have_selector 'div.alert-success'
+      expect(page).to have_selector 'div.alert-success', text: t('journals.shared.created_journal')
       expect(find('#journals')).to have_text attrs_journal[:body]
     end
 

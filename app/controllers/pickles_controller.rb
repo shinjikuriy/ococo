@@ -71,6 +71,6 @@ class PicklesController < ApplicationController
   end
 
   def check_authorization
-    redirect_to pickle_path(@pickle) unless @pickle.user.id == current_user.id
+    redirect_to pickle_url(@pickle) unless @pickle.user.id == current_user.id
   end
 end
