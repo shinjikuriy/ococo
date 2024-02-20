@@ -43,7 +43,8 @@ RSpec.describe "Journals", type: :system do
 
     specify "journals are shown on the pickle's page and paginated" do
       visit pickle_path(pickle)
-      journal_section = find('.journal-section')
+      journal_section = find('#journals')
+      expect(journal_section).not_to have_link pickle.name, href: pickle_path(pickle)
       pickle.journals.each_with_index do |journal, i|
         if i < 10
           expect(journal_section).to have_text journal.body
@@ -51,9 +52,10 @@ RSpec.describe "Journals", type: :system do
           expect(journal_section).not_to have_text journal.body
         end
       end
-      within('.journal-section') do
+      within('.journal-section .pagination') do
         click_link '次 ›'
       end
+      expect(journal_section).not_to have_link pickle.name, href: pickle_path(pickle)
       pickle.journals.each_with_index do |journal, i|
         if i < 10
           expect(journal_section).not_to have_text journal.body
@@ -66,7 +68,8 @@ RSpec.describe "Journals", type: :system do
     specify "user's journals are shown on the user's page and paginated" do
       visit user_path(user)
 
-      journal_section = find('.journal-section')
+      journal_section = find('#journals')
+      expect(journal_section).to have_link href: pickle_path(pickle)
       pickle.journals.each_with_index do |journal, i|
         if i < 10
           expect(journal_section).to have_text journal.body
@@ -74,7 +77,7 @@ RSpec.describe "Journals", type: :system do
           expect(journal_section).not_to have_text journal.body
         end
       end
-      within('.journal-section') do
+      within('.journal-section .pagination') do
         click_link '次 ›'
       end
       pickle.journals.each_with_index do |journal, i|
