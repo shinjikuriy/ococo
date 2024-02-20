@@ -3,7 +3,7 @@ ja:
     shared:
       confirm: 本当によろしいですか？
       create_journal: 記録を投稿
-      created_pickle: 記録が投稿されました。
+      created_journal: 記録が投稿されました。
       destroy_journal: 記録を削除
       destroyed_journal: 記録を削除しました。
 
