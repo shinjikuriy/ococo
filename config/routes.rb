@@ -5,8 +5,6 @@ Rails.application.routes.draw do
 
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
 
-  root to: "static_pages#home"
-
   devise_for :users, path: '',
                      controllers: { registrations: 'users/registrations' },
                      skip: 'registrations'
@@ -28,4 +26,6 @@ Rails.application.routes.draw do
   resources :journals, only: [:index, :create, :destroy]
 
   get ':username', to: 'users#show', as: 'user'
+
+  root to: "static_pages#home"
 end

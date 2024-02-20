@@ -16,8 +16,9 @@ RSpec.describe 'users', type: :system do
       expect(page).to have_link href: 'https://instagram.com/'.concat(profile.ig_username)
     end
 
-    it "shows top page with an error message" do
+    it "redirects to top page with an error message" do
       visit user_path('hogehoge')
+      expect(page).to have_current_path root_path
       expect(page).to have_selector 'div.alert-warning', text: t('errors.messages.page_not_found')
     end
 
