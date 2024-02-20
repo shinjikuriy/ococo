@@ -11,7 +11,12 @@
     </div>
   <% end %>
 
-  <%= form.hidden_field :pickle_id, value: journal.pickle.id %>
+  <% if request.path == user_path(current_user) || (request.post? && request.referer.include?(user_path(current_user))) %>
+    <%= form.label :pickle_id, Pickle.model_name.human, style: "display: block" %>
+    <%= form.select :pickle_id, pickles.map{ |p| [p.name, p.id] } %>
+  <% else %>
+    <%= form.hidden_field :pickle_id, value: journal.pickle.id %>
+  <% end %>
 
   <div>
     <%= form.label :body, style: "display: block" %>

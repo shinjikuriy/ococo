@@ -43,7 +43,7 @@ class User < ApplicationRecord
 
   has_one :profile, dependent: :destroy
   accepts_nested_attributes_for :profile
-  has_many :pickles, dependent: :destroy
+  has_many :pickles, -> { order(created_at: :desc) }, dependent: :destroy
   has_many :journals, -> { order(created_at: :desc) }, through: :pickles
 
   validates :username, presence: true, length: { minimum: 3, maximum: 30 }, uniqueness: { case_sensitive: false },

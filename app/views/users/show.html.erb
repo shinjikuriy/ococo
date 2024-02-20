@@ -76,6 +76,11 @@
       <h2>
         <%= "#{profile.display_name}の漬け物記録" %>
       </h2>
+      <% if @user.id == current_user&.id %>
+        <%= turbo_frame_tag Journal.new do %>
+          <%= render 'journals/form', journal: @journal, pickles: @user.pickles %>
+        <% end %>
+      <% end %>
       <%= turbo_frame_tag 'journals-list' do %>
         <div id="journals">
           <%= render @journals %>
