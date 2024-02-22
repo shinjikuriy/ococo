@@ -119,7 +119,7 @@
   }
 }
 
-.devise-form {
+.devise-form, .profile-form {
   @extend .col-xxl-6, .col-xl-7, .col-lg-8, .col-md-9;
   @extend .mx-3;
   @extend .px-4, .py-3;
@@ -137,6 +137,7 @@
   input[type="text"],
   input[type="password"],
   input[type="email"],
+  input[type="file"],
   input[type="submit"],
   textarea {
     @extend .form-control;
@@ -148,6 +149,10 @@
 
   .form-check input[type="checkbox"] {
     @extend .form-check-label;
+  }
+
+  select {
+    @extend .form-select;
   }
 
   .actions input {
