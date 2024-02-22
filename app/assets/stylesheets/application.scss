@@ -6,8 +6,42 @@
 
 
 /* shared */
-.journal-section, .pickle-section{
-  background-color: $gray-200;
+.journal-card {
+  @extend .d-flex;
+  @extend .py-2;
+  border-bottom: 1px solid $gray-500;
+
+  .journal-avatar {
+    @extend .me-2;
+
+    .avatar {
+      background-color: $gray-200;
+      max-width: 2.5rem;
+      max-height: auto;
+      border-radius: 100%;
+    }
+  }
+
+  .journal-content {
+    @extend .flex-fill;
+
+    .journal-header {
+      @extend .d-flex;
+      @extend .align-items-center;
+
+      .button-destroy-journal {
+        @extend .btn, .btn-danger;
+        --bs-btn-font-size: .75rem;
+        --bs-btn-padding-x: .4rem;
+      }
+    }
+    .journal-body {
+      .pickle-link {
+        @extend .d-block;
+        font-size: 0.9rem;
+      }
+    }
+  }
 }
 
 /* home */
@@ -19,7 +53,72 @@
 }
 
 
-/* users */
+/* user page */
+.row-user-main-frame {
+  @extend .row, .row-cols-md-2, .row-cols-1;
+  @extend .justify-content-center;
+  @extend .gy-3;
+
+  .col-profile-pane {
+    @extend .col-md-3, .col-12;
+
+    .profile-card {
+      @extend .d-flex;
+      @extend .justify-content-md-center;
+      @extend .align-items-md-start, .align-items-center;
+      @extend .flex-md-wrap, .flex-nowrap;
+      @extend .p-3;
+      background-color: $gray-500;
+      border-radius: 10px;
+
+      .profile-avatar {
+        @extend .col-md-12, .col-auto;
+        @extend .text-md-center, .text-end;
+
+        .avatar {
+          @extend .my-2;
+          background-color: $gray-200;
+          max-width: 100px;
+          max-height: auto;
+          border-radius: 100%;
+        }
+      }
+
+      .profile-body {
+        @extend .col-md-12, .col-auto;
+        @extend .text-md-center, .text-start, .text-break;
+        @extend .mt-2;
+        @extend .ps-md-0, .ps-3;
+      }
+    }
+  }
+
+  .col-content-pane {
+    @extend .col-md-9, .col-12;
+
+    .pickle-section {
+      @extend .mb-3;
+      @extend .p-3;
+      background-color: $gray-300;
+      border-radius: 10px;
+    }
+
+    .journal-section {
+      @extend .p-3;
+      background-color: $gray-300;
+      border-radius: 10px;
+
+      .journal-form-section {
+        background-color: $blue-100;
+      }
+
+      .journal-list-section {
+        background-color: $gray-100;
+      }
+    }
+  }
+}
+
 .users-form {
   @extend .col-xxl-6, .col-xl-7, .col-lg-8, .col-md-9;
   @extend .mx-3;
@@ -49,20 +148,7 @@
 }
 
 
-/* user profile page */
-.profile-card {
-  background-color: $gray-500;
-  border-radius: 10px;
-  .avatar {
-    background-color: $gray-200;
-    max-width: 100px;
-    max-height: auto;
-    border-radius: 100%;
-  }
-}
-
-
-/* pickles */
+/* pickle */
 .pickle-form {
   background-color: $gray-500;
   border-radius: 10px;
@@ -72,28 +158,6 @@
   }
   .ingredients, .sauce-materials {
     @extend .p-2;
-  }
-}
-
-.journal-card {
-  @extend .d-flex;
-  @extend .gx-3;
-  background-color: $orange-300;
-  .journal-avatar {
-    @extend .align-self-start;
-    .avatar {
-      background-color: $gray-200;
-      max-width: 2.5rem;
-      max-height: auto;
-      border-radius: 100%;
-    }
-  }
-  .journal-content {
-    @extend .align-self-stretch;
-    .journal-head {
-      @extend .d-flex;
-      @extend .justify-content-between;
-    }
   }
 }
 
