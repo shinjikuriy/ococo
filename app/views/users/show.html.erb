@@ -5,7 +5,7 @@
     <div class="profile-card">
       <div class="profile-avatar">
         <%= image_tag profile.avatar.representation(resize_to_limit: [300, 300]), class: 'avatar' ,
-          alt: "#{profile.display_name}のプロフィール画像" %>
+          alt: t('profiles.shared.profile_picture_of_user', name: profile.display_name) %>
       </div>
       <div class="profile-body">
         <p class="h5">
@@ -72,12 +72,12 @@
 
     <div class="journal-section">
       <h2>
-        <%= t('journals.show.title', name: profile.display_name) %>
+        <%= t('journals.shared.title', name: profile.display_name) %>
       </h2>
 
       <% if @user.id == current_user&.id %>
         <div class="journal-form-section">
-          <h3><%= t('journals.shared.create-journal') %></h3>
+          <h3><%= t('journals.shared.create_journal') %></h3>
           <%= turbo_frame_tag Journal.new do %>
             <%= render 'journals/form', journal: @journal, pickles: @user.pickles %>
           <% end %>

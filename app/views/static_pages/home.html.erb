@@ -6,7 +6,9 @@
       <li class="list-inline-item">🫙</li>
       <li class="list-inline-item">📝</li>
     </ul>
-    <p>ococoは、お漬物の作成記録アプリです。</p>
-    <%= link_to '登録して始める', new_user_registration_path, class: 'btn btn-primary text-nowrap' %>
+    <p><%= t('.description') %></p>
+    <%= link_to t('.registration'), new_user_registration_path, class: 'btn btn-primary text-nowrap' %>
+    <%= t('.or') %>
+    <%= link_to t('users.shared.links.sign_in'), new_user_session_path, class: 'btn btn-secondary text-nowrap' %>
   </div>
 </div>

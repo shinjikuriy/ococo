@@ -1,8 +1,10 @@
 ja:
   profiles:
     edit:
+      back: 編集せずに戻る
       title: プロフィール編集
       update: 更新
-      back: 編集せずに戻る
+    shared:
+      profile_picture_of_user: "%{name}のプロフィール画像"
     update:
       profile_successfully_updated: プロフィールが更新されました。

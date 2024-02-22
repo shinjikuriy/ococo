@@ -2,7 +2,7 @@
 <div id="<%= dom_id journal %>" class="journal-card">
   <div class="journal-avatar">
     <%= image_tag profile.avatar.variant(:thumb), class: 'avatar' ,
-                                                  alt: "#{profile.display_name}のプロフィール画像" %>
+                                                  alt: t('profiles.shared.profile_picture_of_user', name: profile.display_name) %>
   </div>
   <div class="journal-content">
     <div class="journal-header">
