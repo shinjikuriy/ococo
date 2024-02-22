@@ -119,24 +119,37 @@
   }
 }
 
-.users-form {
+.devise-form {
   @extend .col-xxl-6, .col-xl-7, .col-lg-8, .col-md-9;
   @extend .mx-3;
   @extend .px-4, .py-3;
   background-color: $gray-500;
   border-radius: 10px;
+
   h2 {
     text-align: center;
   }
+
   > form > div {
     @extend .mb-3;
   }
-  input {
-    width: 100%;
+
+  input[type="text"],
+  input[type="password"],
+  input[type="email"],
+  input[type="submit"],
+  textarea {
+    @extend .form-control;
   }
-  input[type="checkbox"] {
-    width: auto;
+
+  .form-check input[type="checkbox"] {
+    @extend .form-check-input;
   }
+
+  .form-check input[type="checkbox"] {
+    @extend .form-check-label;
+  }
+
   .actions input {
     @extend .btn;
     @extend .btn-primary;
