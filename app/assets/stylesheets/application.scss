@@ -3,7 +3,33 @@
 @import "bootstrap";
 
 /* universal */
+form {
+  input[type="text"],
+  input[type="password"],
+  input[type="email"],
+  input[type="file"],
+  textarea {
+    @extend .form-control;
+  }
 
+  input[type="submit"] {
+    @extend .form-control;
+    @extend .btn;
+    @extend .btn-primary;
+  }
+
+  select {
+    @extend .form-select;
+  }
+
+  .form-check input[type="checkbox"] {
+    @extend .form-check-input;
+  }
+
+  .form-check input[type="checkbox"] {
+    @extend .form-check-label;
+  }
+}
 
 /* shared */
 .journal-card {
@@ -35,6 +61,7 @@
         --bs-btn-padding-x: .4rem;
       }
     }
+
     .journal-body {
       .pickle-link {
         @extend .d-block;
@@ -132,32 +159,6 @@
 
   > form > div {
     @extend .mb-3;
-  }
-
-  input[type="text"],
-  input[type="password"],
-  input[type="email"],
-  input[type="file"],
-  input[type="submit"],
-  textarea {
-    @extend .form-control;
-  }
-
-  .form-check input[type="checkbox"] {
-    @extend .form-check-input;
-  }
-
-  .form-check input[type="checkbox"] {
-    @extend .form-check-label;
-  }
-
-  select {
-    @extend .form-select;
-  }
-
-  .actions input {
-    @extend .btn;
-    @extend .btn-primary;
   }
 }
 
