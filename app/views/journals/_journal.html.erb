@@ -27,7 +27,7 @@
       <% unless request.path == pickle_path(journal.pickle) || request.post? && request.referer.include?(pickle_path(journal.pickle)) %>
         <%= link_to journal.pickle.name, pickle_path(journal.pickle), data: { turbo_frame: '_top' }, class: 'pickle-link' %>
       <% end %>
-      <%= journal.body %>
+      <%= simple_format journal.body %>
     </div>
   </div>
 </div>

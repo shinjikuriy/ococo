@@ -38,7 +38,7 @@ form {
 /* shared */
 .journal-card {
   @extend .d-flex;
-  @extend .py-2;
+  @extend .p-2;
   border-bottom: 1px solid $gray-500;
 
   .journal-avatar {
@@ -61,6 +61,7 @@ form {
 
       .button-destroy-journal {
         @extend .btn, .btn-danger;
+        @extend .ms-1;
         --bs-btn-font-size: .75rem;
         --bs-btn-padding-x: .4rem;
       }
@@ -70,6 +71,11 @@ form {
       .pickle-link {
         @extend .d-block;
         font-size: 0.9rem;
+      }
+
+      p {
+        @extend .my-1;
+        font-size: 1.1rem;
       }
     }
   }
