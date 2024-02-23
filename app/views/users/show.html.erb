@@ -77,7 +77,6 @@
 
       <% if @user.id == current_user&.id %>
         <div class="journal-form-section">
-          <h3><%= t('journals.shared.create_journal') %></h3>
           <%= turbo_frame_tag Journal.new do %>
             <%= render 'journals/form', journal: @journal, pickles: @user.pickles %>
           <% end %>

@@ -1,4 +1,5 @@
 <%= form_with(model: journal, class: 'journal-form') do |form| %>
+  <h3><%= t('journals.shared.create_journal') %></h3>
   <% if journal.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(journal.errors.count, "error") %> prohibited this journal from being saved:</h2>
@@ -12,15 +13,17 @@
   <% end %>
 
   <% if request.path == user_path(current_user) || (request.post? && request.referer.include?(user_path(current_user))) %>
-    <%= form.label :pickle_id, Pickle.model_name.human, style: "display: block" %>
-    <%= form.select :pickle_id, pickles.map{ |p| [p.name, p.id] } %>
-  <% else %>
+    <div>
+      <%= form.label :pickle_id, Pickle.model_name.human, style: "display: block" %>
+      <%= form.select :pickle_id, pickles.map{ |p| [p.name, p.id] } %>
+    </div>
+      <% else %>
     <%= form.hidden_field :pickle_id, value: journal.pickle.id %>
   <% end %>
 
   <div>
     <%= form.label :body, style: "display: block" %>
-    <%= form.text_field :body %>
+    <%= form.text_area :body, rows: 3 %>
   </div>
 
   <div>
