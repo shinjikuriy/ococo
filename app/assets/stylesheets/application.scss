@@ -113,7 +113,7 @@ form {
       border-radius: 10px;
 
       .profile-avatar {
-        @extend .col-md-12, .col-auto;
+        @extend .col-md-12, .flex-fill;
         @extend .text-md-center, .text-end;
 
         .avatar {
@@ -126,10 +126,11 @@ form {
       }
 
       .profile-body {
-        @extend .col-md-12, .col-auto;
+        @extend .col-md-12, .flex-fill;
         @extend .text-md-center, .text-start, .text-break;
         @extend .mt-2;
         @extend .ps-md-0, .ps-3;
+
       }
     }
   }
