@@ -6,14 +6,14 @@
   </div>
   <div class="journal-content">
     <div class="journal-header">
-      <div class="me-auto">
-        <%= profile.display_name %>
+      <div class="journal-display-name">
+        <span><%= profile.display_name %></span>
       </div>
-      <div class="ms-auto">
+      <div class="journal-time-ago">
         <%= time_ago_in_words journal.created_at %>
       </div>
       <% if journal.user.id == current_user&.id %>
-        <div class="">
+        <div class="destroy-journal">
           <%= button_to journal_path(journal), form: { data: { turbo_confirm: t('journals.shared.confirm') } }, method: :delete,
                                                class: 'button-destroy-journal', title: t('journals.shared.destroy_journal') do %>
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">

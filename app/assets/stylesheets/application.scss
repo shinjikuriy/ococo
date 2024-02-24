@@ -3,6 +3,11 @@
 @import "bootstrap";
 
 /* universal */
+// Prevent children unexpectedly overflow
+// .d-flex > div {
+//   min-width: 0;
+// }
+
 form {
   input[type="text"],
   input[type="password"],
@@ -53,23 +58,35 @@ form {
   }
 
   .journal-content {
-    @extend .flex-fill;
+    @extend .flex-grow-1;
+    min-width: 0px;
 
     .journal-header {
       @extend .d-flex;
       @extend .align-items-center;
+
+      .journal-display-name {
+        @extend .flex-grow-1;
+        @extend .text-truncate;
+      }
+
+      .journal-time-ago {
+        @extend .ms-auto;
+        @extend .text-nowrap;
+      }
 
       .button-destroy-journal {
         @extend .btn, .btn-danger;
         @extend .ms-1;
         --bs-btn-font-size: .75rem;
         --bs-btn-padding-x: .4rem;
-      }
+        }
     }
 
     .journal-body {
       .pickle-link {
         @extend .d-block;
+        @extend .text-truncate;
         font-size: 0.9rem;
       }
 
@@ -98,7 +115,7 @@ form {
 .row-user-main-frame {
   @extend .row, .row-cols-md-2, .row-cols-1;
   @extend .justify-content-center;
-  @extend .gy-3;
+  @extend .g-3;
 
   .col-profile-pane {
     @extend .col-md-3, .col-12;
