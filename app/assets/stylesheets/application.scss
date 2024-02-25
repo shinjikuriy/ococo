@@ -40,6 +40,11 @@ form {
   }
 }
 
+ul.pagination {
+  @extend .justify-content-center;
+  @extend .mt-3, .mb-0;
+}
+
 /* shared */
 .journal-card {
   @extend .d-flex;
