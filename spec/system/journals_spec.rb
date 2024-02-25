@@ -103,7 +103,7 @@ RSpec.describe "Journals", type: :system do
         end
       end
       within('.journal-section .pagination') do
-        click_link '次 ›'
+        click_link '次'
       end
       expect(journal_section).not_to have_link pickle.name, href: pickle_path(pickle)
       pickle.journals.each_with_index do |journal, i|
@@ -128,7 +128,7 @@ RSpec.describe "Journals", type: :system do
         end
       end
       within('.journal-section .pagination') do
-        click_link '次 ›'
+        click_link '次'
       end
       pickle.journals.each_with_index do |journal, i|
         if i < 10

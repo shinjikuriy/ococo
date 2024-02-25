@@ -3,11 +3,6 @@
 @import "bootstrap";
 
 /* universal */
-// Prevent children unexpectedly overflow
-// .d-flex > div {
-//   min-width: 0;
-// }
-
 form {
   input[type="text"],
   input[type="password"],
@@ -46,9 +41,44 @@ ul.pagination {
 }
 
 /* shared */
+.pickle-card {
+  @extend .py-2;
+  border-bottom: 1px solid $gray-500;
+
+  .header {
+    .title {
+      @extend .h3;
+      @extend .m-0;
+      @extend .text-truncate;
+    }
+
+    .user-info {
+      @extend .d-flex;
+      @extend .align-items-center;
+
+      .name {
+        @extend .text-truncate;
+      }
+
+      .avatar {
+        background-color: $gray-200;
+        max-width: 2rem;
+        max-height: auto;
+        border-radius: 100%;
+      }
+    }
+  }
+
+  .summary {
+    .ingredients {
+      @extend .text-truncate;
+    }
+  }
+}
+
 .journal-card {
   @extend .d-flex;
-  @extend .p-2;
+  @extend .py-2;
   border-bottom: 1px solid $gray-500;
 
   .journal-avatar {

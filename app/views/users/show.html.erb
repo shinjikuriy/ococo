@@ -62,9 +62,7 @@
       <% end %>
       <%= turbo_frame_tag 'pickles-list' do %>
         <% @pickles.each do |pickle| %>
-          <div class="pickle-card h3">
-            <%= link_to pickle.name, pickle, data: { turbo_frame: '_top' } %>
-          </div>
+          <%= render 'pickles/pickle_card', pickle: pickle %>
         <% end %>
         <%= paginate @pickles %>
       <% end %>
