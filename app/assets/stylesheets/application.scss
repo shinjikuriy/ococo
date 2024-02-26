@@ -133,6 +133,15 @@ ul.pagination {
   }
 }
 
+.row-devise-main-frame {
+  @extend .row;
+  @extend .justify-content-center;
+
+  .col-devise-content-pane {
+    @extend .col-md-6;
+  }
+}
+
 .journal-form {
   @extend .py-2;
 }
@@ -229,11 +238,14 @@ ul.pagination {
         @extend .d-flex;
         @extend .align-items-center;
 
-        .avatar {
-          background-color: $gray-200;
-          max-width: 1.5rem;
-          max-height: auto;
-          border-radius: 100%;
+        .user-avatar {
+          @extend .me-1;
+          .avatar {
+            background-color: $gray-200;
+            max-width: 1.5rem;
+            max-height: auto;
+            border-radius: 100%;
+          }
         }
 
         .name {
@@ -267,15 +279,17 @@ ul.pagination {
 }
 
 .devise-form, .profile-form {
-  @extend .col-lg-8, .col-md-9;
-  @extend .mx-3;
-  @extend .px-4, .py-3;
+  @extend .p-3;
   background-color: $gray-500;
   border-radius: 10px;
 
   h2 {
     text-align: center;
   }
+}
+
+.cancel-account {
+  @extend .mt-3;
 }
 
 .field_with_errors {
