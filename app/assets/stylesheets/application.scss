@@ -48,7 +48,7 @@ ul.pagination {
   .header {
     .title {
       @extend .h3;
-      @extend .m-0;
+      @extend .mb-1;
       @extend .text-truncate;
     }
 
@@ -208,6 +208,39 @@ ul.pagination {
       .journal-list-section {
         border-top: 1px solid $gray-500;
       }
+    }
+  }
+}
+
+/* pickle page */
+.row-pickle-main-frame {
+  @extend .row, .row-cols-md-2, .row-cols-1;
+  @extend .justify-content-center;
+  @extend .gx-3;
+
+  .col-pickle-pane {
+    @extend .col-12, .col-lg-7;
+
+    .title {
+      text-align: center;
+    }
+
+    .recipe-section {
+      @extend .mb-3;
+      @extend .p-3;
+      background-color: $gray-300;
+      border-radius: 10px;
+    }
+  }
+
+  .col-journal-pane {
+    @extend .col-12, .col-lg-5;
+
+    .journal-section {
+      @extend .mb-3;
+      @extend .p-3;
+      background-color: $gray-300;
+      border-radius: 10px;
     }
   }
 }

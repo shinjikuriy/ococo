@@ -1,54 +1,62 @@
-<div class="pickle-section">
-  <h2><%= @pickle.name %></h2>
+<div class="row-pickle-main-frame">
+  <div class="col-pickle-pane">
+    <h1 class="title"><%= @pickle.name %></h1>
+    <div class="recipe-section">
+      <h2><%= t('.pickles_recipe', pickle: @pickle.name) %></h2>
+      <div class="ingredients">
+        <h5><%= Ingredient.model_name.human %></h5>
+        <ul>
+          <% @pickle.ingredients.each do |ingredient| %>
+            <li><%= ingredient.name %>: <%= ingredient.quantity %></li>
+          <% end %>
+        </ul>
+      </div>
 
-  <div class="ingredients">
-    <h3><%= Ingredient.model_name.human %></h3>
-  <ul>
-    <% @pickle.ingredients.each do |ingredient| %>
-      <li><%= ingredient.name %>: <%= ingredient.quantity %></li>
-    <% end %>
-  </ul>
+      <% if @pickle.sauce_materials.present? %>
+        <div class="sauce-materials">
+          <h5><%= SauceMaterial.model_name.human %></h5>
+          <ul>
+            <% @pickle.sauce_materials.each do |sauce_material| %>
+              <li><%= sauce_material.name %>: <%= sauce_material.quantity %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <% if @pickle.preparation.present? %>
+        <h5><%= Pickle.human_attribute_name(:preparation) %></h5>
+        <%= simple_format @pickle.preparation %>
+      <% end %>
+
+      <h5><%= Pickle.human_attribute_name(:process) %></h5>
+      <%= simple_format @pickle.process %>
+
+      <% if@pickle.note.present? %>
+        <h5><%= Pickle.human_attribute_name(:note) %></h5>
+        <%= simple_format @pickle.note %>
+      <% end %>
+
+      <% if @pickle.user.id == current_user&.id %>
+        <%= link_to t('pickles.shared.links.edit_pickle'), edit_pickle_path(@pickle),
+            class: 'btn btn-primary' %>
+      <% end %>
+    </div>
   </div>
 
-  <% if @pickle.sauce_materials.present? %>
-    <div class="sauce-materials">
-      <h3><%= SauceMaterial.model_name.human %></h3>
-    <ul>
-      <% @pickle.sauce_materials.each do |sauce_material| %>
-        <li><%= sauce_material.name %>: <%= sauce_material.quantity %></li>
+  <div class="col-journal-pane">
+    <div class="journal-section">
+      <h2><%= t('.pickles_journals', pickle: @pickle.name) %></h2>
+      <% if @pickle.user.id == current_user&.id %>
+        <%= turbo_frame_tag Journal.new do %>
+          <%= render 'journals/form', journal: @journal %>
+        <% end %>
       <% end %>
-    </ul>
+      <%= turbo_frame_tag 'journals-list' do %>
+        <div id="journals">
+          <%= render @journals %>
+        </div>
+        <%= paginate @journals %>
+      <% end %>
     </div>
-  <% end %>
-
-  <% if @pickle.preparation.present? %>
-    <h3><%= Pickle.human_attribute_name(:preparation) %></h3>
-    <p><%= simple_format @pickle.preparation %></p>
-  <% end %>
-
-  <h3><%= Pickle.human_attribute_name(:process) %></h3>
-  <p><%= simple_format @pickle.process %></p>
-
-  <% if@pickle.note.present? %>
-    <h3><%= Pickle.human_attribute_name(:note) %></h3>
-    <p><%= simple_format @pickle.note %></p>
-  <% end %>
-
-  <% if @pickle.user.id == current_user&.id %>
-    <%= link_to t('pickles.shared.links.edit_pickle'), edit_pickle_path(@pickle) %>
-  <% end %>
-</div>
-
-<div class="journal-section">
-  <% if @pickle.user.id == current_user&.id %>
-    <%= turbo_frame_tag Journal.new do %>
-      <%= render 'journals/form', journal: @journal %>
-    <% end %>
-  <% end %>
-  <%= turbo_frame_tag 'journals-list' do %>
-    <div id="journals">
-      <%= render @journals %>
-    </div>
-    <%= paginate @journals %>
-  <% end %>
+  </div>
 </div>

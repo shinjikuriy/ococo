@@ -1,5 +1,5 @@
 <%= form_with(model: journal, class: 'journal-form') do |form| %>
-  <h3><%= t('journals.shared.create_journal') %></h3>
+  <h5><%= t('journals.shared.create_journal') %></h5>
   <% if journal.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(journal.errors.count, "error") %> prohibited this journal from being saved:</h2>

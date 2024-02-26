@@ -54,7 +54,7 @@
   <div class="col-content-pane">
     <div class="pickle-section">
       <h2>
-        <%= t('pickles.show.title', name: profile.display_name) %>
+        <%= t('.users_pickles', name: profile.display_name) %>
       </h2>
       <% if @user.id == current_user&.id %>
         <%= link_to t('pickles.shared.links.create_pickle'), new_pickle_path, class: 'btn btn-primary',
@@ -70,7 +70,7 @@
 
     <div class="journal-section">
       <h2>
-        <%= t('journals.shared.title', name: profile.display_name) %>
+        <%= t('.users_journals', name: profile.display_name) %>
       </h2>
 
       <% if @user.id == current_user&.id %>
