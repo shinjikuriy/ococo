@@ -6,8 +6,9 @@
     </div>
     <div class="user-info">
       <div class="avatar">
-        <%= image_tag profile.avatar.variant(:thumb), class: 'avatar' ,
-                                                    alt: t('profiles.shared.profile_picture_of_user', name: profile.display_name) %>
+        <%= link_to image_tag(profile.avatar.variant(:thumb), class: 'avatar',
+                              alt: t('profiles.shared.profile_picture_of_user', name: profile.display_name)),
+                              user_path(profile.user), data: { turbo_frame: '_top' } %>
       </div>
       <div class="name">
         <%= link_to profile.display_name, user_path(pickle.user), data: { turbo_frame: '_top' } %>

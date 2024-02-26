@@ -1,8 +1,9 @@
 <% profile = journal.user.profile %>
 <div id="<%= dom_id journal %>" class="journal-card">
   <div class="journal-avatar">
-    <%= image_tag profile.avatar.variant(:thumb), class: 'avatar' ,
-                                                  alt: t('profiles.shared.profile_picture_of_user', name: profile.display_name) %>
+    <%= link_to image_tag(profile.avatar.variant(:thumb), class: 'avatar',
+                          alt: t('profiles.shared.profile_picture_of_user', name: profile.display_name)),
+                          user_path(profile.user), data: { turbo_frame: '_top' } %>
   </div>
   <div class="journal-content">
     <div class="journal-header">
