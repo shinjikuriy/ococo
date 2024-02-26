@@ -4,7 +4,7 @@
     <div class="pickle-header">
       <h1 class="title"><%= @pickle.name %></h1>
       <div class="user-info">
-        <div>
+        <div class="user-avatar">
           <%= t('.maker') %>: <%= link_to image_tag(profile.avatar.variant(:thumb), class: 'avatar',
                                                     alt: t('profiles.shared.profile_picture_of_user', name: profile.display_name)), user_path(profile.user) %>
         </div>
