@@ -37,17 +37,19 @@ form {
 
 ul.pagination {
   @extend .justify-content-center;
-  @extend .mt-3, .mb-0;
+  @extend .mb-0;
+  @extend .pt-3;
+  border-top: 1px solid $gray-500;
 }
 
 /* shared */
 .pickle-card {
   @extend .py-2;
-  border-bottom: 1px solid $gray-500;
+  border-top: 1px solid $gray-500;
 
   .header {
     .title {
-      @extend .h3;
+      @extend .h4;
       @extend .mb-1;
       @extend .text-truncate;
     }
@@ -79,7 +81,7 @@ ul.pagination {
 .journal-card {
   @extend .d-flex;
   @extend .py-2;
-  border-bottom: 1px solid $gray-500;
+  border-top: 1px solid $gray-500;
 
   .journal-avatar {
     @extend .me-1;
@@ -144,6 +146,7 @@ ul.pagination {
 
 .journal-form {
   @extend .py-2;
+  border-top: 1px solid $gray-500;
 }
 
 /* home */
@@ -207,6 +210,10 @@ ul.pagination {
       @extend .p-3;
       background-color: $gray-300;
       border-radius: 10px;
+
+      .title {
+        @extend .mb-2;
+      }
     }
 
     .journal-section {
@@ -214,9 +221,6 @@ ul.pagination {
       background-color: $gray-300;
       border-radius: 10px;
 
-      .journal-list-section {
-        border-top: 1px solid $gray-500;
-      }
     }
   }
 }
