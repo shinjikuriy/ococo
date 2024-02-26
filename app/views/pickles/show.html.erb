@@ -1,6 +1,22 @@
+<% profile = @pickle.user.profile %>
 <div class="row-pickle-main-frame">
   <div class="col-pickle-pane">
-    <h1 class="title"><%= @pickle.name %></h1>
+    <div class="pickle-header">
+      <h1 class="title"><%= @pickle.name %></h1>
+      <div class="user-info">
+        <div>
+          <%= t('.maker') %>: <%= link_to image_tag(profile.avatar.variant(:thumb), class: 'avatar',
+                                                    alt: t('profiles.shared.profile_picture_of_user', name: profile.display_name)), user_path(profile.user) %>
+        </div>
+        <div class="name">
+          <%= link_to profile.display_name, user_path(@pickle.user), data: { turbo_frame: '_top' } %>
+        </div>
+      </div>
+      <div class="started-on">
+        <%= Pickle.human_attribute_name(:started_on) %>: <%= l @pickle.started_on, format: :long %>
+      </div>
+    </div>
+
     <div class="recipe-section">
       <h2><%= t('.pickles_recipe', pickle: @pickle.name) %></h2>
       <div class="ingredients">

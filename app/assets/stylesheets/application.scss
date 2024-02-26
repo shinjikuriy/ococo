@@ -62,7 +62,7 @@ ul.pagination {
 
       .avatar {
         background-color: $gray-200;
-        max-width: 2rem;
+        max-width: 1.5rem;
         max-height: auto;
         border-radius: 100%;
       }
@@ -82,7 +82,7 @@ ul.pagination {
   border-bottom: 1px solid $gray-500;
 
   .journal-avatar {
-    @extend .me-2;
+    @extend .me-1;
 
     .avatar {
       background-color: $gray-200;
@@ -221,8 +221,29 @@ ul.pagination {
   .col-pickle-pane {
     @extend .col-12, .col-lg-7;
 
-    .title {
-      text-align: center;
+    .pickle-header {
+      @extend .mb-3;
+      font-size: 0.9rem;
+
+      .user-info {
+        @extend .d-flex;
+        @extend .align-items-center;
+
+        .avatar {
+          background-color: $gray-200;
+          max-width: 1.5rem;
+          max-height: auto;
+          border-radius: 100%;
+        }
+
+        .name {
+          @extend .text-truncate;
+        }
+      }
+
+      .started-on {
+
+      }
     }
 
     .recipe-section {
