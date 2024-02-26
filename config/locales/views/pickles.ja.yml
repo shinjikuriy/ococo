@@ -19,5 +19,5 @@ ja:
         create_pickle: 漬物を新規作成する
     show:
       maker: 漬けたひと
-      pickles_recipe: "%{pickle}のレシピ"
-      pickles_journals: "%{pickle}の記録"
+      journals: "記録"
+      recipe: "レシピ"

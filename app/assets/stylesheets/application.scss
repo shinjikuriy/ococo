@@ -227,10 +227,10 @@ ul.pagination {
   @extend .justify-content-center;
   @extend .gx-3;
 
-  .col-pickle-pane {
-    @extend .col-12, .col-lg-7;
+  .col-header-pane {
+    @extend .col-12;
 
-    .pickle-header {
+    .header-section {
       @extend .mb-3;
       font-size: 0.9rem;
 
@@ -257,6 +257,10 @@ ul.pagination {
 
       }
     }
+  }
+
+  .col-recipe-pane {
+    @extend .col-12, .col-lg-7;
 
     .recipe-section {
       @extend .mb-3;

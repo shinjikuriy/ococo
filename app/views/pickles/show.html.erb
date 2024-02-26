@@ -1,7 +1,7 @@
 <% profile = @pickle.user.profile %>
 <div class="row-pickle-main-frame">
-  <div class="col-pickle-pane">
-    <div class="pickle-header">
+  <div class="col-header-pane">
+    <div class="header-section">
       <h1 class="title"><%= @pickle.name %></h1>
       <div class="user-info">
         <div class="user-avatar">
@@ -16,9 +16,11 @@
         <%= Pickle.human_attribute_name(:started_on) %>: <%= l @pickle.started_on, format: :long %>
       </div>
     </div>
+  </div>
 
+  <div class="col-recipe-pane">
     <div class="recipe-section">
-      <h2><%= t('.pickles_recipe', pickle: @pickle.name) %></h2>
+      <h2><%= t('.recipe') %></h2>
       <div class="ingredients">
         <h5><%= Ingredient.model_name.human %></h5>
         <ul>
@@ -61,7 +63,7 @@
 
   <div class="col-journal-pane">
     <div class="journal-section">
-      <h2><%= t('.pickles_journals', pickle: @pickle.name) %></h2>
+      <h2><%= t('.journals') %></h2>
       <% if @pickle.user.id == current_user&.id %>
         <%= turbo_frame_tag Journal.new do %>
           <%= render 'journals/form', journal: @journal %>
