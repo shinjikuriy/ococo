@@ -1,8 +1,13 @@
 // Custom bootstrap variables must be set or imported *before* bootstrap.
 @import "variables";
+@import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New&family=Zen+Maru+Gothic:wght@300;400;500;700;900&display=swap');
 @import "bootstrap";
 
 /* universal */
+body {
+  font-family: "Zen Kaku Gothic New", sans-serif;
+}
+
 form {
   input[type="text"],
   input[type="password"],
