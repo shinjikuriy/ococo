@@ -270,7 +270,7 @@ RSpec.describe "Pickles", type: :system do
 
     specify 'user can delete ingredients', js: true do
       within '.ingredient-form' do
-        all('.nested-fields').last.find_link(t('pickles.edit.delete')).click
+        all('.nested-fields').last.find_link(t('pickles.shared.delete')).click
       end
       click_button t('pickles.edit.edit_pickle')
       expect(page).to have_current_path pickle_path(pickle)
@@ -295,7 +295,7 @@ RSpec.describe "Pickles", type: :system do
     specify 'an alert appears when user tries to delete all the ingredients', js: true do
       within '.ingredient-form' do
         attrs_pickle[:ingredients_attributes].size.times do
-          all('.nested-fields').first.find_link(t('pickles.edit.delete')).click
+          all('.nested-fields').first.find_link(t('pickles.shared.delete')).click
         end
       end
       click_button t('pickles.edit.edit_pickle')
@@ -304,7 +304,7 @@ RSpec.describe "Pickles", type: :system do
 
     specify 'user can delete sauce_materials', js: true do
       within '.sauce-material-form' do
-        all('.nested-fields').last.find_link(t('pickles.edit.delete')).click
+        all('.nested-fields').last.find_link(t('pickles.shared.delete')).click
       end
       click_button t('pickles.edit.edit_pickle')
       expect(page).to have_current_path pickle_path(pickle)

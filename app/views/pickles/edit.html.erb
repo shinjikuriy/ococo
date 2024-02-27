@@ -1,8 +1,15 @@
 <%= render 'users/shared/error_messages', resource: @pickle %>
 
-<%= render 'pickle_form', pickle: @pickle, title: t('.edit_pickle') %>
+<div class="row-pickle-form-main-frame">
+  <div class="col-pickle-form-pane">
+    <%= render 'pickle_form', pickle: @pickle, title: t('.edit_pickle') %>
 
-<div>
-  <%= link_to t('pickles.destroy.destroy_pickle'), @pickle, class: 'btn btn-danger',
-                                                            data: { 'turbo-method': :delete, turbo_confirm: t('pickles.destroy.confirm') } %>
+    <div>
+      <%= link_to t('pickles.destroy.destroy_pickle'), @pickle, class: 'btn btn-danger',
+                                                                data: { 'turbo-method': :delete, turbo_confirm: t('pickles.destroy.confirm') } %>
+    </div>
+  </div>
+
+
 </div>
+

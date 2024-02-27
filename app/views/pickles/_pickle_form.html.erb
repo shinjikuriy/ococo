@@ -3,8 +3,8 @@
 
   <%= form_with model: pickle do |f| %>
     <div>
-      <%= f.label :name %><br />
-      <%= f.text_field :name, class: 'form-control' %>
+      <%= f.label :name %>
+      <%= f.text_field :name %>
     </div>
 
     <div class="ingredient-form">
@@ -18,8 +18,13 @@
         <%= f.fields_for :ingredients do |ingredient| %>
           <%= render 'ingredient_fields', form: ingredient %>
         <% end %>
-        <div class="mb-3" data-nested-form-target="links">
-          <%= link_to t('pickles.shared.add_ingredient'), '#', class: 'btn btn-outline-primary btn-sm', data: { action: 'click->nested-form#add_association' } %>
+        <div data-nested-form-target="links">
+          <%= link_to '#', class: 'button-add-association', data: { action: 'click->nested-form#add_association' } do %>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+              <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
+            </svg>
+            <%= t('pickles.shared.add_ingredient') %>
+          <% end %>
         </div>
       </div>
     </div>
@@ -35,25 +40,29 @@
         <%= f.fields_for :sauce_materials do |sauce_material| %>
           <%= render 'ingredient_fields', form: sauce_material %>
         <% end %>
-        <div class="mb-3" data-nested-form-target="links">
-          <%= link_to t('pickles.shared.add_ingredient'), '#', class: 'btn btn-outline-primary btn-sm', data: { action: 'click->nested-form#add_association' } %>
-        </div>
+        <div data-nested-form-target="links">
+          <%= link_to '#', class: 'button-add-association', data: { action: 'click->nested-form#add_association' } do %>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+              <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
+            </svg>
+            <%= t('pickles.shared.add_ingredient') %>
+        <% end %>        </div>
       </div>
     </div>
 
-    <div>
+    <div class="field">
       <%= f.label :preparation %><br />
-      <%= f.text_area :preparation, class: 'form-control' %>
+      <%= f.text_area :preparation %>
     </div>
-    <div>
+    <div class="field">
       <%= f.label :process %><br />
-      <%= f.text_area :process, class: 'form-control' %>
+      <%= f.text_area :process, rows: 4 %>
     </div>
-    <div>
+    <div class="field">
       <%= f.label :note %><br />
-      <%= f.text_area :note, class: 'form-control' %>
+      <%= f.text_area :note %>
     </div>
-    <div>
+    <div class="actions">
       <%= f.submit title, class: 'btn btn-primary' %>
     </div>
   <% end %>

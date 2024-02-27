@@ -144,6 +144,15 @@ ul.pagination {
   }
 }
 
+.row-pickle-form-main-frame {
+  @extend .row;
+  @extend .justify-content-center;
+
+  .col-pickle-form-pane {
+    @extend .col-md-9;
+  }
+}
+
 .journal-form {
   @extend .py-2;
   border-top: 1px solid $gray-500;
@@ -165,7 +174,7 @@ ul.pagination {
   @extend .g-3;
 
   .col-profile-pane {
-    @extend .col-md-3, .col-12;
+    @extend .col-md-4, .col-12;
 
     .profile-card {
       @extend .d-flex;
@@ -203,7 +212,7 @@ ul.pagination {
   }
 
   .col-content-pane {
-    @extend .col-md-9, .col-12;
+    @extend .col-md-8, .col-12;
 
     .pickle-section {
       @extend .mb-3;
@@ -305,14 +314,45 @@ ul.pagination {
 }
 
 
-/* pickle */
+/* pickle form */
 .pickle-form {
   background-color: $gray-500;
   border-radius: 10px;
+  @extend .mb-3;
   @extend .p-3;
+
   h2 {
     text-align: center;
   }
+
+  .nested-fields {
+    @extend .my-2;
+
+    .form-group {
+      @extend .row;
+      @extend .align-items-end;
+      @extend .gx-2;
+
+      .field.name{
+        @extend .col-7;
+      }
+      .field.quantity {
+        @extend .col;
+      }
+      .actions.delete-association {
+        @extend .col-auto;
+
+        .button-delete-association {
+          @extend .btn, .btn-danger;
+        }
+      }
+    }
+  }
+
+  .button-add-association {
+    @extend .btn, .btn-primary, .btn-sm;
+  }
+
   .ingredients, .sauce-materials {
     @extend .p-2;
   }
