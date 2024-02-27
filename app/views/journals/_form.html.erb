@@ -13,7 +13,7 @@
   <% end %>
 
   <% if request.path == user_path(current_user) || (request.post? && request.referer.include?(user_path(current_user))) %>
-    <div>
+    <div class="field">
       <%= form.label :pickle_id, Pickle.model_name.human, style: "display: block" %>
       <%= form.select :pickle_id, pickles.map{ |p| [p.name, p.id] } %>
     </div>
@@ -21,12 +21,12 @@
     <%= form.hidden_field :pickle_id, value: journal.pickle.id %>
   <% end %>
 
-  <div>
+  <div class="field">
     <%= form.label :body, style: "display: block" %>
     <%= form.text_area :body, rows: 3 %>
   </div>
 
-  <div>
+  <div class="actions">
     <%= form.submit t('journals.shared.create_journal') %>
   </div>
 <% end %>

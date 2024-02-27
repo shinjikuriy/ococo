@@ -162,6 +162,10 @@ ul.pagination {
 .journal-form {
   @extend .py-2;
   border-top: 1px solid $gray-500;
+
+  .field {
+    @extend .mb-2;
+  }
 }
 
 
