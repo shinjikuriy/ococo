@@ -15,7 +15,7 @@ class JournalsController < ApplicationController
     if @journal.save
       flash.now[:success] = t('journals.shared.created_journal')
     else
-      render 'new', locals: { pickles: @journal.user.pickles }, status: :unprocessable_entity
+      render 'new', locals: { pickles: current_user.pickles }, status: :unprocessable_entity
     end
   end
 
