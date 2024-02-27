@@ -12,5 +12,12 @@ class Journal < ApplicationRecord
   belongs_to :pickle
   has_one :user, through: :pickle
 
+  validate :presence_of_pickle
   validates :body, presence: true, length: { maximum: 140 }
+
+  private
+
+  def presence_of_pickle
+    errors.add(:pickle_id, I18n.t('errors.messages.inclusion')) unless Pickle.exists?(id: pickle_id)
+  end
 end
