@@ -35,7 +35,7 @@ form {
     @extend .form-check-label;
   }
 
-  > div {
+  > div.field {
     @extend .mb-3;
   }
 }
@@ -143,6 +143,7 @@ ul.pagination {
 .row-devise-main-frame {
   @extend .row;
   @extend .justify-content-center;
+  @extend .py-3;
 
   .col-devise-content-pane {
     @extend .col-md-6;
@@ -163,12 +164,24 @@ ul.pagination {
   border-top: 1px solid $gray-500;
 }
 
+
 /* home */
-.home-bg {
-  background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), image-url('home_bg.jpg');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+.row-home-main-frame {
+  @extend .row, .row-cols-1;
+  @extend .justify-content-center;
+
+  .top-page-banner {
+    @extend .col;
+    @extend .py-5;
+    @extend .text-center, .text-white;
+  }
+
+  .banner-background {
+    background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), image-url('home_bg.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
 }
 
 
@@ -176,6 +189,7 @@ ul.pagination {
 .row-user-main-frame {
   @extend .row, .row-cols-md-2, .row-cols-1;
   @extend .justify-content-center;
+  @extend .py-3;
   @extend .g-3;
 
   .col-profile-pane {
@@ -243,6 +257,7 @@ ul.pagination {
 .row-pickle-main-frame {
   @extend .row, .row-cols-md-2, .row-cols-1;
   @extend .justify-content-center;
+  @extend .py-3;
   @extend .gx-3;
 
   .col-header-pane {
@@ -301,6 +316,7 @@ ul.pagination {
 }
 
 .devise-form, .profile-form {
+  @extend .mb-3;
   @extend .p-3;
   background-color: $gray-500;
   border-radius: 10px;
@@ -308,10 +324,6 @@ ul.pagination {
   h2 {
     text-align: center;
   }
-}
-
-.cancel-account {
-  @extend .mt-3;
 }
 
 .field_with_errors {

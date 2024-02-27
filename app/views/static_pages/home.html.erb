@@ -1,5 +1,5 @@
-<div class="row">
-  <div class="container-fluid py-5 home-bg text-center text-white">
+<div class="row-home-main-frame">
+  <div class="top-page-banner banner-background">
     <ul class="list-inline display-1">
       <li class="list-inline-item">🥬</li>
       <li class="list-inline-item">🧂</li>
@@ -7,8 +7,14 @@
       <li class="list-inline-item">📝</li>
     </ul>
     <p><%= t('.description') %></p>
-    <%= link_to t('.registration'), new_user_registration_path, class: 'btn btn-primary text-nowrap' %>
-    <%= t('.or') %>
-    <%= link_to t('users.shared.links.sign_in'), new_user_session_path, class: 'btn btn-secondary text-nowrap' %>
+    <div class="links-to-enter d-flex justify-content-center align-items-center gx-2">
+      <div class="registration-button">
+        <%= link_to t('.registration'), new_user_registration_path, class: 'btn btn-success text-nowrap' %>
+      </div>
+      <div class="mx-2"><%= t('.or') %></div>
+      <div class="sign-in-button">
+        <%= link_to t('users.shared.links.sign_in'), new_user_session_path, class: 'btn btn-primary text-nowrap' %>
+      </div>
+    </div>
   </div>
 </div>
