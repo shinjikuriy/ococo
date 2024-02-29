@@ -3,12 +3,14 @@ databases:
     databaseName: ococo_db
     user: ococo_db
     plan: starter
+    region: singapore
 
 services:
   - type: web
     name: ococo
     runtime: ruby
     plan: starter
+    region: singapore
     buildCommand: "./bin/render-build.sh"
     preDeployCommand: "bundle exec rails db:migrate" # preDeployCommand only available on paid instance types
     startCommand: "bundle exec rails server"
