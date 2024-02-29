@@ -5,7 +5,12 @@
 
 /* universal */
 body {
+  font-family: "Zen Maru Gothic", serif;
   font-family: "Zen Kaku Gothic New", sans-serif;
+}
+
+a {
+  text-decoration: none;
 }
 
 form {
@@ -344,6 +349,10 @@ ul.pagination {
 
   h2 {
     text-align: center;
+  }
+
+  .ingredient-form, .sauce-material-form {
+    @extend .my-3;
   }
 
   .nested-fields {
