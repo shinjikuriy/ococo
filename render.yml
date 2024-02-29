@@ -1,21 +1,21 @@
 databases:
-  - name: mysite
-    databaseName: mysite
-    user: mysite
-    plan: free
+  - name: ococo_db
+    databaseName: ococo_db
+    user: ococo_db
+    plan: starter
 
 services:
   - type: web
     name: ococo
     runtime: ruby
-    plan: free
+    plan: starter
     buildCommand: "./bin/render-build.sh"
-    # preDeployCommand: "bundle exec rails db:migrate" # preDeployCommand only available on paid instance types
+    preDeployCommand: "bundle exec rails db:migrate" # preDeployCommand only available on paid instance types
     startCommand: "bundle exec rails server"
     envVars:
       - key: DATABASE_URL
         fromDatabase:
-          name: mysite
+          name: ococo_db
           property: connectionString
       - key: RAILS_MASTER_KEY
         sync: false
