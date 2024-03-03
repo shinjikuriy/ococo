@@ -186,11 +186,11 @@ RSpec.describe "Pickles", type: :system do
       pickles = user.pickles.order(updated_at: :desc)
 
       visit user_path(user)
-      pickles.page(1).each do |pickle|
+      pickles.page(1).per(5).each do |pickle|
         expect(page).to have_link pickle.name, href: pickle_path(pickle)
       end
       expect(page).to have_link '次', href: user_path(user, page: 2)
-      expect(page).to have_link '最後', href: user_path(user, page: 5)
+      expect(page).to have_link '最後', href: user_path(user, page: 10)
     end
 
     specify 'all pickles are shown on index page' do
