@@ -115,3 +115,7 @@ group :development do
 
   gem 'better_errors'
 end
+
+group :production do
+  gem 'aws-sdk-s3', require: false
+end
