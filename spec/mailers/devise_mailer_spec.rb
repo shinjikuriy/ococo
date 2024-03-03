@@ -11,7 +11,7 @@ RSpec.describe Devise::Mailer, type: :mailer do
     end
 
     it 'sends from the email address for transmission' do
-      expect(mail.from).to eq ['noreply@ococo.net']
+      expect(mail.from).to eq ['ococo.noreply@gmail.com']
     end
 
     it 'sends with the correct subject' do
@@ -38,7 +38,7 @@ RSpec.describe Devise::Mailer, type: :mailer do
     end
 
     it 'sends from the email address for transmission' do
-      expect(mail.from).to eq ['noreply@ococo.net']
+      expect(mail.from).to eq ['ococo.noreply@gmail.com']
     end
 
     it 'sends with the correct subject' do
@@ -67,7 +67,7 @@ RSpec.describe Devise::Mailer, type: :mailer do
     end
 
     it 'sends from the email address for transmission' do
-      expect(mail.from).to eq ['noreply@ococo.net']
+      expect(mail.from).to eq ['ococo.noreply@gmail.com']
     end
 
     it 'sends with the correct subject' do
@@ -94,7 +94,7 @@ RSpec.describe Devise::Mailer, type: :mailer do
     end
 
     it 'sends from the email address for transmission' do
-      expect(mail.from).to eq ['noreply@ococo.net']
+      expect(mail.from).to eq ['ococo.noreply@gmail.com']
     end
 
     it 'sends with the correct subject' do
@@ -119,7 +119,7 @@ RSpec.describe Devise::Mailer, type: :mailer do
     end
 
     it 'sends from the email address for transmission' do
-      expect(mail.from).to eq ['noreply@ococo.net']
+      expect(mail.from).to eq ['ococo.noreply@gmail.com']
     end
 
     it 'sends with the correct subject' do
