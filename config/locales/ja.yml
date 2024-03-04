@@ -92,13 +92,15 @@ ja:
       equal_to: は%{count}にしてください
       even: は偶数にしてください
       exclusion: は予約されています
+      file_size_is_too_large: のファイルサイズが大きすぎます(2MB以内)
       greater_than: は%{count}より大きい値にしてください
       greater_than_or_equal_to: は%{count}以上の値にしてください
       in: は%{count}の範囲に含めてください
       inclusion: は一覧にありません
       invalid: は不正な値です
-      invalid_username_format: にはアルファベット・数字・アンダースコア(_)のみ使用できます。
-      invalid_ig_username_format: にはアルファベット・数字・ピリオド(.)・アンダースコア(_)のみ使用できます。
+      invalid_content_type: のファイル形式はJPEG・GIF・PNGのいずれかです
+      invalid_ig_username_format: にはアルファベット・数字・ピリオド(.)・アンダースコア(_)のみ使用できます
+      invalid_username_format: にはアルファベット・数字・アンダースコア(_)のみ使用できます
       less_than: は%{count}より小さい値にしてください
       less_than_or_equal_to: は%{count}以下の値にしてください
       model_invalid: 'バリデーションに失敗しました: %{errors}'

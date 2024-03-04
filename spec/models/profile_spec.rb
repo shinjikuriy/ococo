@@ -146,6 +146,20 @@ RSpec.describe Profile, type: :model do
         profile.valid?
         expect(profile.errors[:ig_username]).to include t('errors.messages.too_long', count: 30)
       end
+
+      it 'does not accept files except for jpeg, gif, and png' do
+        profile.avatar.attach(io: File.open("#{Rails.root}/spec/fixtures/joyo.tsv"),
+                              filename: 'joyo.tsv', content_type: 'text/tsv')
+        profile.valid?
+        expect(profile.errors[:avatar]).to include t('errors.messages.invalid_content_type')
+      end
+
+      it 'does not accept files more than 2MB' do
+        profile.avatar.attach(io: File.open("#{Rails.root}/spec/fixtures/too_large_file.jpg"),
+                              filename: 'too_large_file.jpg', content_type: 'image/jpeg')
+        profile.valid?
+        expect(profile.errors[:avatar]).to include t('errors.messages.file_size_is_too_large')
+      end
     end
   end
 end

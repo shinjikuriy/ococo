@@ -36,4 +36,6 @@ class Profile < ApplicationRecord
                          format: { with: /\A[a-zA-Z0-9_]*\z/, message: :invalid_username_format }
   validates :ig_username, length: { maximum: 30 },
                           format: { with: /\A[a-zA-Z0-9_.]*\z/, message: :invalid_ig_username_format }
+  validates :avatar, content_type: { in: ['image/jpeg', 'image/gif', 'image/png'], message: :invalid_content_type },
+                     size: { less_than: 2.megabytes, message: :file_size_is_too_large }
 end
