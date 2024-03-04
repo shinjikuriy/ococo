@@ -72,6 +72,9 @@ end
 gem 'bootstrap', '~> 5.3', '>= 5.3.2'
 gem 'sassc-rails', '~> 2.1', '>= 2.1.2'
 
+# [https://github.com/igorkasyanchuk/active_storage_validations]
+gem 'active_storage_validations'
+
 # 多言語化
 gem 'rails-i18n'
 
