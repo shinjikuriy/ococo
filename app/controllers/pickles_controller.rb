@@ -12,7 +12,7 @@ class PicklesController < ApplicationController
   end
 
   def new
-    @pickle = Pickle.new
+    @pickle = Pickle.new(started_on: Time.zone.today)
     build_nested_attributes
   end
 
@@ -59,7 +59,7 @@ class PicklesController < ApplicationController
   private
 
   def pickle_params
-    params.require(:pickle).permit(:name, :preparation, :process, :note,
+    params.require(:pickle).permit(:name, :preparation, :process, :note, :started_on,
                                    ingredients_attributes: [:id, :name, :quantity, :_destroy],
                                    sauce_materials_attributes: [:id, :name, :quantity, :_destroy]
                                    ).merge(user_id: current_user.id)

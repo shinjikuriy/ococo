@@ -31,6 +31,8 @@ RSpec.describe "Pickles", type: :system do
     end
 
     specify 'user can create a new pickle', js: true do
+      expect(find('#pickle_started_on')['value']).to eq Time.zone.today.strftime
+
       expect do
         click_button t('pickles.new.create_pickle')
         sleep 0.5
@@ -149,6 +151,8 @@ RSpec.describe "Pickles", type: :system do
 
       visit pickle_path(pickle)
       expect(page).to have_current_path pickle_path(pickle)
+      expect(page).to have_text pickle.name
+      expect(page).to have_text l(pickle.started_on, format: :long)
       pickle.ingredients.each do |ingredient|
         expect(find('.ingredients')).to have_text ingredient.name
         expect(find('.ingredients')).to have_text ingredient.quantity
@@ -157,7 +161,6 @@ RSpec.describe "Pickles", type: :system do
         expect(find('.sauce-materials')).to have_text sauce_material.name
         expect(find('.sauce-materials')).to have_text sauce_material.quantity
       end
-      expect(page).to have_text pickle.name
       pickle.preparation.each_line { |line| expect(page).to have_text line.chomp }
       pickle.process.each_line { |line| expect(page).to have_text line.chomp }
       pickle.note.each_line { |line| expect(page).to have_text line.chomp }
@@ -239,17 +242,20 @@ RSpec.describe "Pickles", type: :system do
 
     specify "user can edit pickles' information" do
       fill_in 'pickle_name', with: '大根の🥑はりはり漬け🌶'
-      fill_in 'pickle_preparation', with: '新しい下ごしらえの文章'
-      fill_in 'pickle_process', with: '新しい作り方の文章'
-      fill_in 'pickle_note', with: '新しいポイントの文章'
+      fill_in 'pickle_started_on', with: Date.new(2020, 1, 1)
       fill_in 'pickle_ingredients_attributes_0_name', with: '新しい材料の名前'
       fill_in 'pickle_ingredients_attributes_0_quantity', with: '新しい材料の数量'
       fill_in 'pickle_sauce_materials_attributes_0_name', with: '新しい漬け汁材料の名前'
       fill_in 'pickle_sauce_materials_attributes_0_quantity', with: '新しい漬け汁材料の数量'
+      fill_in 'pickle_preparation', with: '新しい下ごしらえの文章'
+      fill_in 'pickle_process', with: '新しい作り方の文章'
+      fill_in 'pickle_note', with: '新しいポイントの文章'
+
       click_button t('pickles.edit.edit_pickle')
       expect(page).to have_current_path pickle_path(pickle)
       expect(page).to have_selector 'div.alert-success', text: t('pickles.edit.edited_pickle')
       expect(page).to have_text '大根の🥑はりはり漬け🌶'
+      expect(page).to have_text '2020年01月01日(水)'
       expect(page).to have_text '新しい下ごしらえの文章'
       expect(page).to have_text '新しい作り方の文章'
       expect(page).to have_text '新しいポイントの文章'

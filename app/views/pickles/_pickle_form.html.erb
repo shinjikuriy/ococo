@@ -2,9 +2,14 @@
   <h2><%= title %></h2>
 
   <%= form_with model: pickle do |f| %>
-    <div>
+    <div class="field">
       <%= f.label :name %>
       <%= f.text_field :name %>
+    </div>
+
+    <div class="field">
+      <%= f.label :started_on %>
+      <%= f.date_field :started_on %>
     </div>
 
     <div class="ingredient-form">
