@@ -75,7 +75,7 @@
         <%= t('.users_journals', name: profile.display_name) %>
       </h2>
 
-      <% if @user.id == current_user&.id %>
+      <% if @user.id == current_user&.id && @pickles.present? %>
         <div class="journal-form-section">
           <%= turbo_frame_tag Journal.new do %>
             <%= render 'journals/form', journal: @journal, pickles: @user.pickles %>

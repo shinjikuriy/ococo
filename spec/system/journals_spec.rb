@@ -139,6 +139,15 @@ RSpec.describe "Journals", type: :system do
       end
     end
 
+    context 'when user has no pickles' do
+      before { user.pickles.delete_all }
+
+      specify "journal form is not shown on the user's page" do
+        visit user_path(user)
+        expect(page).not_to have_selector 'div.journal-form-section'
+      end
+    end
+
     specify 'all journals are shown on index page' do
       lukas = user
       lena = create(:user_lena)
