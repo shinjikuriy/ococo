@@ -29,7 +29,11 @@ class JournalsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_journal
-      @journal = Journal.find(params[:id])
+      @journal = Journal.find_by(id: params[:id])
+      if @journal.nil?
+        flash[:warning] = t('errors.messages.page_not_found')
+        redirect_to root_url
+      end
     end
 
     # Only allow a list of trusted parameters through.

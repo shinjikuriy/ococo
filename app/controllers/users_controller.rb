@@ -3,7 +3,7 @@ class UsersController < ApplicationController
     @user = User.find_by(username: params[:username])
     if @user.nil?
       flash[:warning] = t('errors.messages.page_not_found')
-      redirect_to root_path
+      redirect_to root_url
     else
       @pickles = @user.pickles.page(params[:page]).per(5)
       @journals = @user.journals.page params[:page]
