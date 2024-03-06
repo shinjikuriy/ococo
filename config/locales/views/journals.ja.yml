@@ -6,3 +6,4 @@ ja:
       created_journal: 記録が投稿されました。
       destroy_journal: 記録を削除
       destroyed_journal: 記録を削除しました。
+      no_journals_yet: まだ記録がありません。

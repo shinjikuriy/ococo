@@ -64,17 +64,23 @@
   <div class="col-journal-pane">
     <div class="journal-section">
       <h2><%= t('.journals') %></h2>
+
       <% if @pickle.user.id == current_user&.id %>
         <%= turbo_frame_tag Journal.new do %>
           <%= render 'journals/form', journal: @journal %>
         <% end %>
       <% end %>
-      <%= turbo_frame_tag 'journals-list' do %>
-        <div id="journals">
-          <%= render @journals %>
-        </div>
-        <%= paginate @journals %>
-      <% end %>
+
+      <div class="journal-list-section">
+        <%= content_tag 'div', t('journals.shared.no_journals_yet'), id: 'no-journals-yet', class: 'no-journals-yet' if @journals.empty? %>
+        <%= turbo_frame_tag 'journal-list' do %>
+          <div id="journals">
+            <%= render @journals %>
+          </div>
+          <%= paginate @journals %>
+        <% end %>
+      </div>
+
     </div>
   </div>
 </div>

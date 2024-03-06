@@ -1,5 +1,7 @@
 <%= turbo_stream.prepend 'journals', @journal %>
 
+<%= turbo_stream.remove 'no-journals-yet' %>
+
 <%= turbo_stream.update Journal.new, partial: 'form', locals: { journal: Journal.new(pickle_id: @journal.pickle_id), pickles: current_user.pickles} %>
 
 <%= turbo_stream.update 'flash', partial: 'flash' %>

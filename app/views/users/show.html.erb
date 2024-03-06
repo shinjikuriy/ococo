@@ -91,7 +91,8 @@
       <% end %>
 
       <div class="journal-list-section">
-        <%= turbo_frame_tag 'journals-list' do %>
+        <%= content_tag 'div', t('journals.shared.no_journals_yet'), id: 'no-journals-yet', class: 'no-journals-yet' if @journals.empty? %>
+        <%= turbo_frame_tag 'journal-list' do %>
           <div id="journals">
             <%= render @journals %>
           </div>

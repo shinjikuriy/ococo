@@ -94,6 +94,7 @@ RSpec.describe "Journals", type: :system do
     specify "journals are shown on the pickle's page and paginated" do
       visit pickle_path(pickle)
       journal_section = find('#journals')
+      expect(journal_section).not_to have_text t('journale.shared.no_journals_yet')
       expect(journal_section).not_to have_link pickle.name, href: pickle_path(pickle)
       pickle.journals.each_with_index do |journal, i|
         if i < 10
@@ -137,10 +138,26 @@ RSpec.describe "Journals", type: :system do
           expect(journal_section).to have_text journal.body
         end
       end
+
+      expect(journal_section).not_to have_text t('journals.shared.no_journals_yet')
+    end
+
+    context 'when user has nojournals' do
+      before { pickle.journals.clear }
+
+      specify "a message is shown on the user's page" do
+        visit user_path(user)
+        expect(find('.no-journals-yet')).to have_text t('journals.shared.no_journals_yet')
+      end
+
+      specify "a message is shown on the pickle's page" do
+        visit pickle_path(pickle)
+        expect(find('.no-journals-yet')).to have_text t('journals.shared.no_journals_yet')
+      end
     end
 
     context 'when user has no pickles' do
-      before { user.pickles.delete_all }
+      before { user.pickles.clear }
 
       specify "journal form is not shown on the user's page" do
         visit user_path(user)

@@ -1,2 +1,7 @@
 <%= turbo_stream.remove @journal %>
+
+<%= turbo_stream.append 'journal-list' do %>
+  <%= content_tag 'div', t('journals.shared.no_journals_yet'), id: 'no-journals-yet', class: 'no-journals-yet' if current_user.journals.empty? %>
+<% end %>
+
 <%= turbo_stream.update 'flash', partial: 'flash' %>
