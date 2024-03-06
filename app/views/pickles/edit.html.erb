@@ -2,7 +2,7 @@
 
 <div class="row-pickle-form-main-frame">
   <div class="col-pickle-form-pane">
-    <%= render 'pickle_form', pickle: @pickle, title: t('.edit_pickle') %>
+    <%= render 'pickles/form', pickle: @pickle, title: t('.edit_pickle') %>
 
     <div>
       <%= link_to t('pickles.destroy.destroy_pickle'), @pickle, class: 'btn btn-danger',
