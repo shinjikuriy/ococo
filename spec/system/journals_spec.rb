@@ -142,7 +142,7 @@ RSpec.describe "Journals", type: :system do
       expect(journal_section).not_to have_text t('journals.shared.no_journals_yet')
     end
 
-    context 'when user has nojournals' do
+    context 'there are no journals yet' do
       before { pickle.journals.clear }
 
       specify "a message is shown on the user's page" do
@@ -152,6 +152,11 @@ RSpec.describe "Journals", type: :system do
 
       specify "a message is shown on the pickle's page" do
         visit pickle_path(pickle)
+        expect(find('.no-journals-yet')).to have_text t('journals.shared.no_journals_yet')
+      end
+
+      specify 'a message is shown on journals page' do
+        visit journals_path
         expect(find('.no-journals-yet')).to have_text t('journals.shared.no_journals_yet')
       end
     end

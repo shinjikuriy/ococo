@@ -1,5 +1,7 @@
 ja:
   journals:
+    index:
+      title: みんなの漬け物の記録一覧
     shared:
       confirm: 本当によろしいですか？
       create_journal: 記録を投稿

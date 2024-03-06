@@ -1,10 +1,18 @@
-<p style="color: green"><%= notice %></p>
+<div class="row-journals-main-frame">
+  <div class="col-journals-pane">
+    <div class="journal-section">
 
-<h1>Journals</h1>
+      <h2><%= t('.title') %></h2>
 
-<div id="journals">
-  <% @journals.each do |journal| %>
-    <%= render journal %>
-  <% end %>
-  <%= paginate @journals %>
+      <div class="journal-list-section">
+        <%= content_tag 'div', t('journals.shared.no_journals_yet'), id: 'no-journals-yet', class: 'no-journals-yet' if @journals.empty? %>
+        <%= turbo_frame_tag 'journal-list' do %>
+          <div id="journals">
+            <%= render @journals %>
+          </div>
+          <%= paginate @journals %>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>

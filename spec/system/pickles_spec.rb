@@ -175,15 +175,6 @@ RSpec.describe "Pickles", type: :system do
       expect(page).to have_link pickle_kabu.name, href: pickle_path(pickle_kabu)
     end
 
-    specify "a message is shown on user's page when there is no pickle yet" do
-      visit user_path(user)
-      expect(find('.no-pickles-yet')).to have_text t('pickles.shared.no_pickles_yet')
-
-      user.pickles.create(attrs_pickle)
-      visit user_path(user)
-      expect(page).not_to have_text t('pickles.shared.no_pickles_yet')
-    end
-
     specify "user's pickles are paginated" do
       50.times do
         pickle = user.pickles.build(
@@ -237,6 +228,26 @@ RSpec.describe "Pickles", type: :system do
 
       expect(page).to have_link '次', href: pickles_path(page: 2)
       expect(page).to have_link '最後', href: pickles_path(page: 9)
+    end
+
+    context 'when there are no pickles yet' do
+      specify "a message is shown on user's page" do
+        visit user_path(user)
+        expect(find('.no-pickles-yet')).to have_text t('pickles.shared.no_pickles_yet')
+
+        user.pickles.create(attrs_pickle)
+        visit user_path(user)
+        expect(page).not_to have_text t('pickles.shared.no_pickles_yet')
+      end
+
+      specify 'a message is shown on pickles page' do
+        visit pickles_path
+        expect(find('.no-pickles-yet')).to have_text t('pickles.shared.no_pickles_yet')
+
+        user.pickles.create(attrs_pickle)
+        visit user_path(user)
+        expect(page).not_to have_text t('pickles.shared.no_pickles_yet')
+      end
     end
   end
 

@@ -361,6 +361,8 @@ ul.pagination {
   }
 }
 
+
+
 /* pickles page */
 .row-pickles-main-frame {
   @extend .row, .row-cols-1;
@@ -374,11 +376,34 @@ ul.pagination {
       @extend .p-3;
       background-color: $gray-300;
       border-radius: 10px;
+
+      h2 {
+        @extend .mb-3;
+      }
     }
   }
 }
 
 
+
+/* journals page */
+.row-journals-main-frame {
+  @extend .row-pickles-main-frame;
+
+  .col-journals-pane {
+    @extend .col-pickles-pane;
+
+    .journal-section {
+      @extend .p-3;
+      background-color: $gray-300;
+      border-radius: 10px;
+
+      h2 {
+        @extend .mb-3;
+      }
+    }
+  }
+}
 
 
 /* pickle form */
