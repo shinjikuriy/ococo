@@ -1,11 +1,3 @@
-<h1>New journal</h1>
-
 <%= turbo_frame_tag 'new_journal' do %>
   <%= render 'journals/form', journal: @journal, pickles: pickles %>
 <% end %>
-
-<br>
-
-<div>
-  <%= link_to "Back to journals", journals_path %>
-</div>
