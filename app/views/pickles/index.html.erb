@@ -1,11 +1,21 @@
-<h2>漬け物一覧</h2>
-<%= turbo_frame_tag 'pickle-list' do %>
-  <% @pickles.each do |pickle| %>
-    <div>
-      <h3>
-        <%= link_to pickle.name, pickle, data: { turbo_frame: '_top' } %>
-      </h3>
+<div class="row-pickles-main-frame">
+  <div class="col-pickles-pane">
+    <div class="pickle-section">
+
+      <h2><%= t('.title') %></h2>
+
+      <% if @pickles.empty? %>
+        <div class="no-pickles-yet" id="no-pickles-yet">
+          <%= t('pickles.shared.no_pickles_yet') %>
+        </div>
+      <% else %>
+        <%= turbo_frame_tag 'pickle-list' do %>
+          <% @pickles.each do |pickle| %>
+            <%= render 'pickles/pickle', pickle: pickle %>
+          <% end %>
+          <%= paginate @pickles %>
+        <% end %>
+      <% end %>
     </div>
-  <% end %>
-  <%= paginate @pickles %>
-<% end %>
+  </div>
+</div>

@@ -68,7 +68,7 @@
           <%= t('pickles.shared.no_pickles_yet') %>
         </div>
       <% else %>
-        <%= turbo_frame_tag 'pickles-list' do %>
+        <%= turbo_frame_tag 'pickle-list' do %>
           <% @pickles.each do |pickle| %>
             <%= render 'pickles/pickle', pickle: pickle %>
           <% end %>

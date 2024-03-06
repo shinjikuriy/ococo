@@ -3,6 +3,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New&family=Zen+Maru+Gothic:wght@300;400;500;700;900&display=swap');
 @import "bootstrap";
 
+
+
 /* universal */
 body {
   font-family: "Zen Maru Gothic", serif;
@@ -52,6 +54,8 @@ ul.pagination {
   @extend .pt-3;
   border-top: 1px solid $gray-500;
 }
+
+
 
 /* shared */
 .pickle-card {
@@ -183,6 +187,22 @@ ul.pagination {
   border-top: 1px solid $gray-500;
 }
 
+.devise-form, .profile-form {
+  @extend .mb-3;
+  @extend .p-3;
+  background-color: $gray-500;
+  border-radius: 10px;
+
+  h2 {
+    text-align: center;
+  }
+}
+
+.field_with_errors {
+  display: inline;
+}
+
+
 
 /* home */
 .row-home-main-frame {
@@ -202,6 +222,7 @@ ul.pagination {
     background-size: cover;
   }
 }
+
 
 
 /* user page */
@@ -276,6 +297,8 @@ ul.pagination {
   }
 }
 
+
+
 /* pickle page */
 .row-pickle-main-frame {
   @extend .row, .row-cols-md-2, .row-cols-1;
@@ -338,20 +361,24 @@ ul.pagination {
   }
 }
 
-.devise-form, .profile-form {
-  @extend .mb-3;
-  @extend .p-3;
-  background-color: $gray-500;
-  border-radius: 10px;
+/* pickles page */
+.row-pickles-main-frame {
+  @extend .row, .row-cols-1;
+  @extend .justify-content-center;
+  @extend .py-3;
 
-  h2 {
-    text-align: center;
+  .col-pickles-pane {
+    @extend .col-md-9;
+
+    .pickle-section {
+      @extend .p-3;
+      background-color: $gray-300;
+      border-radius: 10px;
+    }
   }
 }
 
-.field_with_errors {
-  display: inline;
-}
+
 
 
 /* pickle form */
