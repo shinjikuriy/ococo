@@ -174,6 +174,15 @@ ul.pagination {
   }
 }
 
+.no-pickles-yet,
+.no-journals-yet {
+  @extend .h5;
+  @extend .text-center;
+  @extend .my-0;
+  @extend .py-3;
+  border-top: 1px solid $gray-500;
+}
+
 
 /* home */
 .row-home-main-frame {
@@ -251,6 +260,10 @@ ul.pagination {
 
       .title {
         @extend .mb-2;
+
+        .create-new-pickle-link {
+          @extend .btn, .btn-primary;
+        }
       }
     }
 
