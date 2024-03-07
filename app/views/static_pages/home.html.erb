@@ -1,20 +1,62 @@
 <div class="row-home-main-frame">
-  <div class="top-page-banner banner-background">
-    <ul class="list-inline display-1">
-      <li class="list-inline-item">🥬</li>
-      <li class="list-inline-item">🧂</li>
-      <li class="list-inline-item">🫙</li>
-      <li class="list-inline-item">📝</li>
-    </ul>
-    <p><%= t('.description') %></p>
-    <div class="links-to-enter d-flex justify-content-center align-items-center gx-2">
-      <div class="registration-button">
-        <%= link_to t('.registration'), new_user_registration_path, class: 'btn btn-success text-nowrap' %>
+  <% unless user_signed_in? %>
+    <div class="col-registration-banner-pane registration-banner-background">
+      <ul class="list-inline display-1">
+        <li class="list-inline-item">🥬</li>
+        <li class="list-inline-item">🧂</li>
+        <li class="list-inline-item">🫙</li>
+        <li class="list-inline-item">📝</li>
+      </ul>
+      <p><%= t('.description') %></p>
+      <div class="links-to-enter">
+        <div class="registration-button">
+          <%= link_to t('.registration'), new_user_registration_path, class: 'btn btn-success text-nowrap' %>
+        </div>
+        <div class="mx-2"><%= t('.or') %></div>
+        <div class="sign-in-button">
+          <%= link_to t('users.shared.links.sign_in'), new_user_session_path, class: 'btn btn-primary text-nowrap' %>
+        </div>
       </div>
-      <div class="mx-2"><%= t('.or') %></div>
-      <div class="sign-in-button">
-        <%= link_to t('users.shared.links.sign_in'), new_user_session_path, class: 'btn btn-primary text-nowrap' %>
-      </div>
+    </div>
+  <% end %>
+
+  <div class="col-pickle-pane">
+    <div class="pickle-section">
+      <h2><%= t('.recent_pickles') %></h2>
+
+      <% if @pickles.empty? %>
+        <div class="no-pickles-yet" id="no-pickles-yet">
+          <%= t('pickles.shared.no_pickles_yet') %>
+        </div>
+      <% else %>
+        <%= render @pickles %>
+      <% end %>
+
+      <% if user_signed_in? %>
+        <div class="link-to-pickles">
+          <%= link_to t('.link_to_pickles'), pickles_path  %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="col-journal-pane">
+    <div class="journal-section">
+      <h2><%= t('.recent_journals') %></h2>
+
+      <% if @journals.empty? %>
+        <div class="no-journals-yet" id="no-journals-yet">
+          <%= t('journals.shared.no_journals_yet') %>
+        </div>
+      <% else %>
+        <%= render @journals %>
+      <% end %>
+
+      <% if user_signed_in? %>
+        <div class="link-to-journals">
+          <%= link_to t('.link_to_journals'), journals_path %>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

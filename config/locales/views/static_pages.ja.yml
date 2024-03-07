@@ -2,5 +2,9 @@ ja:
   static_pages:
     home:
       description: ococoで、漬け物の成長記録をつけましょう。
+      link_to_journals: 一覧を表示
+      link_to_pickles: 一覧を表示
+      recent_journals: 最近の漬け物の記録
+      recent_pickles: 最近の漬け物
       registration: 登録して始める
       or: あるいは
