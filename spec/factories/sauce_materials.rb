@@ -14,4 +14,9 @@ FactoryBot.define do
     name { "塩" }
     quantity { "20g" }
   end
+
+  factory :sauce_material_lorem, class: SauceMaterial do
+    name { Faker::Food.spice }
+    quantity { Faker::Food.measurement }
+  end
 end

@@ -25,10 +25,25 @@
 #  updated_at             :datetime         not null
 #
 FactoryBot.define do
-  factory :user do
+  factory :user, aliases: [:user_lukas] do
     username { 'lukas' }
     email { 'lukas@example.com' }
     password { 'password' }
+
+    factory :user_lena do
+      username { 'lena' }
+      email { 'lena@example.com' }
+    end
+
+    factory :user_stefan do
+      username { 'stefan' }
+      email { 'stefan@example.com' }
+    end
+
+    factory :user_lorem do
+      username { Faker::Internet.unique.username separators: '_' }
+      email { "#{username}@example.com" }
+    end
 
     trait :confirmed do
       after(:create) do |user|
@@ -38,20 +53,8 @@ FactoryBot.define do
 
     trait :with_edited_profile do
       after(:create) do |user|
-        user.profile.update(attributes_for(:profile))
+        user.profile.update(attributes_for("profile_#{user.username}"))
       end
     end
-  end
-
-  factory :user_lena, class: User do
-    username { 'lena' }
-    email { 'lena@example.com' }
-    password { 'password' }
-  end
-
-  factory :user_stefan, class: User do
-    username { 'stefan' }
-    email { 'stefan@example.com' }
-    password { 'password' }
   end
 end

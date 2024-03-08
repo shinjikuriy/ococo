@@ -14,4 +14,9 @@ FactoryBot.define do
     name { "大根" }
     quantity { "1本" }
   end
+
+  factory :ingredient_lorem, class: Ingredient do
+    name { Faker::Food.vegetables }
+    quantity { Faker::Food.measurement }
+  end
 end
