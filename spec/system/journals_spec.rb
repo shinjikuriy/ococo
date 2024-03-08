@@ -94,7 +94,7 @@ RSpec.describe "Journals", type: :system do
     specify "journals are shown on the pickle's page and paginated" do
       visit pickle_path(pickle)
       journal_section = find('#journals')
-      expect(journal_section).not_to have_text t('journale.shared.no_journals_yet')
+      expect(journal_section).not_to have_text t('journals.shared.no_journals_yet')
       expect(journal_section).not_to have_link pickle.name, href: pickle_path(pickle)
       pickle.journals.each_with_index do |journal, i|
         if i < 10
