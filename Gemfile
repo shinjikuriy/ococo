@@ -117,6 +117,9 @@ group :development do
   gem 'letter_opener_web'
 
   gem 'better_errors'
+
+  # Mermaid ER図を生成 [https://github.com/koedame/rails-mermaid_erd]
+  gem 'rails-mermaid_erd'
 end
 
 group :production do
