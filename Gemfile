@@ -89,6 +89,14 @@ gem 'config'
 gem 'devise'
 gem 'devise-i18n'
 
+# テスト用モデルデータ作成
+# [https://github.com/thoughtbot/factory_bot_rails]
+gem 'factory_bot_rails'
+
+# ダミー値生成
+# [https://github.com/faker-ruby/faker]
+gem 'faker'
+
 group :development, :test do
   # 環境変数管理
   # [https://github.com/bkeepers/dotenv]
@@ -97,14 +105,6 @@ group :development, :test do
   # テストフレームワーク
   # [https://github.com/rspec/rspec-rails]
   gem 'rspec-rails'
-
-  # テスト用モデルデータ作成
-  # [https://github.com/thoughtbot/factory_bot_rails]
-  gem 'factory_bot_rails'
-
-  # ダミー値生成
-  # [https://github.com/faker-ruby/faker]
-  gem 'faker'
 end
 
 group :development do
