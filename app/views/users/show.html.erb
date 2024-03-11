@@ -1,4 +1,5 @@
-<% profile=@user.profile %>
+<% profile = @user.profile %>
+<% provide :title, profile.display_name %>
 
 <div class="row-user-main-frame">
   <div class="col-profile-pane">

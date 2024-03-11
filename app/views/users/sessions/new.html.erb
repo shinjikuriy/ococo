@@ -1,7 +1,9 @@
+<% provide :title, t('.sign_in') %>
+
 <div class="row-devise-main-frame">
   <div class="col-devise-content-pane">
     <div class="devise-form">
-      <h2><%= t('.sign_in') %></h2>
+      <h2><%= yield :title %></h2>
 
       <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
         <div class="field">

@@ -21,6 +21,6 @@ ja:
         create_pickle: 漬物を新規作成する
       no_pickles_yet: まだ漬物がありません。
     show:
+      journals: 記録
       maker: 漬けたひと
-      journals: "記録"
-      recipe: "レシピ"
+      recipe: レシピ

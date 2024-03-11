@@ -1,9 +1,11 @@
+<% provide :title, t('.reset_your_password') %>
+
 <%= render "users/shared/error_messages", resource: resource %>
 
 <div class="row-devise-main-frame">
   <div class="col-devise-content-pane">
     <div class="devise-form">
-      <h2><%= t('.forgot_your_password') %></h2>
+      <h2><%= yield :title %></h2>
 
       <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
 
