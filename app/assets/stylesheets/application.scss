@@ -78,8 +78,9 @@ ul.pagination {
 
         .avatar {
           background-color: $gray-200;
-          max-width: 1.5rem;
-          max-height: auto;
+          width: 1.5rem;
+          height: 1.5rem;
+          object-fit: cover;
           border-radius: 100%;
         }
       }
@@ -109,8 +110,9 @@ ul.pagination {
 
     .avatar {
       background-color: $gray-200;
-      max-width: 2.5rem;
-      max-height: auto;
+      width: 2.5rem;
+      height: 2.5rem;
+      object-fit: cover;
       border-radius: 100%;
     }
   }
@@ -292,8 +294,9 @@ ul.pagination {
         .avatar {
           @extend .my-2;
           background-color: $gray-200;
-          max-width: 100px;
-          max-height: auto;
+          width: 100px;
+          height: 100px;
+          object-fit: cover;
           border-radius: 100%;
         }
       }
@@ -362,8 +365,9 @@ ul.pagination {
           @extend .me-1;
           .avatar {
             background-color: $gray-200;
-            max-width: 1.5rem;
-            max-height: auto;
+            width: 1.5rem;
+            height: 1.5rem;
+            object-fit: cover;
             border-radius: 100%;
           }
         }
