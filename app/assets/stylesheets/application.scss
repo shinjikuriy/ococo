@@ -55,7 +55,13 @@ ul.pagination {
   border-top: 1px solid $gray-500;
 }
 
+nav.navbar {
+  @extend .mb-3;
+}
 
+main.container {
+  @extend .pb-3;
+}
 
 /* shared */
 .pickle-card {
@@ -161,7 +167,6 @@ ul.pagination {
 .row-devise-main-frame {
   @extend .row;
   @extend .justify-content-center;
-  @extend .py-3;
 
   .col-devise-content-pane {
     @extend .col-md-6;
@@ -238,7 +243,6 @@ ul.pagination {
 
   .col-pickle-pane {
     @extend .col-md-6;
-    @extend .pt-3;
 
     .pickle-section {
       @extend .p-3;
@@ -249,7 +253,6 @@ ul.pagination {
 
   .col-journal-pane {
     @extend .col-md-6;
-    @extend .pt-3;
 
     .journal-section {
       @extend .p-3;
@@ -272,7 +275,6 @@ ul.pagination {
 .row-user-main-frame {
   @extend .row, .row-cols-md-2, .row-cols-1;
   @extend .justify-content-center;
-  @extend .py-3;
   @extend .g-3;
 
   .col-profile-pane {
@@ -347,7 +349,6 @@ ul.pagination {
 .row-pickle-main-frame {
   @extend .row, .row-cols-md-2, .row-cols-1;
   @extend .justify-content-center;
-  @extend .py-3;
   @extend .gx-3;
 
   .col-header-pane {
@@ -412,7 +413,6 @@ ul.pagination {
 .row-pickles-main-frame {
   @extend .row, .row-cols-1;
   @extend .justify-content-center;
-  @extend .py-3;
 
   .col-pickles-pane {
     @extend .col-md-9;
