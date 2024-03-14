@@ -70,7 +70,7 @@ main.container {
 
   .header {
     .title {
-      @extend .h4;
+      @extend .h5;
       @extend .mb-1;
       @extend .text-truncate;
     }
@@ -158,7 +158,7 @@ main.container {
 
       p {
         @extend .my-1;
-        font-size: 1.1rem;
+        font-size: 1rem;
       }
     }
   }
