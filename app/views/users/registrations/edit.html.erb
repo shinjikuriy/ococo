@@ -50,7 +50,10 @@
       <h2><%= t('.cancel_my_account') %></h2>
 
       <div>
-        <%= t('.unhappy') %>
+        <p>
+          <%= t('.if_you_delete_your_account_all_pickles_and_journals_you_have_created_will_also_be_deleted') %><br />
+          <%= t('.it_cannot_be_restored') %>
+        </p>
         <%= button_to t('.cancel_my_account'), registration_path(resource_name), data: { turbo_confirm: t('.are_you_sure') }, method: :delete,
                                                                                 class: "btn btn-danger", style: "width: 100%;" %>
       </div>
