@@ -484,14 +484,21 @@ main.container {
         @extend .col-auto;
 
         .button-delete-association {
+          @extend .d-flex, .align-items-center;
           @extend .btn, .btn-danger;
+          height: 2.35rem;
         }
       }
     }
   }
 
   .button-add-association {
+    @extend .d-inline-flex, .align-items-center;
     @extend .btn, .btn-primary, .btn-sm;
+
+    svg {
+      @extend .me-1;
+    }
   }
 
   .ingredients, .sauce-materials {
