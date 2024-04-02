@@ -32,21 +32,13 @@ ococoは漬け物好きをターゲットとしたニッチサービスです。
 
 * Bootsrtap 5.3.2
 
-* PostgreSQL 15 (Renderでは16)
+* PostgreSQL 15
 
 * Docker
 
 * RSpec
   * Model Spec
   * System Spec
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
 
 ## ER図
 ```mermaid
