@@ -14,15 +14,20 @@
 
     <div class="ingredient-form">
       <h3><%= Ingredient.model_name.human %></h3>
+
       <div data-controller="nested-form">
         <template data-nested-form-target="template">
           <%= f.fields_for :ingredients, Ingredient.new, child_index: 'NEW_RECORD' do |ingredient| %>
             <%= render 'ingredient_fields', form: ingredient %>
           <% end %>
         </template>
-        <%= f.fields_for :ingredients do |ingredient| %>
-          <%= render 'ingredient_fields', form: ingredient %>
-        <% end %>
+
+        <div class="forms" data-nested-form-target="forms">
+          <%= f.fields_for :ingredients do |ingredient| %>
+            <%= render 'ingredient_fields', form: ingredient %>
+          <% end %>
+        </div>
+
         <div data-nested-form-target="links">
           <%= link_to '#', class: 'button-add-association', data: { action: 'click->nested-form#add_association' } do %>
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
@@ -36,22 +41,28 @@
 
     <div class="sauce-material-form">
       <h3><%= SauceMaterial.model_name.human %></h3>
+
       <div data-controller="nested-form">
         <template data-nested-form-target="template">
           <%= f.fields_for :sauce_materials, SauceMaterial.new, child_index: 'NEW_RECORD' do |sauce_material| %>
             <%= render 'ingredient_fields', form: sauce_material %>
           <% end %>
         </template>
-        <%= f.fields_for :sauce_materials do |sauce_material| %>
-          <%= render 'ingredient_fields', form: sauce_material %>
-        <% end %>
+
+        <div class="forms" data-nested-form-target="forms">
+          <%= f.fields_for :sauce_materials do |sauce_material| %>
+            <%= render 'ingredient_fields', form: sauce_material %>
+          <% end %>
+        </div>
+
         <div data-nested-form-target="links">
           <%= link_to '#', class: 'button-add-association', data: { action: 'click->nested-form#add_association' } do %>
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
               <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
             </svg>
             <%= t('pickles.shared.add_ingredient') %>
-        <% end %>        </div>
+          <% end %>
+        </div>
       </div>
     </div>
 

@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="nested-form"
 export default class extends Controller {
-  static targets = ["links", "template"];
+  static targets = ["links", "template", "forms"];
 
   connect() {
     this.wrapperClass = this.data.get("wrapperClass") || "nested-fields";
@@ -15,7 +15,7 @@ export default class extends Controller {
       /NEW_RECORD/g,
       new Date().getTime()
     );
-    this.linksTarget.insertAdjacentHTML("beforebegin", content);
+    this.formsTarget.insertAdjacentHTML("beforeend", content);
   }
 
   remove_association(event){

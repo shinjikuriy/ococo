@@ -4,10 +4,12 @@
       <%= form.label :name %>
       <%= form.text_field :name %>
     </div>
+
     <div class="field quantity">
       <%= form.label :quantity %>
       <%= form.text_field :quantity %>
     </div>
+
     <div class="actions delete-association">
       <%= link_to '#', data: { action: 'click->nested-form#remove_association' },
                        title: t('pickles.shared.delete'), class: "button-delete-association" do %>
@@ -16,7 +18,7 @@
         </svg>&#8203;
       <% end %>
     </div>
-  </div>
 
-  <%= form.hidden_field :_destroy %>
+    <%= form.hidden_field :_destroy %>
+  </div>
 <% end %>

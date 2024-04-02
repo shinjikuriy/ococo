@@ -494,6 +494,12 @@ main.container {
     }
   }
 
+  .forms .nested-fields:only-child {
+    .delete-association {
+      display: none;
+    }
+  }
+
   .button-add-association {
     @extend .d-inline-flex, .align-items-center;
     @extend .btn, .btn-primary, .btn-sm;
