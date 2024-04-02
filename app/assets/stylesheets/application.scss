@@ -6,6 +6,8 @@
 
 
 /* universal */
+$enable-negative-margins: true;
+
 body {
   font-family: "Zen Maru Gothic", serif;
   font-family: "Zen Kaku Gothic New", sans-serif;
@@ -225,6 +227,7 @@ main.container {
 
   .col-registration-banner-pane {
     @extend .col-12;
+    @extend .mt-0;
     @extend .py-5;
     @extend .text-center, .text-white;
 
