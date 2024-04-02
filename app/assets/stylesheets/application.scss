@@ -484,9 +484,8 @@ main.container {
         @extend .col-auto;
 
         .button-delete-association {
-          @extend .d-flex, .align-items-center;
+          @extend .d-inline-flex, .align-items-center;
           @extend .btn, .btn-danger;
-          height: 2.35rem;
         }
       }
     }
