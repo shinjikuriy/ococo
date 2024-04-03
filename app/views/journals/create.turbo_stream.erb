@@ -1,4 +1,6 @@
-<%= turbo_stream.prepend 'journals', @journal %>
+<%= turbo_stream.update 'journal-list' do %>
+  <%= render 'paginated_journals' %>
+<% end %>
 
 <%= turbo_stream.remove 'no-journals-yet' %>
 

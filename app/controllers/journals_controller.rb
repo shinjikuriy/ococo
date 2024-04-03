@@ -13,6 +13,8 @@ class JournalsController < ApplicationController
     check_authorization
 
     if @journal.save
+      edit_params_for_pagination
+      @journals = current_user.journals.page params[:page]
       flash.now[:success] = t('journals.shared.created_journal')
     else
       render 'new', locals: { pickles: current_user.pickles }, status: :unprocessable_entity
@@ -43,5 +45,14 @@ class JournalsController < ApplicationController
 
     def check_authorization
       redirect_to root_url unless @journal.user.id == current_user.id
+    end
+
+    def edit_params_for_pagination
+      referer = Rails.application.routes.recognize_path(request.referer)
+      params[:controller] = referer[:controller]
+      params[:action] = referer[:action]
+      params[:username] = current_user if params[:controller] == 'users'
+      params[:id] = params[:journal][:pickle_id] if params[:controller] == 'pickles'
+      params.delete(:journal)
     end
 end

@@ -93,7 +93,7 @@ RSpec.describe "Journals", type: :system do
 
     specify "journals are shown on the pickle's page and paginated" do
       visit pickle_path(pickle)
-      journal_section = find('#journals')
+      journal_section = find('#journal-list')
       expect(journal_section).not_to have_text t('journals.shared.no_journals_yet')
       expect(journal_section).not_to have_link pickle.name, href: pickle_path(pickle)
       pickle.journals.each_with_index do |journal, i|
@@ -119,7 +119,7 @@ RSpec.describe "Journals", type: :system do
     specify "user's journals are shown on the user's page and paginated" do
       visit user_path(user)
 
-      journal_section = find('#journals')
+      journal_section = find('#journal-list')
       expect(journal_section).to have_link href: pickle_path(pickle)
       pickle.journals.each_with_index do |journal, i|
         if i < 10
@@ -189,7 +189,7 @@ RSpec.describe "Journals", type: :system do
 
       visit journals_path
       journals[0..9].each do |j|
-        expect(find('#journals')).to have_text j.body
+        expect(find('#journal-list')).to have_text j.body
       end
       expect(page).to have_link '次', href: journals_path(page: 2)
       expect(page).to have_link '最後', href: journals_path(page: 3)
@@ -204,7 +204,7 @@ RSpec.describe "Journals", type: :system do
 
     specify 'user can delete own journal', js: true do
       visit user_path(user)
-      within '#journals' do
+      within '#journal-list' do
         expect do
           page.accept_confirm do
             click_on t('journals.shared.destroy_journal')
@@ -213,7 +213,7 @@ RSpec.describe "Journals", type: :system do
         end.to change { Journal.count }.by -1
       end
       expect(page).to have_selector 'div.alert-success', text: t('journals.shared.destroyed_journal')
-      expect(find('#journals')).not_to have_text journal.body
+      expect(find('#journal-list')).not_to have_text journal.body
     end
 
     specify "user cannot delete others' journal" do
@@ -222,13 +222,13 @@ RSpec.describe "Journals", type: :system do
       journal_lena = pickle_lena.journals.create(attributes_for(:journal))
 
       visit user_path(lena)
-      expect(find('#journals')).to have_text journal_lena.body
-      expect(find('#journals')).not_to have_text t('journals.shared.destroy_journal')
+      expect(find('#journal-list')).to have_text journal_lena.body
+      expect(find('#journal-list')).not_to have_text t('journals.shared.destroy_journal')
       within '.pickle-section' do
         click_link pickle_lena.name
       end
-      expect(find('#journals')).to have_text journal_lena.body
-      expect(find('#journals')).not_to have_text t('journals.shared.destroy_journal')
+      expect(find('#journal-list')).to have_text journal_lena.body
+      expect(find('#journal-list')).not_to have_text t('journals.shared.destroy_journal')
     end
   end
 end
