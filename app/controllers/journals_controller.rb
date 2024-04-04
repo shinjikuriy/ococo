@@ -13,8 +13,10 @@ class JournalsController < ApplicationController
     check_authorization
 
     if @journal.save
+      set_journals_by_referer
+      @journals = @journals.page
       edit_params_for_pagination
-      @journals = current_user.journals.page params[:page]
+
       flash.now[:success] = t('journals.shared.created_journal')
     else
       render 'new', locals: { pickles: current_user.pickles }, status: :unprocessable_entity
@@ -24,7 +26,14 @@ class JournalsController < ApplicationController
   # DELETE /journals/1 or /journals/1.json
   def destroy
     check_authorization
+
+    edit_params_for_pagination
+
+    set_journals_by_referer
+    params[:page] = calc_new_pagination_number(@journals)
+
     @journal.destroy!
+    @journals = @journals.page params[:page]
     flash.now[:success] = t('journals.shared.destroyed_journal')
   end
 
@@ -48,11 +57,34 @@ class JournalsController < ApplicationController
     end
 
     def edit_params_for_pagination
+      params.delete(:id)
+      params.delete(:journal)
+
       referer = Rails.application.routes.recognize_path(request.referer)
       params[:controller] = referer[:controller]
       params[:action] = referer[:action]
-      params[:username] = current_user if params[:controller] == 'users'
-      params[:id] = params[:journal][:pickle_id] if params[:controller] == 'pickles'
-      params.delete(:journal)
+
+      params[:username] = current_user if params[:controller] == 'users' && params[:action] == 'show'
+      params[:id] = @journal.pickle if params[:controller] == 'pickles' && params[:action] == 'show'
+    end
+
+    def set_journals_by_referer
+      referer = Rails.application.routes.recognize_path(request.referer)
+      if referer[:controller] == 'users' && referer[:action] == 'show'
+        @journals = current_user.journals
+      elsif referer[:controller] == 'pickles' && referer[:action] == 'show'
+        @journals = @journal.pickle.journals
+      elsif (referer[:controller] == 'journals' && referer[:action] == 'index') ||
+            (referer[:controller] == 'static_pages' && referer[:action] == 'home')
+        @journals = Journal.order(created_at: :desc)
+      end
+    end
+
+    def calc_new_pagination_number(journals)
+      journals.each_slice(Journal.default_per_page).with_index(1) do |j, i|
+        next unless j.include? @journal
+        # returns the previous page number if the current page disappears by deletion
+        return j.length == 1 ? i-1 : i
+      end
     end
 end

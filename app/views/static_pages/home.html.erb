@@ -51,7 +51,9 @@
           <%= t('journals.shared.no_journals_yet') %>
         </div>
       <% else %>
-        <%= render @journals %>
+        <div id="journal-list">
+          <%= render @journals %>
+        </div>
       <% end %>
 
       <% if user_signed_in? %>
