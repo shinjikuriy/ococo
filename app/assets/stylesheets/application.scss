@@ -74,7 +74,12 @@ main.container {
     .title {
       @extend .h5;
       @extend .mb-1;
-      @extend .text-truncate;
+
+      a{
+        @extend .d-inline-block;
+        @extend .mw-100;
+        @extend .text-truncate;
+      }
     }
 
     .user-info {
@@ -82,7 +87,10 @@ main.container {
       @extend .align-items-center;
 
       a {
+        @extend .d-inline-block;
         @extend .me-1;
+        @extend .mw-100;
+        @extend .text-truncate;
 
         .avatar {
           background-color: $gray-200;
@@ -136,6 +144,12 @@ main.container {
       .journal-display-name {
         @extend .flex-grow-1;
         @extend .text-truncate;
+
+        a{
+          @extend .d-inline-block;
+          @extend .mw-100;
+          @extend .text-truncate;
+        }
       }
 
       .journal-time-ago {
@@ -153,7 +167,8 @@ main.container {
 
     .journal-body {
       .pickle-link {
-        @extend .d-block;
+        @extend .d-inline-block;
+        @extend .mw-100;
         @extend .text-truncate;
         font-size: 0.9rem;
       }
