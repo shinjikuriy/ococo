@@ -2,11 +2,12 @@
 
 **漬け物のレシピ・熟成過程記録サービス**
 
-デモサイト: https://ococo.onrender.com  
-デモユーザー:
-* ユーザーID: mochibanana
-* パスワード: password1234
+~~デモサイト: https://ococo.onrender.com~~  
+~~デモユーザー:~~
+* ~~ユーザーID: mochibanana~~
+* ~~パスワード: password1234~~  
 
+*The demo website is temporally suspended.*
 ## 機能
 * ユーザーの作成・ログイン
 * 漬け物レシピの作成・編集・閲覧・削除
